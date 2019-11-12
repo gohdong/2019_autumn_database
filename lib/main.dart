@@ -10,7 +10,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.white,
+        backgroundColor: Colors.white,
       ),
       home: MyHomePage(),
     );
@@ -29,6 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("GVA"),
+        elevation: 0.0,
       ),
       endDrawer: MenuBar(),
       body: Center(
