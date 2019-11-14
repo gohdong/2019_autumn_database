@@ -1,3 +1,4 @@
+import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/menubar.dart';
 import 'package:flutter/material.dart';
 
@@ -13,34 +14,46 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.white,
         backgroundColor: Colors.white,
       ),
-      home: MyHomePage(),
+      home: Tabs(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class Tabs extends StatelessWidget {
+  const Tabs({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("GVA"),
-        elevation: 0.0,
-      ),
-      endDrawer: MenuBar(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Hello',
-            ),
-          ],
+    final _kTabPages = <Widget>[
+      Center(child: Home()),
+      Center(child: Icon(Icons.alarm, size: 64.0, color: Colors.cyan)),
+      Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
+      Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
+      Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
+    ];
+    final _kTabs = <Tab>[
+      Tab(icon: Icon(Icons.cloud), text: 'Home'),
+      Tab(icon: Icon(Icons.alarm), text: 'Event'),
+      Tab(icon: Icon(Icons.forum), text: 'Store'),
+      Tab(icon: Icon(Icons.forum), text: 'Play'),
+      Tab(icon: Icon(Icons.forum), text: 'My'),
+    ];
+    return DefaultTabController(
+      length: _kTabs.length,
+      child: Scaffold(
+        endDrawer: MenuBar(),
+        appBar: AppBar(
+          title: Text('GVA'),
+          // If `TabController controller` is not provided, then a
+          // DefaultTabController ancestor must be provided instead.
+          // Another way is to use a self-defined controller, c.f. "Bottom tab
+          // bar" example.
+          bottom: TabBar(
+            tabs: _kTabs,
+          ),
+        ),
+        body: TabBarView(
+          children: _kTabPages,
         ),
       ),
     );

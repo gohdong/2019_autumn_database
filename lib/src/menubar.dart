@@ -1,4 +1,5 @@
 import 'package:dbapp/main.dart';
+import 'package:dbapp/src/login.dart';
 import 'package:flutter/material.dart';
 
 
@@ -12,7 +13,9 @@ class MenuBar extends StatelessWidget {
           DrawerHeader(
             child: ListTile(
               title: Text('Login',textScaleFactor: 1.3,),
-              onTap: () {
+              onTap: (){
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Login()));
               },
             ),
             decoration: BoxDecoration(
