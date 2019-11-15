@@ -2,6 +2,8 @@ import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/menubar.dart';
 import 'package:flutter/material.dart';
 
+import 'src/store.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -27,7 +29,7 @@ class Tabs extends StatelessWidget {
     final _kTabPages = <Widget>[
       Center(child: Home()),
       Center(child: Icon(Icons.alarm, size: 64.0, color: Colors.cyan)),
-      Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
+      Center(child: Store()),
       Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
       Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
     ];
