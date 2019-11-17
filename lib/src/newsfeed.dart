@@ -14,6 +14,9 @@ class NewsFeed extends StatefulWidget {
 }
 
 class NewsFeedState extends State<NewsFeed> {
+  final db = Firestore.instance;
+  String engName;
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -35,13 +38,13 @@ class NewsFeedState extends State<NewsFeed> {
               children: <Widget>[
                 CircleAvatar(
                   radius: 25.0,
-                  child: Text("JOKER"),
+                  child: Text(engName,textScaleFactor: 0.7,),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("JOKER"),
+                    getMovieName(),
                     Text(document['date'].toDate().toString())
                   ],
                 )
@@ -57,7 +60,9 @@ class NewsFeedState extends State<NewsFeed> {
                   ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[Text(document['description'])],
+                children: <Widget>[
+                  Text(document['description'].replaceAll("\\n", "\n")),
+                ],
               )),
           Divider(),
           Container(
@@ -163,6 +168,22 @@ class NewsFeedState extends State<NewsFeed> {
         ],
       ),
     ));
+  }
+
+  Widget getMovieName() {
+    return new StreamBuilder(
+        stream: Firestore.instance
+            .collection('movie')
+            .document(document['movieID'])
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            engName = "NUll";
+            return new Text("Cannot Found..");
+          }
+          engName = snapshot.data['en_name'];
+          return new Text(snapshot.data['name']);
+        });
   }
 
   Widget Feed(String movieID) {}
