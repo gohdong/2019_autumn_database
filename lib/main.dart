@@ -1,5 +1,6 @@
 import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/menubar.dart';
+import 'package:dbapp/src/my.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -29,7 +30,7 @@ class Tabs extends StatelessWidget {
       Center(child: Icon(Icons.alarm, size: 64.0, color: Colors.cyan)),
       Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
       Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
-      Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
+      Center(child: My()),
     ];
     final _kTabs = <Tab>[
       Tab(icon: Icon(Icons.cloud), text: 'Home'),
