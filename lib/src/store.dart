@@ -33,223 +33,77 @@ class Store extends StatelessWidget {
             Divider(
               color: Colors.black,
             ),
-            ListTile(
-              title: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[Text("패키지")],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(),
-                      Row(
-                        children: <Widget>[Text("패키지 명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("설명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("가격")],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(),
-                      Row(
-                        children: <Widget>[Text("패키지 명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("설명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("가격")],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(),
-                      Row(
-                        children: <Widget>[Text("패키지 명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("설명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("가격")],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            StoreRow(),
             Divider(
               color: Colors.black,
             ),
-            ListTile(
-              title: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[Text("영화관람권")],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(),
-                      Row(
-                        children: <Widget>[Text("영화관람권 명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("설명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("가격")],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(),
-                      Row(
-                        children: <Widget>[Text("영화관람권 명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("설명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("가격")],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(),
-                      Row(
-                        children: <Widget>[Text("영화관람권 명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("설명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("가격")],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            StoreRow(),
             Divider(
               color: Colors.black,
             ),
-            ListTile(
-              title: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[Text("콤보")],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(),
-                      Row(
-                        children: <Widget>[Text("콤보 명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("설명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("가격")],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(),
-                      Row(
-                        children: <Widget>[Text("콤보 명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("설명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("가격")],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(),
-                      Row(
-                        children: <Widget>[Text("콤보 명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("설명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("가격")],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            StoreRow(),
             Divider(
               color: Colors.black,
             ),
-            ListTile(
-              title: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[Text("기프트카드")],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(),
-                      Row(
-                        children: <Widget>[Text("기프트카드 명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("설명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("가격")],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(),
-                      Row(
-                        children: <Widget>[Text("기프트카드 명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("설명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("가격")],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(),
-                      Row(
-                        children: <Widget>[Text("기프트카드 명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("설명")],
-                      ),
-                      Row(
-                        children: <Widget>[Text("가격")],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            StoreRow(),
             Divider(
               color: Colors.black,
             ),
           ],
         ));
   }
+}
+
+Widget StoreRow() {
+  return ListTile(
+    title: Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[Text("패키지")],
+        ),
+        Column(
+          children: <Widget>[
+            Container(),
+            Row(
+              children: <Widget>[Text("패키지 명")],
+            ),
+            Row(
+              children: <Widget>[Text("설명")],
+            ),
+            Row(
+              children: <Widget>[Text("가격")],
+            ),
+          ],
+        ),
+        Column(
+          children: <Widget>[
+            Container(),
+            Row(
+              children: <Widget>[Text("패키지 명")],
+            ),
+            Row(
+              children: <Widget>[Text("설명")],
+            ),
+            Row(
+              children: <Widget>[Text("가격")],
+            ),
+          ],
+        ),
+        Column(
+          children: <Widget>[
+            Container(),
+            Row(
+              children: <Widget>[Text("패키지 명")],
+            ),
+            Row(
+              children: <Widget>[Text("설명")],
+            ),
+            Row(
+              children: <Widget>[Text("가격")],
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
 }
