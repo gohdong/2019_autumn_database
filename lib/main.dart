@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: Colors.white,
-        backgroundColor: Colors.white,
       ),
       home: Tabs(),
     );
@@ -35,11 +34,11 @@ class Tabs extends StatelessWidget {
       Center(child: My()),
     ];
     final _kTabs = <Tab>[
-      Tab(icon: Icon(Icons.cloud), text: 'Home'),
-      Tab(icon: Icon(Icons.alarm), text: 'Event'),
-      Tab(icon: Icon(Icons.forum), text: 'Store'),
-      Tab(icon: Icon(Icons.forum), text: 'Play'),
-      Tab(icon: Icon(Icons.forum), text: 'My'),
+      Tab(text: 'Home'),
+      Tab(text: 'Event'),
+      Tab(text: 'Store'),
+      Tab(text: 'Play'),
+      Tab(text: 'My'),
     ];
     return DefaultTabController(
       length: _kTabs.length,
