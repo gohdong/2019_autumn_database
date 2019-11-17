@@ -31,11 +31,11 @@ class Tabs extends StatelessWidget {
       Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
     ];
     final _kTabs = <Tab>[
-      Tab(icon: Icon(Icons.cloud), text: 'Home'),
-      Tab(icon: Icon(Icons.alarm), text: 'Event'),
-      Tab(icon: Icon(Icons.forum), text: 'Store'),
-      Tab(icon: Icon(Icons.forum), text: 'Play'),
-      Tab(icon: Icon(Icons.forum), text: 'My'),
+      Tab(text: 'Home'),
+      Tab(text: 'Event'),
+      Tab(text: 'Store'),
+      Tab(text: 'Play'),
+      Tab(text: 'My'),
     ];
     return DefaultTabController(
       length: _kTabs.length,
