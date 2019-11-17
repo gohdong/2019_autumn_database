@@ -15,7 +15,7 @@ class NewsFeed extends StatefulWidget {
 
 class NewsFeedState extends State<NewsFeed> {
   final db = Firestore.instance;
-  String engName;
+  String engName = "nodata";
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +178,7 @@ class NewsFeedState extends State<NewsFeed> {
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            engName = "NUll";
+            engName = "nodata";
             return new Text("Cannot Found..");
           }
           engName = snapshot.data['en_name'];
