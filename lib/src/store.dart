@@ -64,30 +64,15 @@ Widget StoreRow() {
     title: Column(
       children: <Widget>[
         Row(children: <Widget>[Text("카테고리")]),
-        Row(children: <Widget>[
-          Column(children: <Widget>[Container(child: Text("사진"))]),
-          Column(children: <Widget>[
-            Row(children: <Widget>[Text("카테고리 명")]),
-            Row(children: <Widget>[Text("설명")]),
-            Row(children: <Widget>[Text("가격")])
-          ])
-        ]),
-        Row(children: <Widget>[
-          Column(children: <Widget>[Container(child: Text("사진"))]),
-          Column(children: <Widget>[
-            Row(children: <Widget>[Text("카테고리 명")]),
-            Row(children: <Widget>[Text("설명")]),
-            Row(children: <Widget>[Text("가격")])
-          ])
-        ]),
-        Row(children: <Widget>[
-          Column(children: <Widget>[Container(child: Text("사진"))]),
-          Column(children: <Widget>[
-            Row(children: <Widget>[Text("카테고리 명")]),
-            Row(children: <Widget>[Text("설명")]),
-            Row(children: <Widget>[Text("가격")])
-          ])
-        ])
+        for (var i = 0; i < 3; i++)
+          Row(children: <Widget>[
+            Column(children: <Widget>[Container(child: Text("사진"))]),
+            Column(children: <Widget>[
+              Row(children: <Widget>[Text("카테고리 명")]),
+              Row(children: <Widget>[Text("설명")]),
+              Row(children: <Widget>[Text("가격")])
+            ])
+          ]),
       ],
     ),
   );
