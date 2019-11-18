@@ -1,7 +1,9 @@
+import 'package:dbapp/src/data/is_login.dart';
 import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/menubar.dart';
 import 'package:dbapp/src/my.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'src/store.dart';
 
@@ -11,12 +13,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'GVA_app',
-      theme: ThemeData(
-        primaryColor: Colors.white,
+    return ChangeNotifierProvider(
+      builder: (_)=> Counter(),
+      child: MaterialApp(
+        title: 'GVA_app',
+        theme: ThemeData(
+          primaryColor: Colors.white,
+        ),
+        home: Tabs(),
       ),
-      home: Tabs(),
     );
   }
 }
