@@ -86,7 +86,7 @@ class FirestoreSlideshowState extends State<FirestoreSlideshow>{
 
   Stream _queryDb({ String tag = 'favorites'}){
 
-    Query query = db.collection('test').where('tags', arrayContains : tag);
+    Query query = db.collection('moive_2').where('tags', arrayContains : tag);
 
     slides = query.snapshots().map((list) => list.documents.map((doc) => doc.data));
 
