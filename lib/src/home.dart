@@ -1,5 +1,7 @@
 import 'package:dbapp/src/menubar.dart';
+import 'package:dbapp/src/moviechart.dart';
 import 'package:dbapp/src/newsfeed.dart';
+import 'package:dbapp/src/random_trailer.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -29,13 +31,23 @@ class _HomeState extends State<Home> {
           .orderBy('date', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return const Text('Loading...');
+        if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
         return ListView.builder(
-          itemCount: snapshot.data.documents.length,
+          itemCount: snapshot.data.documents.length+3,
           itemBuilder: (context, index) {
+            if(index==0){
+              return RandomTrailer();
+            }
+            if(index==1){
+              return Divider();
+            }
+            if(index==2){
+              return MovieChart();
+            }
+
             return Column(
               children: <Widget>[
-                NewsFeed(snapshot.data.documents[index]),
+                NewsFeed(snapshot.data.documents[index-3]),
                 Divider(
                   height: 10,
                   color: Colors.white,

@@ -27,7 +27,9 @@ dependencies:
   google_sign_in: ^4.0.13
   firebase_auth: ^0.14.0+9
   cloud_firestore:
-
+  pull_to_refresh:
+  youtube_player_flutter:
+  flutter_statusbarcolor:
 
 dev_dependencies:
   flutter_test:

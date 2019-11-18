@@ -1,15 +1,28 @@
 import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/menubar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+
 
 import 'src/store.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
   @override
+  _MyAppState createState() => _MyAppState();
+
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+    ));
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -20,9 +33,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Tabs extends StatelessWidget {
+class Tabs extends StatefulWidget {
   const Tabs({Key key}) : super(key: key);
 
+  @override
+  _TabsState createState() => _TabsState();
+}
+
+class _TabsState extends State<Tabs> {
   @override
   Widget build(BuildContext context) {
     final _kTabPages = <Widget>[
@@ -30,13 +48,11 @@ class Tabs extends StatelessWidget {
       Center(child: Icon(Icons.alarm, size: 64.0, color: Colors.cyan)),
       Center(child: Store()),
       Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
-      Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
     ];
     final _kTabs = <Tab>[
       Tab(text: 'Home'),
       Tab(text: 'Event'),
       Tab(text: 'Store'),
-      Tab(text: 'Play'),
       Tab(text: 'My'),
     ];
     return DefaultTabController(
@@ -61,3 +77,4 @@ class Tabs extends StatelessWidget {
     );
   }
 }
+

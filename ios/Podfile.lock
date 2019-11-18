@@ -146,6 +146,12 @@ PODS:
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
   - Protobuf (3.10.0)
+  - share (0.5.2):
+    - Flutter
+  - webview_flutter (0.0.1):
+    - Flutter
+  - youtube_player (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
@@ -153,6 +159,9 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
+  - share (from `.symlinks/plugins/share/ios`)
+  - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
+  - youtube_player (from `.symlinks/plugins/youtube_player/ios`)
 
 SPEC REPOS:
   trunk:
@@ -191,6 +200,12 @@ EXTERNAL SOURCES:
     :path: Flutter
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
+  share:
+    :path: ".symlinks/plugins/share/ios"
+  webview_flutter:
+    :path: ".symlinks/plugins/webview_flutter/ios"
+  youtube_player:
+    :path: ".symlinks/plugins/youtube_player/ios"
 
 SPEC CHECKSUMS:
   AppAuth: bce82c76043657c99d91e7882e8a9e1a93650cd4
@@ -221,6 +236,9 @@ SPEC CHECKSUMS:
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
+  share: bae0a282aab4483288913fc4dc0b935d4b491f2e
+  webview_flutter: db3aba222b23e4dc432e0c5882834123dc50ff9f
+  youtube_player: 66aa84ca8819ad8ef7305299c2ee31ccf42121a1
 
 PODFILE CHECKSUM: 1b66dae606f75376c5f2135a8290850eeb09ae83
 

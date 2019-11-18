@@ -36,17 +36,21 @@ class NewsFeedState extends State<NewsFeed> {
                   ),
               child: Row(
                 children: <Widget>[
-                  CircleAvatar(
-                    radius: 25.0,
-                    child: getMovieName(),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      getMovieName(),
-                      Text(document['date'].toDate().toString())
-                    ],
+//                  CircleAvatar(
+//                    radius: 25.0,
+//                    backgroundImage: ImageProvider(),
+//                  ),
+                getMovieImg(),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        getMovieName(),
+                        Text(document['date'].toDate().toString().split('.')[0])
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -130,9 +134,7 @@ class NewsFeedState extends State<NewsFeed> {
 //            decoration: BoxDecoration(color: Colors.redAccent),
                 child: Row(
                   children: <Widget>[
-                    Expanded(
-                      child: likeButton()
-                    ),
+                    Expanded(child: likeButton()),
                     Expanded(
                       child: FlatButton(
                         child: Row(
@@ -164,24 +166,46 @@ class NewsFeedState extends State<NewsFeed> {
 
   Widget getMovieName() {
     return new StreamBuilder(
-        stream: Firestore.instance
-            .collection('movie')
-            .document(document['movieID'])
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return new Text("Cannot Found..");
-          }
-          return new Text(snapshot.data['name']);
-        });
+      stream: Firestore.instance
+          .collection('movie')
+          .document(document['movieID'])
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return new Text("Cannot Found..");
+        }
+        return new Text(snapshot.data['name']);
+      },
+    );
   }
 
-  void pushLikeButton(){
+  Widget getMovieImg() {
+    return new StreamBuilder(
+      stream: Firestore.instance
+          .collection('movie')
+          .document(document['movieID'])
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return new Text("X");
+        }
+        return ClipOval(
+            child: Image.network(
+              snapshot.data['img'],
+              fit: BoxFit.cover,
+              height: MediaQuery.of(context).size.height * 0.055,
+              width: MediaQuery.of(context).size.height * 0.055,
+            )
+        );
+      },
+    );
+  }
+
+  void pushLikeButton() {
     pushLike = !pushLike;
   }
 
-  Widget likeButton(){
-
+  Widget likeButton() {
     return FlatButton(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -192,7 +216,9 @@ class NewsFeedState extends State<NewsFeed> {
         ],
       ),
       onPressed: () {
-        pushLike = !pushLike;
+        setState(() {
+          pushLikeButton();
+        });
       },
     );
   }
