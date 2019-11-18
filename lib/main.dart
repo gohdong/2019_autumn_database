@@ -45,6 +45,7 @@ class Tabs extends StatelessWidget {
         endDrawer: MenuBar(),
         appBar: AppBar(
           title: Text('GVA'),
+          elevation: 0,
           // If `TabController controller` is not provided, then a
           // DefaultTabController ancestor must be provided instead.
           // Another way is to use a self-defined controller, c.f. "Bottom tab

@@ -24,26 +24,27 @@ class _HomeState extends State<Home> {
 
   Widget newsFeedBuild() {
     return StreamBuilder(
-        stream: Firestore.instance
-            .collection('feed')
-            .orderBy('date', descending: true)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) return const Text('Loading...');
-          return ListView.builder(
-            itemCount: snapshot.data.documents.length,
-            itemBuilder: (context, index) {
-              return Column(
-                children: <Widget>[
-                  NewsFeed(snapshot.data.documents[index]),
-                  Divider(
-                    height: 10,
-                    color: Colors.white,
-                  )
-                ],
-              );
-            },
-          );
-        });
+      stream: Firestore.instance
+          .collection('feed')
+          .orderBy('date', descending: true)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const Text('Loading...');
+        return ListView.builder(
+          itemCount: snapshot.data.documents.length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: <Widget>[
+                NewsFeed(snapshot.data.documents[index]),
+                Divider(
+                  height: 10,
+                  color: Colors.white,
+                )
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 }
