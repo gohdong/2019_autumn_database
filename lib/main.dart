@@ -1,9 +1,12 @@
+import 'package:dbapp/src/data/is_login.dart';
 import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/menubar.dart';
+import 'package:dbapp/src/my.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
+import 'package:provider/provider.dart';
 
 import 'src/store.dart';
 
@@ -23,12 +26,16 @@ class _MyAppState extends State<MyApp> {
         statusBarColor: Colors.white,
     ));
 
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primaryColor: Colors.white,
+
+    return ChangeNotifierProvider(
+      builder: (_)=> Counter(),
+      child: MaterialApp(
+        title: 'GVA_app',
+        theme: ThemeData(
+          primaryColor: Colors.white,
+        ),
+        home: Tabs(),
       ),
-      home: Tabs(),
     );
   }
 }
@@ -47,7 +54,8 @@ class _TabsState extends State<Tabs> {
       Center(child: Home()),
       Center(child: Icon(Icons.alarm, size: 64.0, color: Colors.cyan)),
       Center(child: Store()),
-      Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
+
+      Center(child: My()),
     ];
     final _kTabs = <Tab>[
       Tab(text: 'Home'),
