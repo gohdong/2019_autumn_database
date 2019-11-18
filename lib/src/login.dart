@@ -36,13 +36,13 @@ class _LoginState extends State<Login> {
   }
 
   Widget _signInButton() {
-//    final counter = Provider.of<Counter>(context);
+    final counter = Provider.of<Counter>(context);
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
-//        counter.increment();
         signInWithGoogle().whenComplete(() {
           Navigator.of(context).pop();
+          counter.increment();
 //          push(
 //            MaterialPageRoute(
 //              builder: (context) {
@@ -51,6 +51,7 @@ class _LoginState extends State<Login> {
 //            ),
 //          );
         });
+
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40),),
       highlightElevation: 0,
