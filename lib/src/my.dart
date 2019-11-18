@@ -1,3 +1,4 @@
+import 'package:dbapp/src/login.dart';
 import 'package:flutter/material.dart';
 
 
@@ -9,28 +10,39 @@ class My extends StatefulWidget {
 class _MyState extends State<My> {
   @override
   Widget build(BuildContext context) {
+
     return ListView(
       scrollDirection: Axis.vertical,
       children: <Widget>[
-        Container(
-          child: Text('Item1: flex=1'),
-          color: Colors.red,
-          height: 300,
+        GestureDetector(
+          onTap: (){
+            Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Login()),
+            );
+          },
+          child: Container(
+            child: loginSection
+          ),
         ),
         Container(
-          child: Text('Item1: flex=1'),
-          color: Colors.red,
-          height: 300,
+          height: 7,
+          color: Colors.black12,
         ),
         Container(
-          child: Text('Item1: flex=1'),
-          color: Colors.red,
-          height: 300,
+          padding: EdgeInsets.only(top:10,bottom: 10),
+          child: buttonSection,
+        ),
+        Container(
+          height: 7,
+          color: Colors.black12,
+        ),
+        Container(
+          child: menuSection
         )
       ],
     );
   }
-  Widget titleSection = Container(
+  Widget loginSection = Container(
     padding: const EdgeInsets.all(32),
     child: Row(
       children: [
@@ -43,14 +55,14 @@ class _MyState extends State<My> {
               Container(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Text(
-                  'Oeschinen Lake Campground',
+                  '로그인 후 이용해주세요 ',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               Text(
-                'Kandersteg, Switzerland',
+                '로그인 하기',
                 style: TextStyle(
                   color: Colors.grey[500],
                 ),
@@ -60,11 +72,73 @@ class _MyState extends State<My> {
         ),
         /*3*/
         Icon(
-          Icons.star,
-          color: Colors.red[500],
+          Icons.account_circle,
+          size: 50,
         ),
-        Text('41'),
       ],
     ),
+  );
+  Widget buttonSection = Container(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildButtonColumn(Icons.credit_card, '관람권/카드'),
+        _buildButtonColumn(Icons.card_giftcard, '기프트카드'),
+        _buildButtonColumn(Icons.local_movies, '내가 본 영화'),
+        _buildButtonColumn(Icons.favorite_border, '볼래요'),
+      ],
+    ),
+  );
+  Widget menuSection = Column(
+      children: <Widget>[
+//        Divider(),
+        ListTile(
+          title: Text('개인정보 관리'),
+          trailing: Icon(Icons.arrow_forward_ios),
+        ),
+        Divider(),
+        ListTile(
+          title: Text('공지사항'),
+          trailing: Icon(Icons.arrow_forward_ios),
+        ),
+        Divider(),
+        ListTile(
+          title: Text('고객센터'),
+          trailing: Icon(Icons.arrow_forward_ios),
+        ),
+        Divider(),
+        ListTile(
+          title: Text('설정'),
+          trailing: Icon(Icons.arrow_forward_ios),
+
+        ),
+        Divider(),
+      ]
+  );
+
+}
+Column _buildButtonColumn(IconData icon, String label) {
+//  Color color = Theme.of(context).primaryColor;
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      CircleAvatar(
+          radius: 25.0,
+          backgroundColor: Colors.black12,
+          foregroundColor: Colors.black,
+          child: Icon(icon)),
+      Container(
+        margin: const EdgeInsets.only(top: 8),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+
+          ),
+        ),
+      ),
+    ],
   );
 }
