@@ -4,7 +4,6 @@ import 'package:dbapp/src/menubar.dart';
 import 'package:dbapp/src/my.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 import 'package:provider/provider.dart';
 
@@ -13,6 +12,7 @@ import 'src/store.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
+
   // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
