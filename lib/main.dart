@@ -1,6 +1,10 @@
 import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/menubar.dart';
+
 import 'package:dbapp/src/reservation.dart';
+
+import 'package:dbapp/src/my.dart';
+
 import 'package:flutter/material.dart';
 
 import 'dart:ui';
@@ -14,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'GVA_app',
       theme: ThemeData(
         primaryColor: Colors.white,
       ),
@@ -33,7 +37,7 @@ class Tabs extends StatelessWidget {
       Center(child: Icon(Icons.alarm, size: 64.0, color: Colors.cyan)),
       Center(child: Store()),
       Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
-      Center(child: Icon(Icons.forum, size: 64.0, color: Colors.blue)),
+      Center(child: My()),
     ];
     final _kTabs = <Tab>[
       Tab(text: 'Home'),

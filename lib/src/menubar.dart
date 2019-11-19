@@ -1,7 +1,7 @@
 import 'package:dbapp/main.dart';
 import 'package:dbapp/src/login.dart';
 import 'package:flutter/material.dart';
-import 'package:dbapp/src/reservation.dart';
+import 'package:dbapp/src/reserve_page.dart';
 
 class MenuBar extends StatelessWidget {
   @override
@@ -40,7 +40,7 @@ class MenuBar extends StatelessWidget {
             title: Text('reservation',textScaleFactor: 1.5,),
             onTap: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Reservation()));
+                  .push(MaterialPageRoute(builder: (context) => Reserve()));
             },
           ),
         ],
