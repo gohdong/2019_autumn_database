@@ -1,7 +1,6 @@
 import 'package:dbapp/main.dart';
-import 'package:dbapp/src/login.dart';
 import 'package:flutter/material.dart';
-import 'package:dbapp/src/reserve_page.dart';
+
 
 class MenuBar extends StatelessWidget {
   @override
@@ -13,9 +12,7 @@ class MenuBar extends StatelessWidget {
           DrawerHeader(
             child: ListTile(
               title: Text('Login',textScaleFactor: 1.3,),
-              onTap: (){
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Login()));
+              onTap: () {
               },
             ),
             decoration: BoxDecoration(
@@ -34,13 +31,6 @@ class MenuBar extends StatelessWidget {
           ListTile(
             title: Text('Notice',textScaleFactor: 1.5,),
             onTap: () {
-            },
-          ),
-          ListTile(
-            title: Text('reservation',textScaleFactor: 1.5,),
-            onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Reserve()));
             },
           ),
         ],
