@@ -1,3 +1,4 @@
+import 'package:dbapp/src/moviepage.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'dart:math';
@@ -69,7 +70,13 @@ class _RandomTrailerState extends State<RandomTrailer> {
                 ),
                 trailing: OutlineButton(
                   child: Text("더 알아보기"),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => MoviePage(snapshot
+                            .data
+                            .documents[randNum % snapshot.data.documents.length]
+                            .documentID)));
+                  },
                 ),
               ),
             )

@@ -1,4 +1,4 @@
-import 'package:dbapp/src/menubar.dart';
+import 'package:dbapp/main.dart';
 import 'package:dbapp/src/moviechart.dart';
 import 'package:dbapp/src/newsfeed.dart';
 import 'package:dbapp/src/random_trailer.dart';
@@ -11,13 +11,36 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var refreshKey = GlobalKey<RefreshIndicatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<Null> refreshList() async {
+    refreshKey.currentState?.show(atTop: false);
+    await Future.delayed(Duration(seconds: 2));
+
+    setState(() {
+      Navigator.of(context).pop();
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => MyApp()));
+    });
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: <Widget>[
           Flexible(
-            child: newsFeedBuild(),
+            child: RefreshIndicator(
+              child: newsFeedBuild(),
+              onRefresh: refreshList,
+            ),
           ),
         ],
       ),
@@ -31,23 +54,24 @@ class _HomeState extends State<Home> {
           .orderBy('date', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
         return ListView.builder(
-          itemCount: snapshot.data.documents.length+3,
+          itemCount: snapshot.data.documents.length + 3,
           itemBuilder: (context, index) {
-            if(index==0){
+            if (index == 0) {
               return RandomTrailer();
             }
-            if(index==1){
+            if (index == 1) {
               return Divider();
             }
-            if(index==2){
+            if (index == 2) {
               return MovieChart();
             }
 
             return Column(
               children: <Widget>[
-                NewsFeed(snapshot.data.documents[index-3]),
+                NewsFeed(snapshot.data.documents[index - 3]),
                 Divider(
                   height: 10,
                   color: Colors.white,

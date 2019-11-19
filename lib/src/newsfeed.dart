@@ -25,11 +25,12 @@ class NewsFeedState extends State<NewsFeed> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Material(
       child: Container(
         padding: EdgeInsets.all(0),
         margin: EdgeInsets.all(10),
-        height: MediaQuery.of(context).size.height * 0.4,
+        height: size.height * 0.4,
         decoration: BoxDecoration(
 //          border: Border.all()
             ),
@@ -40,6 +41,7 @@ class NewsFeedState extends State<NewsFeed> {
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
+
                 children: <Widget>[
                   getMovieName(),
                   Text(document['date']
@@ -90,7 +92,7 @@ class NewsFeedState extends State<NewsFeed> {
             Container(
               padding: EdgeInsets.only(left: 15,right: 15),
                 alignment: Alignment.centerLeft,
-                height: MediaQuery.of(context).size.height * 0.20,
+                height: size.height * 0.20,
                 decoration: BoxDecoration(
 //                  color: Colors.blue
                     ),
@@ -102,7 +104,7 @@ class NewsFeedState extends State<NewsFeed> {
                 )),
             Divider(),
             Container(
-              height: MediaQuery.of(context).size.height * 0.04,
+              height: size.height * 0.04,
               decoration: BoxDecoration(
 //                  color: Colors.yellow
                   ),
@@ -162,7 +164,7 @@ class NewsFeedState extends State<NewsFeed> {
               ),
             ),
             Container(
-                height: MediaQuery.of(context).size.height * 0.04,
+                height: size.height * 0.04,
 //            decoration: BoxDecoration(color: Colors.redAccent),
                 child: Row(
                   children: <Widget>[
