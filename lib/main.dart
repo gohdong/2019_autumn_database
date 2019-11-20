@@ -1,49 +1,88 @@
+import 'package:dbapp/src/data/is_login.dart';
+import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/menubar.dart';
+import 'package:dbapp/src/my.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui';
+import 'package:flutter/services.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+
+import 'package:provider/provider.dart';
+
+import 'src/store.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
   @override
+  _MyAppState createState() => _MyAppState();
+
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primaryColor: Colors.white,
-        backgroundColor: Colors.white,
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+    ));
+
+
+    return ChangeNotifierProvider(
+      builder: (_)=> Counter(),
+      child: MaterialApp(
+        title: 'GVA_app',
+        theme: ThemeData(
+          primaryColor: Colors.white,
+        ),
+        home: Tabs(),
       ),
-      home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class Tabs extends StatefulWidget {
+  const Tabs({Key key}) : super(key: key);
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _TabsState createState() => _TabsState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-
+class _TabsState extends State<Tabs> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("GVA"),
-        elevation: 0.0,
-      ),
-      endDrawer: MenuBar(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Hello',
-            ),
-          ],
+    final _kTabPages = <Widget>[
+      Center(child: Home()),
+      Center(child: Icon(Icons.alarm, size: 64.0, color: Colors.cyan)),
+      Center(child: Store()),
+
+      Center(child: My()),
+    ];
+    final _kTabs = <Tab>[
+      Tab(text: 'Home'),
+      Tab(text: 'Event'),
+      Tab(text: 'Store'),
+      Tab(text: 'My'),
+    ];
+    return DefaultTabController(
+      length: _kTabs.length,
+      child: Scaffold(
+        endDrawer: MenuBar(),
+        appBar: AppBar(
+          title: Text('GVA'),
+          elevation: 0,
+          // If `TabController controller` is not provided, then a
+          // DefaultTabController ancestor must be provided instead.
+          // Another way is to use a self-defined controller, c.f. "Bottom tab
+          // bar" example.
+          bottom: TabBar(
+            tabs: _kTabs,
+          ),
+        ),
+        body: TabBarView(
+          children: _kTabPages,
         ),
       ),
     );
   }
 }
+
