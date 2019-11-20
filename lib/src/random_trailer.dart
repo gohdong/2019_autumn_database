@@ -33,8 +33,8 @@ class _RandomTrailerState extends State<RandomTrailer> {
               child: YoutubePlayer(
                 controller: YoutubePlayerController(
                   initialVideoId: snapshot.data
-                          .documents[randNum % snapshot.data.documents.length]
-                      ['trailer'],
+                      .documents[randNum % snapshot.data.documents.length]
+                  ['trailer'],
                   flags: YoutubePlayerFlags(
                     autoPlay: false,
                     mute: false,
@@ -47,19 +47,19 @@ class _RandomTrailerState extends State<RandomTrailer> {
               child: ListTile(
                 leading: ClipOval(
                     child: Image.network(
-                  snapshot.data
+                      snapshot.data
                           .documents[randNum % snapshot.data.documents.length]
                       ['img'],
-                  fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.height * 0.055,
-                  width: MediaQuery.of(context).size.height * 0.055,
-                )),
+                      fit: BoxFit.cover,
+                      height: MediaQuery.of(context).size.height * 0.055,
+                      width: MediaQuery.of(context).size.height * 0.055,
+                    )),
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
                       snapshot.data.documents[
-                          randNum % snapshot.data.documents.length]['name'],
+                      randNum % snapshot.data.documents.length]['name'],
                       textScaleFactor: 1.1,
                     ),
                     Text(

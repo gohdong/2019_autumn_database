@@ -1,6 +1,8 @@
 import 'package:dbapp/main.dart';
 import 'package:dbapp/src/data/is_login.dart';
 import 'package:dbapp/src/login.dart';
+import 'package:dbapp/src/reservation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
@@ -45,6 +47,13 @@ class MenuBar extends StatelessWidget {
           ListTile(
             title: Text('Notice',textScaleFactor: 1.5,),
             onTap: () {
+            },
+          ),
+          ListTile(
+            title: Text('reserve',textScaleFactor: 1.5,),
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Reserve()));
             },
           ),
         ],
