@@ -4,35 +4,35 @@ import 'package:dbapp/src/menubar.dart';
 import 'package:dbapp/src/my.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 import 'package:provider/provider.dart';
-
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'src/store.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
+
   // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
-
 }
-
 class _MyAppState extends State<MyApp> {
+
+  final RefreshController _refreshController = RefreshController();
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.white,
     ));
-
-
     return ChangeNotifierProvider(
       builder: (_)=> Counter(),
       child: MaterialApp(
         title: 'GVA_app',
         theme: ThemeData(
           primaryColor: Colors.white,
+
         ),
         home: Tabs(),
       ),
