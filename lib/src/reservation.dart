@@ -7,6 +7,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dbapp/src/reservation_check.dart';
+import 'dart:math';
+
+
 
 ParentReserve reState = new ParentReserve();
 
@@ -17,7 +20,7 @@ class Reserve extends StatefulWidget {
 
 class ParentReserve extends State<Reserve> {
   DocumentSnapshot sub;
-  List<String> seatlist = ['a'];
+  List<String> seatlist = [];
   var i;
   var j;
   int send = 100;
@@ -27,10 +30,11 @@ class ParentReserve extends State<Reserve> {
 //    seatlist.clear();
     return Scaffold(
       appBar: AppBar(title: Text("Time_table")),
+      backgroundColor: Colors.grey[900],
       body: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
               .collection('time_table')
-              .where('number', isEqualTo: 1)
+              .where('title', isEqualTo: "겨울왕국2")
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -70,7 +74,7 @@ class ParentReserve extends State<Reserve> {
                 //crossAxisAlignment: CrossAxisAlignment.stretch,
               ),
 //            Make_box(),
-            _Purchase_button(),
+            _Purchase_button(document),
           ],
           // mainAxisAlignment: MainAxisAlignment.center,
           //crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -88,45 +92,81 @@ class ParentReserve extends State<Reserve> {
         width: 300.0,
         height: 48.0,
         decoration: BoxDecoration(
-          border: Border.all(width: 1, color: Colors.black),
-          color: Colors.white,
+          border: Border.all(width: 1, color: Colors.white),
+          color: Colors.grey[900],
         ),
         child: Center(
 //              child : Text("a"),
-              child : Text("Screen"),
+              child : Text("Screen", style: TextStyle(
+                fontSize: 25,
+                color: Colors.white70,
+              ),),
 //          child: Text(seatlist.length.toString()),
         ),
       ),
     ));
   }
 
-  Widget _Purchase_button() {
+  Widget _Purchase_button(document) {
     return Center(
         child: InkWell(
       onTap: () {
-        setState(() {
-          seatlist;
-        });
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => Screen_purchase(mylist: seatlist)));
+        if(document['select_count'] == 0){
+          _showDialog();
+        }
+        else{
+          setState(() {
+            seatlist;
+          });
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => Screen_purchase(title : "겨울왕국2", time : "09:20")));
+        }
+
       },
       child: Container(
-        margin: const EdgeInsets.only(top: 30, bottom: 30),
+        margin: const EdgeInsets.only(top: 50, bottom: 30),
         width: 300.0,
         height: 48.0,
         decoration: BoxDecoration(
           border: Border.all(width: 1, color: Colors.black),
-          color: Colors.white,
+          color: Colors.orangeAccent,
+          borderRadius: BorderRadius.all(
+            Radius.circular(10.0),
+          )
         ),
+
         child: Center(
 //              child : Text("a"),
 //              child : Text("Screen"),
-          child: Text("선택완료"),
+          child: Text("결제", style: TextStyle(
+            fontSize: 20,
+          ),),
         ),
       ),
     ));
   }
+
+  void _showDialog(){
+    showDialog(
+        context : context,
+        builder : (BuildContext context){
+          return AlertDialog(
+            title : new Text("Message"),
+            content: new Text("선택하신 좌석이 없습니다. 최소한 1개 이상의 좌석을 선택해주세요."),
+            actions : <Widget>[
+              new FlatButton(
+                child : new Text("닫기"),
+                  onPressed: (){
+                  Navigator.of(context).pop();
+                  })
+            ]
+          );
+        }
+    );
+  }
 }
+
+
 
 class Make_box extends StatefulWidget {
   @override
@@ -172,13 +212,15 @@ class Make_seat extends StatefulWidget {
 class _Child_Make_seat extends State<Make_seat> {
   String seat = "";
   final Color posi = Colors.white;
-  final Color imposi = Colors.grey;
-  final Color select = Colors.red;
+  final Color imposi = Colors.grey[450];
+  final Color select = Colors.amber[300];
   bool check = true;
   Firestore firestore = Firestore.instance;
 
   @override
   Widget build(BuildContext context) {
+
+
     if (widget.i == 0) {
       seat = "A" + widget.j.toString();
     } else if (widget.i == 1) {
@@ -205,7 +247,8 @@ class _Child_Make_seat extends State<Make_seat> {
       seat = "L" + widget.j.toString();
     }
 
-    if (widget.document['1'][2][seat] == '1') {
+
+    if (widget.document[seat] == '0') {
       // 1이면 좌석이 차있
       return Center(
         child: InkWell(
@@ -222,7 +265,7 @@ class _Child_Make_seat extends State<Make_seat> {
               )),
         ),
       );
-    } else if (widget.document['1'][2][seat] == '2') {
+    } else if (widget.document[seat] == '1' || widget.document[seat] == '2') {
       // 2면 좌석이 비어있음
       return Center(
           child: InkWell(
@@ -232,23 +275,33 @@ class _Child_Make_seat extends State<Make_seat> {
             height: 30.0,
             decoration: BoxDecoration(
               border: Border.all(width: 1, color: Colors.black),
-              color: check ? posi : select,
+              color: (widget.document[seat] == "1") ? posi : select,
             ),
             child: Center(
               child: Text(seat),
 //                  child: Text(reState.seatlist.length.toString()),
             )),
         onTap: () {
-//          firestore.collection("time_table").document('1관/{1}').updateData({[1] : "블랙머니2"});
-
-          setState(() {
-            if (check) {
+          setState(() { // 0:선택불가 // 1:선택가능 2:현재선택된것
+            int x;
+            Firestore.instance.collection("time_table").document("test").get()
+                .then((DocumentSnapshot ds){
+              x = ds.data["title"];
+            });
+            print(x);
+            if (widget.document[seat] == '1') {
               // check가 true 면 예약 가능한것 = 아직 선택 안함
               reState.seatlist.add(seat);
+            check = false;
+              Firestore.instance.collection("time_table").document('test').updateData({seat : "2"});
+              Firestore.instance.collection("time_table").document('test').updateData({"select_count" : widget.document['select_count']+1});
+
             } else {
               reState.seatlist.remove(seat);
+              Firestore.instance.collection("time_table").document('test').updateData({seat : "1"});
+              Firestore.instance.collection("time_table").document('test').updateData({"select_count" : widget.document['select_count']-1});
+              check = true;
             }
-            check = !check;
           });
         },
       ));
@@ -262,7 +315,7 @@ class _Child_Make_seat extends State<Make_seat> {
               height: 30.0,
               decoration: BoxDecoration(
                 border: Border.all(width: 1, color: Colors.black),
-                color: Colors.blue,
+                color: Colors.amber,
               ),
               child: Center(
                 child: Text(seat),
@@ -271,21 +324,4 @@ class _Child_Make_seat extends State<Make_seat> {
       );
     }
   }
-
 }
-
-//class _Add_seat extends StatelessWidget{
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return StreamBuilder<QuerySnapshot>{
-//      stream : Firestore.instance.collection("time_table").snapshots(),
-//      builder : (context, snapshot){
-//        if(!snapshot.hasData) return linearProgressIndicator();
-//
-//        return _buildList(context, snapshot.data.documents);
-//      }
-//    }
-//  }
-//
-//}
