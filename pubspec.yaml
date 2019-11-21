@@ -30,6 +30,7 @@ dependencies:
   pull_to_refresh: ^1.5.7
   youtube_player_flutter: ^6.0.3+2
   flutter_statusbarcolor: ^0.2.3
+  shared_preferences: ^0.5.4+5
 
 dev_dependencies:
   flutter_test:

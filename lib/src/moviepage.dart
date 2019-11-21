@@ -15,7 +15,8 @@ class MoviePage extends StatefulWidget {
   _MoviePageState createState() => _MoviePageState(movieID);
 }
 
-class _MoviePageState extends State<MoviePage> with SingleTickerProviderStateMixin{
+class _MoviePageState extends State<MoviePage>
+    with SingleTickerProviderStateMixin {
   final db = Firestore.instance;
   TabController _controller;
 
@@ -66,45 +67,48 @@ class _MoviePageState extends State<MoviePage> with SingleTickerProviderStateMix
             Container(
               height: MediaQuery.of(context).size.height * 0.12,
               margin: EdgeInsets.all(10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              decoration: BoxDecoration(color: Colors.white),
+              child: Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
 //                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Image.network(snapshot.data['img']),
-                  Container(
-                    padding: EdgeInsets.only(left: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              snapshot.data['name'],
-                              textScaleFactor: 2,
-                            ),
-                            Container(
-                              child: Image.asset(
-                                'img/' + snapshot.data['rate'] + '.png',
-                                width: 25,
+                  children: <Widget>[
+                    Image.network(snapshot.data['img']),
+                    Container(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                snapshot.data['name'],
+                                textScaleFactor: 2,
                               ),
-                              margin: EdgeInsets.only(left: 5),
-                            )
-                          ],
-                        ),
-                        Text(
-                          snapshot.data['en_name'],
-                          textScaleFactor: 1,
-                        )
-                      ],
-                    ),
-                  )
-                ],
+                              Container(
+                                child: Image.asset(
+                                  'img/' + snapshot.data['rate'] + '.png',
+                                  width: 25,
+                                ),
+                                margin: EdgeInsets.only(left: 5),
+                              )
+                            ],
+                          ),
+                          Text(
+                            snapshot.data['en_name'],
+                            textScaleFactor: 1,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-
             Container(
               height: MediaQuery.of(context).size.height * 0.08,
+              decoration: BoxDecoration(color: Colors.white),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -116,9 +120,7 @@ class _MoviePageState extends State<MoviePage> with SingleTickerProviderStateMix
                           Text(snapshot.data['like'].toString())
                         ],
                       ),
-                      onPressed: (){
-
-                      },
+                      onPressed: () {},
                     ),
                   ),
                   Expanded(
@@ -130,51 +132,47 @@ class _MoviePageState extends State<MoviePage> with SingleTickerProviderStateMix
                           Text("공유하기")
                         ],
                       ),
-                      onPressed: (){
-
-                      },
+                      onPressed: () {},
                     ),
                   ),
                   Expanded(
                     child: FlatButton(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(Icons.bookmark),
-                          Text("예매하기")
-                        ],
+                        children: <Widget>[Icon(Icons.bookmark), Text("예매하기")],
                       ),
-                      onPressed: (){
-
-                      },
+                      onPressed: () {},
                     ),
                   ),
                 ],
               ),
             ),
-            Divider(color: Colors.black, indent: 10,endIndent: 10,),
+            Divider(
+              color: Colors.black,
+              indent: 10,
+              endIndent: 10,
+            ),
             storeTab(),
             storeTabView()
-
           ],
         );
       },
     );
   }
 
-  Widget storeTab(){
+  Widget storeTab() {
     return Container(
-      height: MediaQuery.of(context).size.height*0.05,
+      height: MediaQuery.of(context).size.height * 0.05,
       margin: EdgeInsets.all(10),
       decoration: new BoxDecoration(color: Theme.of(context).primaryColor),
       child: new TabBar(
         controller: _controller,
         tabs: [
           new Tab(
-            text: '관련소식',
+            text: '영화정보',
           ),
           new Tab(
-            text: '영화정보',
+            text: '관련소식',
           ),
           new Tab(
             text: '실관람평',
@@ -184,15 +182,15 @@ class _MoviePageState extends State<MoviePage> with SingleTickerProviderStateMix
     );
   }
 
-  Widget storeTabView(){
+  Widget storeTabView() {
     return Container(
-      height: MediaQuery.of(context).size.height*0.75,
+      height: MediaQuery.of(context).size.height * 0.75,
 //      margin: EdgeInsets.all(10),
       child: TabBarView(
         controller: _controller,
         children: <Widget>[
-          newsFeedBuilder(),
           movieInfo(),
+          newsFeedBuilder(),
           review(),
         ],
       ),
@@ -207,11 +205,11 @@ class _MoviePageState extends State<MoviePage> with SingleTickerProviderStateMix
           .orderBy('date', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
         return ListView.builder(
           itemCount: snapshot.data.documents.length,
           itemBuilder: (context, index) {
-
             return Column(
               children: <Widget>[
                 NewsFeed(snapshot.data.documents[index]),
@@ -227,11 +225,233 @@ class _MoviePageState extends State<MoviePage> with SingleTickerProviderStateMix
     );
   }
 
-  Widget movieInfo(){
-    return Text("Movie info");
+  Widget movieInfo() {
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(left: 10, right: 10),
+          decoration: BoxDecoration(color: Colors.white),
+          height: MediaQuery.of(context).size.height * 0.12,
+          child: getMovieInfo(),
+        ),
+        Container(
+          decoration: BoxDecoration(color: Colors.white),
+          height: MediaQuery.of(context).size.height * 0.3,
+          margin: EdgeInsets.all(10),
+          child: actorBuild(),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.3,
+          margin: EdgeInsets.only(left: 10, right: 10),
+          decoration: BoxDecoration(color: Colors.white),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Divider(),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Icon(Icons.chat),
+                  Text("    "),
+                  getMovieDesc(),
+                ],
+              ),
+            ],
+          ),
+        )
+      ],
+    );
   }
 
-  Widget review(){
+  Widget review() {
     return Text("Reviews");
+  }
+
+  Widget actorBuild() {
+    return StreamBuilder(
+      stream: Firestore.instance
+          .collection('roles')
+          .where("movieID", isEqualTo: movieID)
+//          .orderBy('importance')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
+        return GridView.builder(
+          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: MediaQuery.of(context).size.width /
+                (MediaQuery.of(context).size.height / 5),
+          ),
+          itemCount: snapshot.data.documents.length + 1,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return getDirector();
+            } else {
+              return Container(
+                margin: EdgeInsets.all(5),
+                padding: EdgeInsets.only(left: 10),
+                child: Row(
+                  children: <Widget>[
+                    getActorImg(snapshot.data.documents[index - 1]['actorID']),
+                    Text("    "),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        getActorName(snapshot.data.documents[index - 1]['actorID']),
+                        getEngActorName(snapshot.data.documents[index - 1]['actorID']),
+                        Text(snapshot.data.documents[index - 1]['role']+" 역",textScaleFactor: 0.8,),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }
+          },
+        );
+      },
+    );
+  }
+
+  Widget getDirector() {
+    return StreamBuilder(
+      stream: Firestore.instance
+          .collection('directors')
+          .where('films', arrayContains: movieID)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Center(child: Text("Can't find"));
+        return Container(
+          margin: EdgeInsets.all(5),
+          padding: EdgeInsets.only(left: 10),
+          child: Row(
+            children: <Widget>[
+              CircleAvatar(
+                radius: 30.0,
+                backgroundImage:
+                    NetworkImage(snapshot.data.documents[0]['img']),
+              ),
+              Text("    "),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(snapshot.data.documents[0]['name'],textScaleFactor: 0.9,),
+                  Text(snapshot.data.documents[0]['en_name'],textScaleFactor: 0.7,),
+                  Text("감독",textScaleFactor: 0.8,),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+//    return
+  }
+
+  Widget getActorName(String who) {
+    return StreamBuilder(
+      stream: Firestore.instance.collection('actor').document(who).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Center(child: Text("Can't find"));
+        return Text(
+          snapshot.data['name'],textScaleFactor: 0.9,
+        );
+      },
+    );
+  }
+
+  Widget getEngActorName(String who) {
+    return StreamBuilder(
+      stream: Firestore.instance.collection('actor').document(who).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Center(child: Text("Can't find"));
+        return Text(
+          snapshot.data['en_name'],textScaleFactor: 0.6,
+        );
+      },
+    );
+  }
+
+  Widget getActorImg(String who) {
+    return StreamBuilder(
+      stream: Firestore.instance.collection('actor').document(who).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+        return CircleAvatar(
+          radius: 30.0,
+          backgroundImage: NetworkImage(snapshot.data['img']),
+        );
+      },
+    );
+  }
+
+  Widget getMovieDesc() {
+    return StreamBuilder(
+      stream:
+          Firestore.instance.collection('movie').document(movieID).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Center(child: Text("Can't find"));
+        return Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: Text(
+            snapshot.data['summary'].replaceAll("\\n", "\n"),
+            textScaleFactor: 1,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget getMovieInfo() {
+    return StreamBuilder(
+      stream:
+          Firestore.instance.collection('movie').document(movieID).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
+        return Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 10),
+              height: MediaQuery.of(context).size.height * 0.04,
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.movie),
+                  Text("  "),
+                  Text(snapshot.data['name']),
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 10),
+              height: MediaQuery.of(context).size.height * 0.04,
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.access_time),
+                  Text("  "),
+                  Text(snapshot.data['runningtime'].toString() + "분"),
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 10),
+              height: MediaQuery.of(context).size.height * 0.04,
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.person),
+                  Text("  "),
+                  snapshot.data['rate'] == "all"
+                      ? Text("전체 관람가")
+                      : Text(snapshot.data['rate'] + "세 관람가"),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
