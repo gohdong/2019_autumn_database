@@ -19,7 +19,6 @@ class MyApp extends StatefulWidget {
 }
 class _MyAppState extends State<MyApp> {
 
-  final RefreshController _refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
