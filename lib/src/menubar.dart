@@ -49,11 +49,20 @@ class MenuBar extends StatelessWidget {
             onTap: () {
             },
           ),
+          Divider(),
           ListTile(
-            title: Text('reserve',textScaleFactor: 1.5,),
+            title: Text('Reservation',textScaleFactor: 1.5,),
             onTap: () {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => Reserve()));
+            },
+          ),
+          Divider(),
+          ListTile(
+            title: Text(counter.getCounter()==0? '':'LogOut',textScaleFactor: 1.5,),
+            onTap: () {
+              Navigator.of(context).pop();
+              counter.decrement();
             },
           ),
         ],

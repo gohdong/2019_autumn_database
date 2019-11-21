@@ -3,6 +3,7 @@ import 'package:dbapp/src/data/sign_in.dart';
 import 'package:dbapp/src/menubar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -10,6 +11,19 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  int _counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    (() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        _counter = prefs.getInt('counter');
+      });
+    })();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -25,7 +39,10 @@ class _LoginState extends State<Login> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Image(image: AssetImage("img/gva_logo.png"), width: size.width,),
+              Image(
+                image: AssetImage("img/gva_logo.png"),
+                width: size.width,
+              ),
               SizedBox(height: 50),
               _signInButton(),
             ],
@@ -36,13 +53,17 @@ class _LoginState extends State<Login> {
   }
 
   Widget _signInButton() {
-    final counter = Provider.of<Counter>(context);
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
-        signInWithGoogle().whenComplete(() {
+        signInWithGoogle().whenComplete(() async {
           Navigator.of(context).pop();
-          counter.increment();
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          setState(() {
+            _counter = 1;
+            prefs.setInt('counter', _counter);
+          });
+
 //          push(
 //            MaterialPageRoute(
 //              builder: (context) {
@@ -51,9 +72,10 @@ class _LoginState extends State<Login> {
 //            ),
 //          );
         });
-
       },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40),),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(40),
+      ),
       highlightElevation: 0,
       borderSide: BorderSide(color: Colors.red),
       child: Padding(
