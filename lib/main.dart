@@ -31,6 +31,7 @@ class _MyAppState extends State<MyApp> {
         title: 'GVA_app',
         theme: ThemeData(
           primaryColor: Colors.white,
+
         ),
         home: Tabs(),
       ),

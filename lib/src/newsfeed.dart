@@ -33,7 +33,7 @@ class NewsFeedState extends State<NewsFeed> {
         height: size.height * 0.4,
         decoration: BoxDecoration(
 //          border: Border.all()
-            ),
+        ),
         child: Column(
           children: <Widget>[
             ListTile(
@@ -90,12 +90,12 @@ class NewsFeedState extends State<NewsFeed> {
 
             Divider(),
             Container(
-              padding: EdgeInsets.only(left: 15,right: 15),
+                padding: EdgeInsets.only(left: 15,right: 15),
                 alignment: Alignment.centerLeft,
                 height: size.height * 0.20,
                 decoration: BoxDecoration(
 //                  color: Colors.blue
-                    ),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -107,7 +107,7 @@ class NewsFeedState extends State<NewsFeed> {
               height: size.height * 0.04,
               decoration: BoxDecoration(
 //                  color: Colors.yellow
-                  ),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[

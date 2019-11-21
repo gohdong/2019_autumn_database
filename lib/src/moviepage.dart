@@ -187,13 +187,13 @@ class _MoviePageState extends State<MoviePage> with SingleTickerProviderStateMix
   Widget storeTabView(){
     return Container(
       height: MediaQuery.of(context).size.height*0.75,
-      margin: EdgeInsets.all(10),
+//      margin: EdgeInsets.all(10),
       child: TabBarView(
         controller: _controller,
         children: <Widget>[
           newsFeedBuilder(),
-          new Text("ss"),
-          new Text("ad"),
+          movieInfo(),
+          review(),
         ],
       ),
     );
@@ -225,5 +225,13 @@ class _MoviePageState extends State<MoviePage> with SingleTickerProviderStateMix
         );
       },
     );
+  }
+
+  Widget movieInfo(){
+    return Text("Movie info");
+  }
+
+  Widget review(){
+    return Text("Reviews");
   }
 }
