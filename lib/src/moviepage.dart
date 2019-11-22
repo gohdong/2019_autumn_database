@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
+import 'package:polygon_clipper/polygon_clipper.dart';
 import 'newsfeed.dart';
 
 class MoviePage extends StatefulWidget {
@@ -252,7 +252,7 @@ class _MoviePageState extends State<MoviePage>
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Icon(Icons.chat),
+                  Container(child: Icon(Icons.chat),margin: EdgeInsets.only(left: 5),),
                   Text("    "),
                   getMovieDesc(),
                 ],
@@ -265,7 +265,54 @@ class _MoviePageState extends State<MoviePage>
   }
 
   Widget review() {
-    return Text("Reviews");
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.red
+      ),
+      height: MediaQuery.of(context).size.height*0.2,
+      width: MediaQuery.of(context).size.width*0.2,
+      child: ClipPolygon(
+        sides: 5,
+        borderRadius: 0, // Default 0.0 degrees
+        rotate: 0, // Default 0.0 degrees
+        boxShadows: [
+          PolygonBoxShadow(color: Colors.black, elevation: 1.0),
+        ],
+        child: Container(
+          margin: EdgeInsets.all(50),
+          child: ClipPolygon(
+            sides: 5,
+            borderRadius: 0, // Default 0.0 degrees
+            rotate: 0, // Default 0.0 degrees
+            boxShadows: [
+              PolygonBoxShadow(color: Colors.black, elevation: 1.0),
+            ],
+            child:  Container(
+              margin: EdgeInsets.all(50),
+              child: ClipPolygon(
+                sides: 5,
+                borderRadius: 0, // Default 0.0 degrees
+                rotate: 0, // Default 0.0 degrees
+                boxShadows: [
+                  PolygonBoxShadow(color: Colors.black, elevation: 1.0),
+                ],
+                child:  Container(
+                  margin: EdgeInsets.all(50),
+                  child: ClipPolygon(
+                    sides: 5,
+                    borderRadius: 0, // Default 0.0 degrees
+                    rotate: 0, // Default 0.0 degrees
+                    boxShadows: [
+                      PolygonBoxShadow(color: Colors.black, elevation: 1.0),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ),
+        ),
+      ),
+    );
   }
 
   Widget actorBuild() {
@@ -454,4 +501,10 @@ class _MoviePageState extends State<MoviePage>
       },
     );
   }
+
+
+  Widget pentaGraph(){
+    return null;
+  }
+
 }
