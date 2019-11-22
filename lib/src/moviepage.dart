@@ -22,6 +22,8 @@ class _MoviePageState extends State<MoviePage>
 
   String movieID;
 
+
+
   _MoviePageState(String getID) {
     movieID = getID;
   }
@@ -191,7 +193,7 @@ class _MoviePageState extends State<MoviePage>
         children: <Widget>[
           movieInfo(),
           newsFeedBuilder(),
-          review(),
+          review2(),
         ],
       ),
     );
@@ -265,7 +267,475 @@ class _MoviePageState extends State<MoviePage>
   }
 
   Widget review() {
-    return Text("Reviews");
+    return StreamBuilder(
+      stream: Firestore.instance
+          .collection('reviews')
+          .where('movieID', isEqualTo: movieID)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
+        return ListView.builder(
+          itemCount: snapshot.data.documents.length+1,
+          itemBuilder: (context,index){
+            if(index ==0 ){
+              return  Row(
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "평점",
+                          textScaleFactor: 2,
+                        ),
+                        Text(
+                          "80",
+                          textScaleFactor: 1.5,
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: starPoint(80),
+                  ),
+                ],
+              );
+            }
+            return null;
+          },
+        );
+      },
+    );
+
+
+  }
+
+  Widget review2() {
+    return Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height * 0.15,
+              width: MediaQuery.of(context).size.width * 0.15,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "평점",
+                    textScaleFactor: 2,
+                  ),
+                  Text(
+                    "80",
+                    textScaleFactor: 1.5,
+                  )
+                ],
+              ),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.15,
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: starPoint(80),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget starPoint(int score) {
+    if (score >= 95) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+        ],
+      );
+    } else if (score >= 85) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_half,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+        ],
+      );
+    } else if (score >= 75) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+        ],
+      );
+    } else if (score >= 65) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_half,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+        ],
+      );
+    } else if (score >= 55) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+        ],
+      );
+    } else if (score >= 45) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_half,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+        ],
+      );
+    } else if (score >= 35) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+        ],
+      );
+    } else if (score >= 25) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_half,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+        ],
+      );
+    } else if (score >= 15) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+              child: Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+        ],
+      );
+    } else if (score >= 15) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+              child: Icon(
+            Icons.star_half,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+          Expanded(
+              child: Icon(
+            Icons.star_border,
+            color: Colors.amber,
+            size: MediaQuery.of(context).size.height * 0.1,
+          )),
+        ],
+      );
+    }
+    return Row(
+      children: <Widget>[
+        Expanded(
+            child: Icon(
+          Icons.star_border,
+          color: Colors.amber,
+          size: MediaQuery.of(context).size.height * 0.1,
+        )),
+        Expanded(
+            child: Icon(
+          Icons.star_border,
+          color: Colors.amber,
+          size: MediaQuery.of(context).size.height * 0.1,
+        )),
+        Expanded(
+            child: Icon(
+          Icons.star_border,
+          color: Colors.amber,
+          size: MediaQuery.of(context).size.height * 0.1,
+        )),
+        Expanded(
+            child: Icon(
+          Icons.star_border,
+          color: Colors.amber,
+          size: MediaQuery.of(context).size.height * 0.1,
+        )),
+        Expanded(
+            child: Icon(
+          Icons.star_border,
+          color: Colors.amber,
+          size: MediaQuery.of(context).size.height * 0.1,
+        )),
+      ],
+    );
   }
 
   Widget actorBuild() {
@@ -300,9 +770,14 @@ class _MoviePageState extends State<MoviePage>
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        getActorName(snapshot.data.documents[index - 1]['actorID']),
-                        getEngActorName(snapshot.data.documents[index - 1]['actorID']),
-                        Text(snapshot.data.documents[index - 1]['role']+" 역",textScaleFactor: 0.8,),
+                        getActorName(
+                            snapshot.data.documents[index - 1]['actorID']),
+                        getEngActorName(
+                            snapshot.data.documents[index - 1]['actorID']),
+                        Text(
+                          snapshot.data.documents[index - 1]['role'] + " 역",
+                          textScaleFactor: 0.8,
+                        ),
                       ],
                     ),
                   ],
@@ -338,9 +813,18 @@ class _MoviePageState extends State<MoviePage>
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(snapshot.data.documents[0]['name'],textScaleFactor: 0.9,),
-                  Text(snapshot.data.documents[0]['en_name'],textScaleFactor: 0.7,),
-                  Text("감독",textScaleFactor: 0.8,),
+                  Text(
+                    snapshot.data.documents[0]['name'],
+                    textScaleFactor: 0.9,
+                  ),
+                  Text(
+                    snapshot.data.documents[0]['en_name'],
+                    textScaleFactor: 0.7,
+                  ),
+                  Text(
+                    "감독",
+                    textScaleFactor: 0.8,
+                  ),
                 ],
               ),
             ],
@@ -357,7 +841,8 @@ class _MoviePageState extends State<MoviePage>
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Center(child: Text("Can't find"));
         return Text(
-          snapshot.data['name'],textScaleFactor: 0.9,
+          snapshot.data['name'],
+          textScaleFactor: 0.9,
         );
       },
     );
@@ -369,7 +854,8 @@ class _MoviePageState extends State<MoviePage>
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Center(child: Text("Can't find"));
         return Text(
-          snapshot.data['en_name'],textScaleFactor: 0.6,
+          snapshot.data['en_name'],
+          textScaleFactor: 0.6,
         );
       },
     );
@@ -379,7 +865,8 @@ class _MoviePageState extends State<MoviePage>
     return StreamBuilder(
       stream: Firestore.instance.collection('actor').document(who).snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
         return CircleAvatar(
           radius: 30.0,
           backgroundImage: NetworkImage(snapshot.data['img']),
