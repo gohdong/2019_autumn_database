@@ -52,7 +52,6 @@ class _TabsState extends State<Tabs> {
       Center(child: Home()),
       Center(child: Icon(Icons.alarm, size: 64.0, color: Colors.cyan)),
       Center(child: Store()),
-
       Center(child: My()),
     ];
     final _kTabs = <Tab>[
