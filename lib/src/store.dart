@@ -1,78 +1,129 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dbapp/src/StorePackage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'StoreCombo.dart';
+import 'StoreGiftcard.dart';
+import 'StoreTicket.dart';
 
-class Store extends StatelessWidget {
+// 리스트뷰
+
+class Store extends StatefulWidget {
+  @override
+  Store1 createState() => Store1();
+}
+
+class Store1 extends State<Store> with SingleTickerProviderStateMixin {
+  TabController ctr;
+
+  @override
+  void initState() {
+    super.initState();
+    ctr = new TabController(vsync: this, length: 4);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(children: <Widget>[
       ListTile(
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[Text("TICKET & POPCORN STORE")],
-        ),
-        onTap: () {
-//            Navigator.of(context)
-//                .push(MaterialPageRoute(builder: (context) => null));
-        },
-      ),
-      Divider(color: Colors.black),
-      ListTile(
-          title: Row(
+          title: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-            Text("패키지"),
-            Text("영화관람권"),
-            Text("콤보"),
-            Text("기프트카드")
-          ])),
+                Container(
+                  child: StreamBuilder(
+                      stream:
+                          Firestore.instance.collection('store').snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return new Text("Cannot Found..");
+                        }
+                        return new Image.network(
+                            snapshot.data.documents[0]['header']);
+                      }),
+                )
+              ]),
+          onTap: () {}),
       Divider(color: Colors.black),
 
-      ListTile(
-          title: Column(children: <Widget>[
-        Row(children: <Widget>[Text("고객님께 추천하는 영화볼 때 필수 아이템")]),
-        Row(children: <Widget>[
-          Column(children: <Widget>[
-            Row(children: <Widget>[Text("제품 명")]),
-            Row(children: <Widget>[Text("설명")]),
-            Row(children: <Widget>[Text("가격")])
-          ]),
-          Column(children: <Widget>[Container(child: Text("사진"))])
-        ])
-      ])),
-
-      Divider(color: Colors.black),
+//      ListTile(
+//          title: Column(children: <Widget>[
+//        Row(children: <Widget>[Text("고객님께 추천하는 영화볼 때 필수 아이템")]),
+//        Row(children: <Widget>[
+//          Column(children: <Widget>[
+//            Row(children: <Widget>[Text("제품 명")]),
+//            Row(children: <Widget>[Text("설명")]),
+//            Row(children: <Widget>[Text("가격")])
+//          ]),
+//          Column(children: <Widget>[Container(child: Text("사진"))])
+//        ])
+//      ])),
+      Container(
+        height: MediaQuery.of(context).size.height * 0.05,
+        margin: EdgeInsets.all(10),
+        decoration: new BoxDecoration(color: Theme.of(context).primaryColor),
+        child: new TabBar(
+          controller: ctr,
+          tabs: [
+            new Tab(
+              text: '콤보',
+            ),
+            new Tab(
+              text: '기프트카드',
+            ),
+            new Tab(
+              text: '패키지',
+            ),
+            new Tab(
+              text: '티켓',
+            ),
+          ],
+        ),
+      ),
+      Container(
+        height: MediaQuery.of(context).size.height * 0.75,
+//      margin: EdgeInsets.all(10),
+        child: TabBarView(
+          controller: ctr,
+          children: <Widget>[
+            makeCombo(),
+            makeGiftcard(),
+            makePackage(),
+            makeTicket(),
+          ],
+        ),
+      ),
 
       // 베스트 상품, 선물추천, 팝콘, 음료, 스낵      추가하기
+      Divider(color: Colors.black),
 
-      StoreRow(),
       Divider(color: Colors.black),
-      StoreRow(),
-      Divider(color: Colors.black),
-      StoreRow(),
-      Divider(color: Colors.black),
-      StoreRow(),
-      Divider(color: Colors.black),
+
       Card(child: Center(child: Text("이용안내")))
     ]));
   }
 }
 
-Widget StoreRow() {
-  return ListTile(
-    title: Column(
-      children: <Widget>[
-        Row(children: <Widget>[Text("카테고리")]),
-        for (var i = 0; i < 3; i++)
-          Row(children: <Widget>[
-            Column(children: <Widget>[Container(child: Text("사진"))]),
-            Column(children: <Widget>[
-              Row(children: <Widget>[Text("카테고리 명")]),
-              Row(children: <Widget>[Text("설명")]),
-              Row(children: <Widget>[Text("가격")])
-            ])
-          ]),
-      ],
-    ),
+Widget makeCombo() {
+  return Column(
+    children: <Widget>[for (int i = 1; i < 4; i++) StoreCombo(repeat: i)],
+  );
+}
+
+Widget makeGiftcard() {
+  return Column(
+    children: <Widget>[for (int i = 7; i < 10; i++) StoreGiftcard(repeat: i)],
+  );
+}
+
+Widget makePackage() {
+  return Column(
+    children: <Widget>[for (int i = 10; i < 13; i++) StorePackage(repeat: i)],
+  );
+}
+
+Widget makeTicket() {
+  return Column(
+    children: <Widget>[for (int i = 16; i < 19; i++) StoreTicket(repeat: i)],
   );
 }
