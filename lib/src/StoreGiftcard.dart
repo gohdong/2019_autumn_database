@@ -54,7 +54,7 @@ class StoreGiftcard extends StatelessWidget {
 
   Widget getGiftcardImage() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_gif').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -67,7 +67,7 @@ class StoreGiftcard extends StatelessWidget {
 
   Widget getGiftcardName() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_gif').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -79,7 +79,7 @@ class StoreGiftcard extends StatelessWidget {
 
   Widget getGiftcardDescription() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_gif').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -91,7 +91,7 @@ class StoreGiftcard extends StatelessWidget {
 
   Widget getGiftcardPrice1() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_gif').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -104,7 +104,7 @@ class StoreGiftcard extends StatelessWidget {
 //  Widget getGiftcardPrice2() {
 //    return new StreamBuilder(
 //      stream: Firestore.instance
-//          .collection('store_gif')
+//          .collection('store')
 //          .snapshots(),
 //      builder: (context, snapshot) {
 //        if (!snapshot.hasData) {

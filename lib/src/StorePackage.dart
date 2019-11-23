@@ -56,7 +56,7 @@ class StorePackage extends StatelessWidget {
 
   Widget getPackageImage() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_pac').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -69,7 +69,7 @@ class StorePackage extends StatelessWidget {
 
   Widget getPackageName() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_pac').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -81,7 +81,7 @@ class StorePackage extends StatelessWidget {
 
   Widget getPackageDescription() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_pac').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -93,7 +93,7 @@ class StorePackage extends StatelessWidget {
 
   Widget getPackagePrice1() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_pac').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -105,7 +105,7 @@ class StorePackage extends StatelessWidget {
 
   Widget getPackagePrice2() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_pac').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");

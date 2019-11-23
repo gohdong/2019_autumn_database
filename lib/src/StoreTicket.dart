@@ -54,7 +54,7 @@ class StoreTicket extends StatelessWidget {
 
   Widget getTicketImage() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_tic').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -67,7 +67,7 @@ class StoreTicket extends StatelessWidget {
 
   Widget getTicketName() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_tic').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -79,7 +79,7 @@ class StoreTicket extends StatelessWidget {
 
   Widget getTicketDescription() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_tic').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -91,7 +91,7 @@ class StoreTicket extends StatelessWidget {
 
   Widget getTicketPrice1() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_tic').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -104,7 +104,7 @@ class StoreTicket extends StatelessWidget {
 //  Widget getTicketPrice2() {
 //    return new StreamBuilder(
 //      stream: Firestore.instance
-//          .collection('store_tic')
+//          .collection('store')
 //          .snapshots(),
 //      builder: (context, snapshot) {
 //        if (!snapshot.hasData) {

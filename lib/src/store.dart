@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'StoreCombo.dart';
 import 'StoreGiftcard.dart';
-import 'StoreRow.dart';
 import 'StoreTicket.dart';
 
 // 리스트뷰
@@ -47,6 +46,18 @@ class Store1 extends State<Store> with SingleTickerProviderStateMixin {
           onTap: () {}),
       Divider(color: Colors.black),
 
+//      ListTile(
+//          title: Column(children: <Widget>[
+//        Row(children: <Widget>[Text("고객님께 추천하는 영화볼 때 필수 아이템")]),
+//        Row(children: <Widget>[
+//          Column(children: <Widget>[
+//            Row(children: <Widget>[Text("제품 명")]),
+//            Row(children: <Widget>[Text("설명")]),
+//            Row(children: <Widget>[Text("가격")])
+//          ]),
+//          Column(children: <Widget>[Container(child: Text("사진"))])
+//        ])
+//      ])),
       Container(
         height: MediaQuery.of(context).size.height * 0.05,
         margin: EdgeInsets.all(10),
@@ -83,67 +94,36 @@ class Store1 extends State<Store> with SingleTickerProviderStateMixin {
         ),
       ),
 
-//      ListTile(
-//          title: Row(
-//              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//              children: <Widget>[
-//                InkWell(child: Text("패키지"),onTap: (){},),
-//                InkWell(child: Text("영화관람권"),onTap: (){},),
-//                InkWell(child: Text("콤보"),onTap: (){},),
-//                InkWell(child: Text("기프트카드"),onTap: (){},)
-//          ])),
+      // 베스트 상품, 선물추천, 팝콘, 음료, 스낵      추가하기
       Divider(color: Colors.black),
 
-//      ListTile(
-//          title: Column(children: <Widget>[
-//        Row(children: <Widget>[Text("고객님께 추천하는 영화볼 때 필수 아이템")]),
-//        Row(children: <Widget>[
-//          Column(children: <Widget>[
-//            Row(children: <Widget>[Text("제품 명")]),
-//            Row(children: <Widget>[Text("설명")]),
-//            Row(children: <Widget>[Text("가격")])
-//          ]),
-//          Column(children: <Widget>[Container(child: Text("사진"))])
-//        ])
-//      ])),
-//
-//      Divider(color: Colors.black),
+      Divider(color: Colors.black),
 
-      // 베스트 상품, 선물추천, 팝콘, 음료, 스낵      추가하기
-//      StoreProduct(),
-//      makePackage(),
-//      Divider(color: Colors.black),
-//      makeTicket(),
-//      Divider(color: Colors.black),
-//      makeCombo(),
-//      Divider(color: Colors.black),
-//      makeGiftcard(),
-//      Divider(color: Colors.black),
       Card(child: Center(child: Text("이용안내")))
     ]));
   }
 }
 
-Widget makePackage() {
-  return Column(
-    children: <Widget>[for (int i = 0; i < 3; i++) StorePackage(repeat: i)],
-  );
-}
-
-Widget makeTicket() {
-  return Column(
-    children: <Widget>[for (int i = 0; i < 3; i++) StoreTicket(repeat: i)],
-  );
-}
-
 Widget makeCombo() {
   return Column(
-    children: <Widget>[for (int i = 0; i < 3; i++) StoreCombo(repeat: i)],
+    children: <Widget>[for (int i = 1; i < 4; i++) StoreCombo(repeat: i)],
   );
 }
 
 Widget makeGiftcard() {
   return Column(
-    children: <Widget>[for (int i = 0; i < 3; i++) StoreGiftcard(repeat: i)],
+    children: <Widget>[for (int i = 7; i < 10; i++) StoreGiftcard(repeat: i)],
+  );
+}
+
+Widget makePackage() {
+  return Column(
+    children: <Widget>[for (int i = 10; i < 13; i++) StorePackage(repeat: i)],
+  );
+}
+
+Widget makeTicket() {
+  return Column(
+    children: <Widget>[for (int i = 16; i < 19; i++) StoreTicket(repeat: i)],
   );
 }

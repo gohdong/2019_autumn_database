@@ -54,7 +54,7 @@ class StoreCombo extends StatelessWidget {
 
   Widget getComboImage() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_com').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -67,7 +67,7 @@ class StoreCombo extends StatelessWidget {
 
   Widget getComboName() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_com').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -79,7 +79,7 @@ class StoreCombo extends StatelessWidget {
 
   Widget getComboDescription() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_com').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -91,7 +91,7 @@ class StoreCombo extends StatelessWidget {
 
   Widget getComboPrice1() {
     return new StreamBuilder(
-      stream: Firestore.instance.collection('store_com').snapshots(),
+      stream: Firestore.instance.collection('store').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return new Text("Cannot Found..");
@@ -104,7 +104,7 @@ class StoreCombo extends StatelessWidget {
 //  Widget getComboPrice2() {
 //    return new StreamBuilder(
 //      stream: Firestore.instance
-//          .collection('store_com')
+//          .collection('store')
 //          .snapshots(),
 //      builder: (context, snapshot) {
 //        if (!snapshot.hasData) {
