@@ -8,7 +8,21 @@ import 'StoreRow.dart';
 import 'StoreTicket.dart';
 
 // 리스트뷰
-class Store extends StatelessWidget {
+
+class Store extends StatefulWidget {
+  @override
+  Store1 createState() => Store1();
+}
+
+class Store1 extends State<Store> with SingleTickerProviderStateMixin {
+  TabController ctr;
+
+  @override
+  void initState() {
+    super.initState();
+    ctr = new TabController(vsync: this, length: 4);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,29 +33,65 @@ class Store extends StatelessWidget {
               children: <Widget>[
                 Container(
                   child: StreamBuilder(
-                    stream: Firestore.instance
-                        .collection('store_main')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return new Text("Cannot Found..");
-                      }
-                      return new Image.network(snapshot.data.documents[0]['header']);
-                    }
-                  ),
+                      stream:
+                          Firestore.instance.collection('store').snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return new Text("Cannot Found..");
+                        }
+                        return new Image.network(
+                            snapshot.data.documents[0]['header']);
+                      }),
                 )
               ]),
           onTap: () {}),
       Divider(color: Colors.black),
-      ListTile(
-          title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                InkWell(child: Text("패키지"),onTap: (){},),
-                InkWell(child: Text("영화관람권"),onTap: (){},),
-                InkWell(child: Text("콤보"),onTap: (){},),
-                InkWell(child: Text("기프트카드"),onTap: (){},)
-          ])),
+
+      Container(
+        height: MediaQuery.of(context).size.height * 0.05,
+        margin: EdgeInsets.all(10),
+        decoration: new BoxDecoration(color: Theme.of(context).primaryColor),
+        child: new TabBar(
+          controller: ctr,
+          tabs: [
+            new Tab(
+              text: '콤보',
+            ),
+            new Tab(
+              text: '기프트카드',
+            ),
+            new Tab(
+              text: '패키지',
+            ),
+            new Tab(
+              text: '티켓',
+            ),
+          ],
+        ),
+      ),
+      Container(
+        height: MediaQuery.of(context).size.height * 0.75,
+//      margin: EdgeInsets.all(10),
+        child: TabBarView(
+          controller: ctr,
+          children: <Widget>[
+            makeCombo(),
+            makeGiftcard(),
+            makePackage(),
+            makeTicket(),
+          ],
+        ),
+      ),
+
+//      ListTile(
+//          title: Row(
+//              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//              children: <Widget>[
+//                InkWell(child: Text("패키지"),onTap: (){},),
+//                InkWell(child: Text("영화관람권"),onTap: (){},),
+//                InkWell(child: Text("콤보"),onTap: (){},),
+//                InkWell(child: Text("기프트카드"),onTap: (){},)
+//          ])),
       Divider(color: Colors.black),
 
 //      ListTile(
@@ -61,51 +111,39 @@ class Store extends StatelessWidget {
 
       // 베스트 상품, 선물추천, 팝콘, 음료, 스낵      추가하기
 //      StoreProduct(),
-      makePackage(),
-      Divider(color: Colors.black),
-      makeTicket(),
-      Divider(color: Colors.black),
-      makeCombo(),
-      Divider(color: Colors.black),
-      makeGiftcard(),
-      Divider(color: Colors.black),
+//      makePackage(),
+//      Divider(color: Colors.black),
+//      makeTicket(),
+//      Divider(color: Colors.black),
+//      makeCombo(),
+//      Divider(color: Colors.black),
+//      makeGiftcard(),
+//      Divider(color: Colors.black),
       Card(child: Center(child: Text("이용안내")))
     ]));
   }
 }
 
-Widget makePackage(){
+Widget makePackage() {
   return Column(
-    children: <Widget>[
-      for (int i = 0; i < 3; i++)
-        StorePackage(repeat: i)
-    ],
+    children: <Widget>[for (int i = 0; i < 3; i++) StorePackage(repeat: i)],
   );
 }
 
-Widget makeTicket(){
+Widget makeTicket() {
   return Column(
-    children: <Widget>[
-      for (int i = 0; i < 3; i++)
-        StoreTicket(repeat: i)
-    ],
+    children: <Widget>[for (int i = 0; i < 3; i++) StoreTicket(repeat: i)],
   );
 }
 
-Widget makeCombo(){
+Widget makeCombo() {
   return Column(
-    children: <Widget>[
-      for (int i = 0; i < 3; i++)
-        StoreCombo(repeat: i)
-    ],
+    children: <Widget>[for (int i = 0; i < 3; i++) StoreCombo(repeat: i)],
   );
 }
 
-Widget makeGiftcard(){
+Widget makeGiftcard() {
   return Column(
-    children: <Widget>[
-      for (int i = 0; i < 3; i++)
-        StoreGiftcard(repeat: i)
-    ],
+    children: <Widget>[for (int i = 0; i < 3; i++) StoreGiftcard(repeat: i)],
   );
 }
