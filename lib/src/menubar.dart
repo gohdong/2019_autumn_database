@@ -29,7 +29,7 @@ class MenuBar extends StatelessWidget {
                 'Login':'$name님 환영합니다.',textScaleFactor: 1.3,),
               onTap: (){
                 counter.getCounter()==0?
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login())
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login(counter: counter,))
                 ) : Text("dd");
               },
             ),
@@ -41,8 +41,7 @@ class MenuBar extends StatelessWidget {
           ListTile(
             title: Text('Home',textScaleFactor: 1.5,),
             onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => MyApp()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Tabs()));
             },
           ),
           Divider(),
@@ -56,6 +55,7 @@ class MenuBar extends StatelessWidget {
             title: Text(counter.getCounter()==0? '':'LogOut',textScaleFactor: 1.5,),
             onTap: () {
               Navigator.of(context).pop();
+              signOutGoogle();
               counter.decrement();
             },
           ),

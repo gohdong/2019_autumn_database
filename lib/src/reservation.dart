@@ -51,7 +51,6 @@ class ParentReserve extends State<Reserve> {
   @override
   void initState() {
     super.initState();
-    print(reState.seatlist.length.toString());
 
   }
 
@@ -143,6 +142,9 @@ class ParentReserve extends State<Reserve> {
   }
 
   Widget _Purchase_button(document) {
+    final Color zero = Colors.grey[700];
+    final Color more = Colors.orangeAccent;
+
     return Center(
         child: InkWell(
       onTap: () {
@@ -168,7 +170,7 @@ class ParentReserve extends State<Reserve> {
         height: 48.0,
         decoration: BoxDecoration(
           border: Border.all(width: 1, color: Colors.black),
-          color: Colors.orangeAccent,
+          color: reState.seatlist.length == 0 ? zero : more,
           borderRadius: BorderRadius.all(
             Radius.circular(10.0),
           )
