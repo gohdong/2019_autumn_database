@@ -10,9 +10,13 @@ import 'package:flutter/material.dart';
 
 class Screen_purchase extends StatelessWidget {
 
-  Screen_purchase({Key key, this.title, this.time}) : super(key: key);
+  Screen_purchase({Key key, this.title, this.time, this.select_list, this.count}) : super(key: key);
   final String title;
   final String time;
+  final List<String> select_list;
+  final int count;
+//  final int select_list;
+
   Firestore firestore = Firestore.instance;
   List<String> list = ['Aa',"Bb"];
   String x = "none11";
@@ -62,8 +66,8 @@ class Screen_purchase extends StatelessWidget {
       appBar: AppBar(title: Text("결제")),
       body: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
-              .collection('time_table')
-              .where('title', isEqualTo: "겨울왕국2")
+              .collection('movie')
+              .where('name', isEqualTo: "겨울왕국2")
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -141,15 +145,27 @@ class Screen_purchase extends StatelessWidget {
                             child: Text("영화정보", style: TextStyle(
                             ),
                           )
-                            
                         )),
-                        Text(title, style : TextStyle(
-                          fontSize: 20,
-                        )),
-                        Text(time),
-                        Text("좌석"),
-                        for(i=0;i<select.length;i++)
-                          Text(select[i])
+                        Row(children: <Widget>[
+                          Text(document['name'], style : TextStyle(
+                            fontSize: 20,
+                          )),
+                        ],),
+                        Row(
+                          children: <Widget>[
+                            Text("영화시작 시간 : "),
+                            Text(document['name']),
+                          ],
+                        ),
+
+                        Row(children: <Widget>[
+                          Text("좌석 : "),
+                          for(i=0;i<select_list.length;i++)
+                            if(i < select_list.length-1) Text(select_list[i] + ", ")
+                            else Text(select_list[i]),
+                        ],),
+
+
                       ],
                     )
                   )

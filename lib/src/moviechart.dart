@@ -1,7 +1,9 @@
 import 'package:dbapp/src/moviepage.dart';
+import 'package:dbapp/src/reservation_time_table.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dbapp/src/reservation_time_table.dart';
 
 class MovieChart extends StatefulWidget {
   @override
@@ -96,7 +98,12 @@ class MovieChartState extends State<MovieChart> {
                 "지금예매",
                 textScaleFactor: 0.7,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Show_time_table(document['name'])));
+//                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Show_time_table()));
+
+              },
+
               shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(20.0)),
               color: Colors.black,
