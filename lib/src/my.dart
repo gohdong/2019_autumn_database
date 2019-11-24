@@ -90,6 +90,7 @@ Column menuSection(Counter counter) {
     ListTile(
       title: Text('개인정보 관리'),
       trailing: Icon(Icons.arrow_forward_ios),
+
     ),
     Divider(),
     ListTile(
