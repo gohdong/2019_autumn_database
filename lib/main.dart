@@ -1,4 +1,5 @@
 import 'package:dbapp/src/data/is_login.dart';
+import 'package:dbapp/src/event.dart';
 import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/menubar.dart';
 import 'package:dbapp/src/my.dart';
@@ -50,7 +51,7 @@ class _TabsState extends State<Tabs> {
   Widget build(BuildContext context) {
     final _kTabPages = <Widget>[
       Center(child: Home()),
-      Center(child: Icon(Icons.alarm, size: 64.0, color: Colors.cyan)),
+      Center(child: Event()),
       Center(child: Store()),
       Center(child: My()),
     ];
