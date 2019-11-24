@@ -210,7 +210,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: bce82c76043657c99d91e7882e8a9e1a93650cd4
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
-  cloud_firestore: 187530401afa261d255791ea75580591e345fa7b
+  cloud_firestore: c6e28e89a1bf98faab7fc8fdec20dc6020799cd1
   Firebase: da031bc7012374e3bed17a6731b89327b29863b9
   firebase_auth: d99b993c1405096e66c58211b1cd956c23eed1c5
   firebase_core: 77196106dc5f61b425f58b2f8f050347db10e4e0

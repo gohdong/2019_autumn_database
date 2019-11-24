@@ -1037,7 +1037,7 @@ class _MoviePageState extends State<MoviePage>
                   'movieID' : movieID
 
                 });
-
+                _description.clear();
                 Navigator.of(context).pop();
               },
               textColor: Colors.blue,
