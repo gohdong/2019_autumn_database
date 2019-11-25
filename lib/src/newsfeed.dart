@@ -214,9 +214,23 @@ class NewsFeedState extends State<NewsFeed> {
 
   void pushLikeButton() {
     if (pushLike) {
-      document.reference.updateData({'like': document['like']});
+      try {
+        db
+            .collection('feed')
+            .document()
+            .updateData({'like': document['like'] - 1});
+      } catch (e) {
+        print(e.toString());
+      }
     } else {
-      document.reference.updateData({'like': document['like'] + 1});
+      try {
+        db
+            .collection('feed')
+            .document()
+            .updateData({'like': document['like'] + 1});
+      } catch (e) {
+        print(e.toString());
+      }
     }
     pushLike = !pushLike;
   }

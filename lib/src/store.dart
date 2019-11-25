@@ -46,19 +46,6 @@ class Store1 extends State<Store> with SingleTickerProviderStateMixin {
               ]),
           onTap: () {}),
       Divider(color: Colors.black),
-
-//      ListTile(
-//          title: Column(children: <Widget>[
-//        Row(children: <Widget>[Text("고객님께 추천하는 영화볼 때 필수 아이템")]),
-//        Row(children: <Widget>[
-//          Column(children: <Widget>[
-//            Row(children: <Widget>[Text("제품 명")]),
-//            Row(children: <Widget>[Text("설명")]),
-//            Row(children: <Widget>[Text("가격")])
-//          ]),
-//          Column(children: <Widget>[Container(child: Text("사진"))])
-//        ])
-//      ])),
       Container(
         height: MediaQuery.of(context).size.height * 0.05,
         margin: EdgeInsets.all(10),

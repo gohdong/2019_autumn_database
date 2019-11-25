@@ -24,9 +24,9 @@ class MoviePage extends StatefulWidget {
 
 class _MoviePageState extends State<MoviePage>
     with SingleTickerProviderStateMixin {
+  bool pushLike = false;
   final db = Firestore.instance;
   TabController _controller;
-
 
   String movieID;
 
@@ -51,11 +51,14 @@ class _MoviePageState extends State<MoviePage>
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.chat),
           onPressed: () {
-            if(counter.getCounter()==0){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login(counter: counter,)));
-            }
-            else{
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AddReview(movieID)));
+            if (counter.getCounter() == 0) {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Login(
+                        counter: counter,
+                      )));
+            } else {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => AddReview(movieID)));
             }
           },
         ),
@@ -63,6 +66,8 @@ class _MoviePageState extends State<MoviePage>
   }
 
   Widget getMovieTrailer() {
+    final counter = Provider.of<Counter>(context);
+
     return new StreamBuilder(
       stream:
           Firestore.instance.collection('movie').document(movieID).snapshots(),
@@ -137,11 +142,38 @@ class _MoviePageState extends State<MoviePage>
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Icon(Icons.favorite),
-                          Text(snapshot.data['like'].toString())
+                          Icon(pushLike ? Icons.favorite : Icons.favorite_border,
+                              color: Colors.pink),
+                          Text(
+                              snapshot.data['like'].toString())
                         ],
                       ),
-                      onPressed: () {},
+
+                      onPressed: () {
+                        if(counter.getCounter() == 1){
+                          if(!pushLike){
+                          try {
+                          db.collection('movie').document(movieID)
+                              .updateData({'like': snapshot.data['like']+1});
+                        } catch (e) {
+                          print(e.toString());
+                          }
+                        }
+                        else{
+                          try {
+                            db.collection('movie').document(movieID)
+                                .updateData({'like': snapshot.data['like']-1});
+                          } catch (e) {
+                            print(e.toString());
+                          }
+                        }
+                        pushLike = !pushLike;}
+                        else{
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Login(
+                              )));
+                        }
+                      }
                     ),
                   ),
                   Expanded(
@@ -322,7 +354,8 @@ class _MoviePageState extends State<MoviePage>
           child: StreamBuilder(
             stream: Firestore.instance
                 .collection('reviews')
-                .where('movieID', isEqualTo: movieID).orderBy('date',descending: true)
+                .where('movieID', isEqualTo: movieID)
+                .orderBy('date', descending: true)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData)
@@ -363,7 +396,6 @@ class _MoviePageState extends State<MoviePage>
 //                    ),
 //                  );
 
-
 //                  return ListTile(
 //                    leading: CircleAvatar(
 //                      radius: 25.0,
@@ -381,37 +413,50 @@ class _MoviePageState extends State<MoviePage>
                     children: <Widget>[
                       ExpandablePanel(
                         header: Container(
-                          margin: EdgeInsets.only(left: 10,right: 10,bottom: 5),
+                          margin:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 5),
                           child: Row(
                             children: <Widget>[
-                          CircleAvatar(
-                            radius: 25.0,
-                            child: Text(snapshot.data.documents[index]['writer']),
-                          ),
+                              CircleAvatar(
+                                radius: 25.0,
+                                child: Text(
+                                    snapshot.data.documents[index]['writer']),
+                              ),
                               Expanded(
                                 child: Container(
                                   margin: EdgeInsets.only(left: 10),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
                                         snapshot.data.documents[index]['title'],
                                         textScaleFactor: 1.5,
-                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                      Text(snapshot.data.documents[index]['date'].toDate().toString().split('.')[0],textScaleFactor: 0.9,style: TextStyle(color: Colors.black45),)
+                                      Text(
+                                        snapshot.data.documents[index]['date']
+                                            .toDate()
+                                            .toString()
+                                            .split('.')[0],
+                                        textScaleFactor: 0.9,
+                                        style: TextStyle(color: Colors.black45),
+                                      )
                                     ],
                                   ),
                                 ),
                               ),
-                              reviewTail(snapshot.data.documents[index]['score'])
+                              reviewTail(
+                                  snapshot.data.documents[index]['score'])
                             ],
                           ),
                         ),
                         expanded: Column(
                           children: <Widget>[
                             Container(
-                              padding: EdgeInsets.only(left: 70),alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.only(left: 70),
+                              alignment: Alignment.centerLeft,
                               child: Text(
                                 snapshot.data.documents[index]['description'],
                                 softWrap: true,
@@ -442,7 +487,11 @@ class _MoviePageState extends State<MoviePage>
                         tapHeaderToExpand: true,
                         hasIcon: false,
                       ),
-                      Divider(thickness: 1.5,endIndent: 10,indent: 10,)
+                      Divider(
+                        thickness: 1.5,
+                        endIndent: 10,
+                        indent: 10,
+                      )
                     ],
                   );
                 },
@@ -453,7 +502,6 @@ class _MoviePageState extends State<MoviePage>
       ],
     );
   }
-
 
   Widget starPoint(double score, double size) {
     if (score >= 95) {
@@ -1051,18 +1099,24 @@ class _MoviePageState extends State<MoviePage>
     return null;
   }
 
-
-  Widget reviewTail(int score){
-    if(score ==100){
-      return Icon(Icons.thumb_up,color: Colors.blue,);
+  Widget reviewTail(int score) {
+    if (score == 100) {
+      return Icon(
+        Icons.thumb_up,
+        color: Colors.blue,
+      );
     }
-    if(score ==50){
-      return Icon(Icons.thumbs_up_down,color: Colors.amber,);
-
+    if (score == 50) {
+      return Icon(
+        Icons.thumbs_up_down,
+        color: Colors.amber,
+      );
     }
-    return Icon(Icons.thumb_down,color: Colors.red,);
+    return Icon(
+      Icons.thumb_down,
+      color: Colors.red,
+    );
   }
-
 
 //  Widget getAvgScore(){
 //    int _total = 0;
@@ -1086,8 +1140,5 @@ class _MoviePageState extends State<MoviePage>
 //      },
 //    );
 //  }
-
-
-
 
 }
