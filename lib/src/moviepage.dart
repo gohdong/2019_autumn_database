@@ -305,7 +305,7 @@ class _MoviePageState extends State<MoviePage>
                     textScaleFactor: 2,
                   ),
                   Text(
-                    "80",
+                    80.toString(),
                     textScaleFactor: 1.5,
                   )
                 ],
@@ -314,7 +314,7 @@ class _MoviePageState extends State<MoviePage>
             Container(
               height: MediaQuery.of(context).size.height * 0.15,
               width: MediaQuery.of(context).size.width * 0.8,
-              child: starPoint(80, 0.07),
+              child: starPoint(70, 0.07),
             ),
           ],
         ),
@@ -455,7 +455,7 @@ class _MoviePageState extends State<MoviePage>
   }
 
 
-  Widget starPoint(int score, double size) {
+  Widget starPoint(double score, double size) {
     if (score >= 95) {
       return Row(
         children: <Widget>[
@@ -1063,6 +1063,29 @@ class _MoviePageState extends State<MoviePage>
     return Icon(Icons.thumb_down,color: Colors.red,);
   }
 
+
+//  Widget getAvgScore(){
+//    int _total = 0;
+//    return StreamBuilder(
+//      stream: Firestore.instance.collection('reviews').where('movieID', isEqualTo: movieID).snapshots(),
+//      builder: (context,snapshot){
+//        if (!snapshot.hasData)
+//          return starPoint(0, 0.07);
+//        return ListView.builder(
+//          itemCount: snapshot.data.documents.length,
+//          itemBuilder: (context, index) {
+//            _total += snapshot.data.documents[index]['score'];
+//
+//            if(index == snapshot.data.documents.length-1){
+//              return starPoint(_total/snapshot.data.documents.length, 0.07);
+//            }
+//            return null;
+//
+//          },
+//        );
+//      },
+//    );
+//  }
 
 
 
