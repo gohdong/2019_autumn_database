@@ -48,44 +48,11 @@ class _AddReviewState extends State<AddReview> {
   }
 
   Widget addReview() {
+
     return Container(
       margin: EdgeInsets.only(left: 10, right: 10),
       child: Column(
         children: <Widget>[
-//          new Row(
-//            mainAxisAlignment: MainAxisAlignment.center,
-//            children: <Widget>[
-//              new Radio(
-//                value: 0,
-//                groupValue: _radioValue,
-//                onChanged: _handleRadioValueChange,
-//              ),
-//              new Text(
-//                'BAD',
-//                style: new TextStyle(fontSize: 16.0),
-//              ),
-//              new Radio(
-//                value: 1,
-//                groupValue: _radioValue,
-//                onChanged: _handleRadioValueChange,
-//              ),
-//              new Text(
-//                'SOSO',
-//                style: new TextStyle(
-//                  fontSize: 16.0,
-//                ),
-//              ),
-//              new Radio(
-//                value: 2,
-//                groupValue: _radioValue,
-//                onChanged: _handleRadioValueChange,
-//              ),
-//              new Text(
-//                'GOOD',
-//                style: new TextStyle(fontSize: 16.0),
-//              ),
-//            ],
-//          ),
           Row(
             children: <Widget>[
               Expanded(
@@ -167,12 +134,18 @@ class _AddReviewState extends State<AddReview> {
 
             ],
           ),
+          Text(movieID),
+
         ],
       ),
     );
   }
 
   void _showDialog(BuildContext context, Firestore db) {
+    int _currentCount;
+    int _currentScore;
+
+
     // flutter defined function
     showDialog(
       context: context,
@@ -186,13 +159,17 @@ class _AddReviewState extends State<AddReview> {
             new FlatButton(
               child: new Text("Confirm"),
               onPressed: () async {
-                await db.collection('reviews').add({
+                await db.collection('movie').document(movieID).collection('reviews').add({
                   'title' : _title.text,
                   'description': _description.text,
                   'writer': "$name",
                   'date': Timestamp.now(),
                   'score': _myScore,
                   'movieID': movieID
+                });
+
+                await db.collection('movie').document(movieID).updateData({
+                  'test' : 'test'
                 });
 
                 _description.clear();
@@ -232,7 +209,18 @@ class _AddReviewState extends State<AddReview> {
     });
   }
 
-
+  Widget getCount() {
+    return StreamBuilder(
+      stream: Firestore.instance.collection('movie').document(movieID).snapshots(),
+      builder: (context,snapshot){
+        if (!snapshot.hasData) return Center(child: Text("Can't find"));
+        return Text(
+          snapshot.data['name'],
+          textScaleFactor: 0.9,
+        );
+      },
+    );
+  }
 
 
 }

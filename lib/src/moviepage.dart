@@ -323,39 +323,13 @@ class _MoviePageState extends State<MoviePage>
   Widget review() {
     return Column(
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            Container(
-              height: MediaQuery.of(context).size.height * 0.15,
-              width: MediaQuery.of(context).size.width * 0.15,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "평점",
-                    textScaleFactor: 2,
-                  ),
-                  Text(
-                    80.toString(),
-                    textScaleFactor: 1.5,
-                  )
-                ],
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.15,
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: starPoint(70, 0.07),
-            ),
-          ],
-        ),
+        reviewTop(),
         Flexible(
           child: StreamBuilder(
             stream: Firestore.instance
-                .collection('reviews')
-                .where('movieID', isEqualTo: movieID)
-                .orderBy('date', descending: true)
+
+                .collection('movie')
+                .document(movieID).collection('reviews').orderBy('date',descending: true)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData)
@@ -503,7 +477,8 @@ class _MoviePageState extends State<MoviePage>
     );
   }
 
-  Widget starPoint(double score, double size) {
+
+  Widget starPoint(int score, double size) {
     if (score >= 95) {
       return Row(
         children: <Widget>[
@@ -1039,6 +1014,8 @@ class _MoviePageState extends State<MoviePage>
           child: Text(
             snapshot.data['summary'].replaceAll("\\n", "\n"),
             textScaleFactor: 1,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 14,
           ),
         );
       },
@@ -1140,5 +1117,46 @@ class _MoviePageState extends State<MoviePage>
 //      },
 //    );
 //  }
+
+  Widget reviewTop(){
+    return StreamBuilder(
+      stream: Firestore.instance.collection('movie').document(movieID).snapshots(),
+      builder: (context,snapshot){
+        if(!snapshot.hasData){
+          return Center(child: CircularProgressIndicator());
+        }
+        return Row(
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height * 0.15,
+              width: MediaQuery.of(context).size.width * 0.15,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "평점",
+                    textScaleFactor: 2,
+                  ),
+                  Text(
+                    snapshot.data['avgRating'].toInt().toString(),
+                    textScaleFactor: 1.5,
+                  )
+                ],
+              ),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.15,
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: starPoint(snapshot.data['avgRating'].toInt(), 0.07),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+
 
 }
