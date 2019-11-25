@@ -73,7 +73,7 @@ class EventListState extends State<EventList> {
 
   Widget newsFeedBuild() {
     return StreamBuilder(
-      stream: db.collection('event').snapshots(),
+      stream: db.collection('event').where('kind', isEqualTo: 'special').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
@@ -235,7 +235,7 @@ class TopEventState extends State<TopEvent> {
 
   Widget newsFeedBuild() {
     return StreamBuilder(
-      stream: db.collection('eventTop').snapshots(),
+      stream: db.collection('event').where('kind', isEqualTo: 'top').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
