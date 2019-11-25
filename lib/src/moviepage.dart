@@ -1,9 +1,15 @@
+import 'package:dbapp/src/addreview.dart';
+import 'package:dbapp/src/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
 import 'newsfeed.dart';
+import 'package:provider/provider.dart';
+import 'data/is_login.dart';
+import 'data/sign_in.dart';
+import 'package:expandable/expandable.dart';
 
 class MoviePage extends StatefulWidget {
   String movieID;
@@ -20,8 +26,7 @@ class _MoviePageState extends State<MoviePage>
     with SingleTickerProviderStateMixin {
   final db = Firestore.instance;
   TabController _controller;
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController _description = TextEditingController();
+
 
   String movieID;
 
@@ -37,9 +42,22 @@ class _MoviePageState extends State<MoviePage>
 
   @override
   Widget build(BuildContext context) {
+    final counter = Provider.of<Counter>(context);
+
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.chat),
+          onPressed: () {
+            if(counter.getCounter()==0){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login(counter: counter,)));
+            }
+            else{
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AddReview(movieID)));
+            }
+          },
         ),
         body: getMovieTrailer());
   }
@@ -271,86 +289,173 @@ class _MoviePageState extends State<MoviePage>
   }
 
   Widget review() {
-    return StreamBuilder(
-      stream: Firestore.instance
-          .collection('reviews')
-          .where('movieID', isEqualTo: movieID)
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return Center(child: CircularProgressIndicator());
-        return ListView.builder(
-          itemCount: snapshot.data.documents.length + 2,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return Row(
+    return Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height * 0.15,
+              width: MediaQuery.of(context).size.width * 0.15,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "평점",
-                          textScaleFactor: 2,
-                        ),
-                        Text(
-                          "80",
-                          textScaleFactor: 1.5,
-                        )
-                      ],
-                    ),
+                  Text(
+                    "평점",
+                    textScaleFactor: 2,
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: starPoint(80, 0.07),
-                  ),
-                ],
-              );
-            }
-            if (index == 1) {
-              return addReview();
-            }
-            return Container(
-              height: MediaQuery.of(context).size.height * 0.1,
-              margin: EdgeInsets.only(left: 10,right: 10),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: starPoint(
-                          snapshot.data.documents[index - 2]['score'], 0.02)),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          snapshot.data.documents[index - 2]['writer'],
-                          textScaleFactor: 1.5,
-                        ),
-                        Container(
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: Text(
-                              snapshot.data.documents[index - 2]['description'],
-                            )),
-                      ],
-                    ),
-                  ),
+                  Text(
+                    80.toString(),
+                    textScaleFactor: 1.5,
+                  )
                 ],
               ),
-            );
-          },
-        );
-      },
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.15,
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: starPoint(70, 0.07),
+            ),
+          ],
+        ),
+        Flexible(
+          child: StreamBuilder(
+            stream: Firestore.instance
+                .collection('reviews')
+                .where('movieID', isEqualTo: movieID).orderBy('date',descending: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return Center(child: CircularProgressIndicator());
+              return ListView.builder(
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (context, index) {
+//                  return Container(
+//                    height: MediaQuery.of(context).size.height * 0.1,
+//                    margin: EdgeInsets.only(left: 10, right: 10),
+//                    child: Row(
+//                      children: <Widget>[
+//                        Container(
+//                            width: MediaQuery.of(context).size.width * 0.2,
+//                            child: starPoint(
+//                                snapshot.data.documents[index]['score'], 0.02)),
+//                        Container(
+//                          margin: EdgeInsets.only(left: 10),
+//                          child: Column(
+//                            mainAxisAlignment: MainAxisAlignment.center,
+//                            crossAxisAlignment: CrossAxisAlignment.start,
+//                            children: <Widget>[
+//                              Text(
+//                                snapshot.data.documents[index]['writer'],
+//                                textScaleFactor: 1.5,
+//                              ),
+//                              Container(
+//                                  width:
+//                                      MediaQuery.of(context).size.width * 0.7,
+//                                  child: Text(
+//                                    snapshot.data.documents[index]
+//                                        ['description'],
+//                                  )),
+//                            ],
+//                          ),
+//                        ),
+//                      ],
+//                    ),
+//                  );
+
+
+//                  return ListTile(
+//                    leading: CircleAvatar(
+//                      radius: 25.0,
+//                      child: Text(snapshot.data.documents[index]['writer']),
+//                    ),
+//                    title: Text(snapshot.data.documents[index]['title']),
+//                    subtitle: Text(snapshot.data.documents[index]['date'].toDate().toString().split('.')[0]),
+//                    trailing: reviewTail(snapshot.data.documents[index]['score']),
+//                    onTap: (){
+//
+//                    },
+//                  );
+
+                  return Column(
+                    children: <Widget>[
+                      ExpandablePanel(
+                        header: Container(
+                          margin: EdgeInsets.only(left: 10,right: 10,bottom: 5),
+                          child: Row(
+                            children: <Widget>[
+                          CircleAvatar(
+                            radius: 25.0,
+                            child: Text(snapshot.data.documents[index]['writer']),
+                          ),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        snapshot.data.documents[index]['title'],
+                                        textScaleFactor: 1.5,
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(snapshot.data.documents[index]['date'].toDate().toString().split('.')[0],textScaleFactor: 0.9,style: TextStyle(color: Colors.black45),)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              reviewTail(snapshot.data.documents[index]['score'])
+                            ],
+                          ),
+                        ),
+                        expanded: Column(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(left: 70),alignment: Alignment.centerLeft,
+                              child: Text(
+                                snapshot.data.documents[index]['description'],
+                                softWrap: true,
+                                style: TextStyle(fontStyle: FontStyle.italic),
+                              ),
+                            ),
+//                        Container(
+//                            child: Row(
+//                              children: <Widget>[
+//                                Expanded(
+//                                  child: Text(
+//                                    'By ' + document['name'],
+//                                    textScaleFactor: 1.5,
+//                                    style: TextStyle(fontStyle: FontStyle.italic),
+//                                  ),
+//                                ),
+//                                IconButton(
+//                                  icon: Icon(Icons.delete_forever),
+//                                  iconSize: 40,
+//                                  onPressed: () {
+//                                    _showDialog(context, db, document);
+//                                  },
+//                                )
+//                              ],
+//                            ))
+                          ],
+                        ),
+                        tapHeaderToExpand: true,
+                        hasIcon: false,
+                      ),
+                      Divider(thickness: 1.5,endIndent: 10,indent: 10,)
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
-  Widget starPoint(int score, double size) {
+
+  Widget starPoint(double score, double size) {
     if (score >= 95) {
       return Row(
         children: <Widget>[
@@ -946,113 +1051,43 @@ class _MoviePageState extends State<MoviePage>
     return null;
   }
 
-  Widget addReview() {
 
+  Widget reviewTail(int score){
+    if(score ==100){
+      return Icon(Icons.thumb_up,color: Colors.blue,);
+    }
+    if(score ==50){
+      return Icon(Icons.thumbs_up_down,color: Colors.amber,);
 
-    return Container(
-      margin: EdgeInsets.only(left: 10, right: 10),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Form(
-              key: _formKey,
-              child: TextFormField(
-                controller: _description,
-                decoration: InputDecoration(hintText: 'Enter Description'),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return "Input Description.";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ),
-          FlatButton(
-            child: Text("Post"),
-            color: Colors.blueAccent,
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                _showDialog(context, db);
-              }
-            },
-          )
-        ],
-      ),
-    );
-
-//    return Container(
-//      height: 300,
-//      width: MediaQuery.of(context).size.width,
-//      child: Form(
-//        key: _formKey,
-//        child: Row(
-//          children: <Widget>[
-//            Container(
-//              child: TextFormField(
-//                controller: _description,
-//                decoration: InputDecoration(hintText: 'Enter Description'),
-//                validator: (String value) {
-//                  if (value.isEmpty) {
-//                    return "Input Description.";
-//                  }
-//                  return null;
-//                },
-//              ),
-//            ),
-//            FlatButton(
-//              child: Text("Post"),
-//              color: Colors.blueAccent,
-//              onPressed: () async {
-//                if (_formKey.currentState.validate()) {
-////                _showDialog(context, db);
-//                }
-//              },
-//            )
-//          ],
-//        ),
-//      ),
-//    );
+    }
+    return Icon(Icons.thumb_down,color: Colors.red,);
   }
 
-  void _showDialog(BuildContext context, Firestore db) {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return CupertinoAlertDialog(
-          title: new Text("Alert"),
-          content: new Text("Are you sure to add it?"),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Confirm"),
-              onPressed: () async {
-                await db.collection('reviews').add({
-                  'description': _description.text,
-                  'writer': "아직 테스트",
-                  'date': Timestamp.now(),
-                  'score' : 80,
-                  'movieID' : movieID
 
-                });
-                _description.clear();
-                Navigator.of(context).pop();
-              },
-              textColor: Colors.blue,
-            ),
-            new FlatButton(
-              child: new Text("Cancel"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              textColor: Colors.red,
-            ),
-          ],
-        );
-      },
-    );
-  }
+//  Widget getAvgScore(){
+//    int _total = 0;
+//    return StreamBuilder(
+//      stream: Firestore.instance.collection('reviews').where('movieID', isEqualTo: movieID).snapshots(),
+//      builder: (context,snapshot){
+//        if (!snapshot.hasData)
+//          return starPoint(0, 0.07);
+//        return ListView.builder(
+//          itemCount: snapshot.data.documents.length,
+//          itemBuilder: (context, index) {
+//            _total += snapshot.data.documents[index]['score'];
 //
+//            if(index == snapshot.data.documents.length-1){
+//              return starPoint(_total/snapshot.data.documents.length, 0.07);
+//            }
+//            return null;
+//
+//          },
+//        );
+//      },
+//    );
+//  }
+
+
+
+
 }
