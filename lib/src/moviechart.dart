@@ -26,7 +26,9 @@ class MovieChartState extends State<MovieChart> {
       height: size.height * 0.5,
       padding: EdgeInsets.all(10),
       child: Column(
-        children: <Widget>[Flexible(child: newsFeedBuild())],
+        children: <Widget>[
+          Text("Movie Chart",),
+          Flexible(child: newsFeedBuild())],
       ),
     );
   }

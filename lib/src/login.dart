@@ -46,10 +46,12 @@ class _LoginState extends State<Login> {
       splashColor: Colors.grey,
       onPressed: () {
         signInWithGoogle().whenComplete(() {
-          Navigator.of(context).pop();
-          counter.increment();
-        });
+          if ("$email" != "null"){
+            counter.increment();
+            Navigator.of(context).pop();
+          }
 
+        });
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40),),
       highlightElevation: 0,
