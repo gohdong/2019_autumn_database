@@ -228,27 +228,25 @@ class TopEventState extends State<TopEvent> {
     return Container(
       height: size.height*0.25,
       child: Column(
-        children: <Widget>[Flexible(child: newsFeedBuild())],
+        children: <Widget>[Flexible(
+            child: StreamBuilder(
+              stream: db.collection('event').where('kind', isEqualTo: 'top').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Center(child: CircularProgressIndicator());
+                return ListView.builder(
+                  itemCount: snapshot.data.documents.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return cardBuild(snapshot.data.documents[index]);
+                  },
+                );
+              },
+            ))],
       ),
     );
   }
 
-  Widget newsFeedBuild() {
-    return StreamBuilder(
-      stream: db.collection('event').where('kind', isEqualTo: 'top').snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return Center(child: CircularProgressIndicator());
-        return ListView.builder(
-          itemCount: snapshot.data.documents.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return cardBuild(snapshot.data.documents[index]);
-          },
-        );
-      },
-    );
-  }
 
   Widget cardBuild(DocumentSnapshot document) {
     Size size = MediaQuery.of(context).size;
