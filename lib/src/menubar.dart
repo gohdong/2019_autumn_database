@@ -3,12 +3,10 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dbapp/main.dart';
 import 'package:dbapp/src/data/is_login.dart';
-
 import 'package:dbapp/src/event.dart';
 import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/login.dart';
 import 'package:dbapp/src/my.dart';
-
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -210,6 +208,7 @@ class MenuBar extends StatelessWidget {
           gridComponent(Icons.collections_bookmark, "매거진"),
           gridComponent(Icons.event_seat, "club서비스"),
           gridComponent(Icons.headset_mic, "고객센터")
+
 
         ],
       ),
