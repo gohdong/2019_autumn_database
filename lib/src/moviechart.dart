@@ -99,7 +99,7 @@ class MovieChartState extends State<MovieChart> {
                 textScaleFactor: 0.7,
               ),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Show_time_table(document['name'])));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Show_time_table(document.documentID, document)));
 //                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Show_time_table()));
 
               },
