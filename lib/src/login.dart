@@ -30,7 +30,7 @@ class _LoginState extends State<Login> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Image(image: AssetImage("img/gva_logo.png"), width: size.width,),
+              Image(image: AssetImage("img/gva_logo.png"), width: size.width*0.7,),
               SizedBox(height: 50),
               _signInButton(),
             ],
@@ -46,10 +46,12 @@ class _LoginState extends State<Login> {
       splashColor: Colors.grey,
       onPressed: () {
         signInWithGoogle().whenComplete(() {
-          Navigator.of(context).pop();
-          counter.increment();
-        });
+          if ("$email" != "null"){
+            counter.increment();
+            Navigator.of(context).pop();
+          }
 
+        });
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40),),
       highlightElevation: 0,

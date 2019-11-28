@@ -1,4 +1,5 @@
 import 'package:dbapp/src/login.dart';
+import 'package:dbapp/src/purchase.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +41,7 @@ class _MyState extends State<My> {
             height: 7,
             color: Colors.black12,
           ),
-          Container(child: menuSection(counter))
+          Container(child: menuSection(counter,context))
         ],
       ),
     );
@@ -84,12 +85,16 @@ Column _buildButtonColumn(IconData icon, String label) {
   );
 }
 
-Column menuSection(Counter counter) {
+Column menuSection(Counter counter,BuildContext context) {
   return Column(children: <Widget>[
 //        Divider(),
     ListTile(
-      title: Text('개인정보 관리'),
+      title: Text('구매내역'),
       trailing: Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Purchase()));
+      },
+
     ),
     Divider(),
     ListTile(

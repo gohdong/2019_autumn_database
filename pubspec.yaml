@@ -27,13 +27,14 @@ dependencies:
   provider: ^3.1.0+1
   google_sign_in: ^4.0.13
   firebase_auth: ^0.14.0+9
-  cloud_firestore: ^0.12.10
+  cloud_firestore: ^0.12.10+2
   pull_to_refresh: ^1.5.7
   youtube_player_flutter: ^6.0.3+2
   flutter_statusbarcolor: ^0.2.3
   shared_preferences: ^0.5.4+5
   polygon_clipper: ^1.0.2
   http:
+  expandable:
 
 dev_dependencies:
   flutter_test:

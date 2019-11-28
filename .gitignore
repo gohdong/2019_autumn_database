@@ -27,9 +27,12 @@
 .packages
 .pub-cache/
 .pub/
-/build/
+/build
+functions/
 
 **/android/app/google-services.json
+**/ios/Runner/GoogleService-Info.plist
+
 
 
 # Web related
