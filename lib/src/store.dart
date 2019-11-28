@@ -21,8 +21,7 @@ class Store1 extends State<Store> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: ListView(children: <Widget>[
+    return ListView(children: <Widget>[
       ListTile(
           title: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -30,7 +29,7 @@ class Store1 extends State<Store> with SingleTickerProviderStateMixin {
                 Container(
                   child: StreamBuilder(
                       stream:
-                          Firestore.instance.collection('store').snapshots(),
+                      Firestore.instance.collection('store').snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return new Text("Cannot Found..");
@@ -81,7 +80,7 @@ class Store1 extends State<Store> with SingleTickerProviderStateMixin {
       Divider(color: Colors.black),
 
       Card(child: Center(child: Text("이용안내")))
-    ]));
+    ]);
   }
 }
 
