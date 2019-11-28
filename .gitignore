@@ -27,7 +27,7 @@
 .packages
 .pub-cache/
 .pub/
-/bu
+/build
 functions/
 
 **/android/app/google-services.json
