@@ -167,6 +167,11 @@ class _AddReviewState extends State<AddReview> {
                   'score': _myScore,
                   'movieID': movieID
                 });
+                await db.collection('member').document('wangjh789@gmail.com').updateData({
+                  'review_movieID' : FieldValue.arrayUnion(
+                    [movieID]
+                  ),
+                });
 
                 await db.collection('movie').document(movieID).updateData({
                   'test' : 'test'

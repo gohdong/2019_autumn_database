@@ -79,12 +79,23 @@ packages:
     source: hosted
     version: "1.0.8"
   expandable:
+<<<<<<< HEAD
     dependency: "direct main"
     description:
       name: expandable
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+=======
+
+    dependency: "direct main"
+    description:
+      name: date_format
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.8"
+
+>>>>>>> 422726ab55bbc6d0e3b16f252a3998804082d60f
   firebase_auth:
     dependency: "direct main"
     description:
