@@ -157,6 +157,9 @@ class _MoviePageState extends State<MoviePage>
                           try {
                           db.collection('movie').document(movieID)
                               .updateData({'like': snapshot.data['like']+1});
+                          db.collection('member').document('$email').updateData(
+                            {'like_movie': FieldValue.arrayUnion([movieID])}
+                          );
                         } catch (e) {
                           print(e.toString());
                           }
