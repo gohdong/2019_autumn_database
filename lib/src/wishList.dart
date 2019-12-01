@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dbapp/src/data/is_login.dart';
+import 'package:dbapp/src/data/sign_in.dart';
+import 'package:dbapp/src/moviepage.dart';
 
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 
 class Purchase extends StatefulWidget {
   @override
@@ -59,14 +62,32 @@ class _PurchaseState extends State<Purchase>
   }
 
   Widget myInfo() {
+    final counter = Provider.of<Counter>(context);
     return Container(
-      color: Colors.black38,
+      color: Colors.black87,
       height: 150,
       child: Column(
-        children: <Widget>[
-//            Image.network(''),
-          Container(child: Text('왕종휘')),
-          Container(child: Text('wangjh789@gmail.com'))
+      children: <Widget>[
+        Container(
+          height: 10,
+        ),
+          Container(
+              child: counter.getCounter() == 0
+                  ? Container(
+                      padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                      child: Icon(Icons.account_circle, size: 50))
+                  : Container(
+                      padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                      child: CircleAvatar(
+                          radius: 40.0,
+                          backgroundImage: NetworkImage('$imageUrl')))),
+          Container(
+              child: Text(
+            '왕종휘',
+            textScaleFactor: 1.5,
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          )),
+          Container(child: Text('wangjh789@gmail.com',style: TextStyle(color: Colors.white),))
         ],
       ),
     );
@@ -76,7 +97,7 @@ class _PurchaseState extends State<Purchase>
     return StreamBuilder(
       stream:
           db.collection('member').document('wangjh789@gmail.com').snapshots(),
-      builder: (context, snapshot) {
+        builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
         List<dynamic> ad = snapshot.data['like_movie'];
@@ -96,25 +117,25 @@ class _PurchaseState extends State<Purchase>
   }
 
 //DocumentSnapshot document
-  Widget cardBuild(String movie) {
+  Widget cardBuild(String movieID) {
     return StreamBuilder(
       stream:
-          db.collection('movie').where('en_name', isEqualTo: movie).snapshots(),
+          db.collection('movie').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
         return Container(
-          child: getMovieImg(movie),
+          child: getMovieImg(movieID),
         );
       },
     );
   }
 
-  Widget getMovieImg(String movie) {
+  Widget getMovieImg(String movieID) {
     return StreamBuilder(
       stream: Firestore.instance
           .collection('movie')
-          .where('en_name', isEqualTo: movie)
+          .document(movieID)
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Center(child: Text("Can't find"));
@@ -126,23 +147,23 @@ class _PurchaseState extends State<Purchase>
               Container(
                 child: Image(
                   image: NetworkImage(
-                    snapshot.data.documents[0]['img'],
+                      snapshot.data['img']
                   ),
-                fit: BoxFit.contain,),
+                  fit: BoxFit.contain,
+                ),
               ),
               Text(
-                snapshot.data.documents[0]['name'],
+                snapshot.data['name'],
                 textScaleFactor: 1.5,
               ),
               Text(
-                snapshot.data.documents[0]['en_name'],
+                snapshot.data['en_name'],
                 textScaleFactor: 0.9,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   OutlineButton(
-
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -162,7 +183,9 @@ class _PurchaseState extends State<Purchase>
                         Text("예매"),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MoviePage(movieID)));
+                    },
                   ),
                 ],
               ),
