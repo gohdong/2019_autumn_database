@@ -1,6 +1,7 @@
 import 'package:dbapp/src/data/is_login.dart';
 import 'package:dbapp/src/event.dart';
 import 'package:dbapp/src/home.dart';
+import 'package:dbapp/src/makeQR.dart';
 import 'package:dbapp/src/menubar.dart';
 import 'package:dbapp/src/my.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +67,10 @@ class _TabsState extends State<Tabs> {
       child: Scaffold(
         endDrawer: MenuBar(),
         appBar: AppBar(
-          title: Text('GVA'),
+          title: FlatButton(padding: EdgeInsets.all(0),child: Image.asset('img/gva_logo1.png',height: 30,),onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>QR("movie")));
+          },),
+          centerTitle: true,
           elevation: 0,
           // If `TabController controller` is not provided, then a
           // DefaultTabController ancestor must be provided instead.

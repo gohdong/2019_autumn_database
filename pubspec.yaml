@@ -37,6 +37,7 @@ dependencies:
   polygon_clipper: ^1.0.2
   http:
   expandable:
+  qr_flutter: ^3.1.0
 
 dev_dependencies:
   flutter_test:
