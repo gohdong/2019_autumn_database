@@ -18,7 +18,7 @@ class Make_seat extends StatelessWidget {
   var j;
   Firestore firestore = Firestore.instance;
   ///// 여기에 document이름 입력
-  var name = "CINEMA3_2";
+  var name = "CINEMA1_8";
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class Make_seat extends StatelessWidget {
       appBar : AppBar(title : Text("add")),
         body : Column(
           children: <Widget>[
-            Text("ready"),
+            Text("추가할 documentID : "+name),
             Center(
                 child: InkWell(
                   onTap: () {
@@ -120,7 +120,7 @@ class Make_seat extends StatelessWidget {
                     child: Center(
 //              child : Text("a"),
 //              child : Text("Screen"),
-                      child: Text("결제", style: TextStyle(
+                      child: Text("추가하기!", style: TextStyle(
                         fontSize: 20,
                       ),),
 //          child: Text(reState.seatlist.length.toString(), style: TextStyle(

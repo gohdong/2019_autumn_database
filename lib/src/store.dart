@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dbapp/src/StoreTab.dart';
+import 'package:dbapp/src/store/store_make_bottom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,26 +22,40 @@ class Store1 extends State<Store> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: <Widget>[
-      ListTile(
-          title: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Container(
-                  child: StreamBuilder(
-                      stream:
-                      Firestore.instance.collection('store').snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return new Text("Cannot Found..");
-                        }
-                        return new Image.network(
-                            snapshot.data.documents[0]['header']);
-                      }),
-                )
-              ]),
-          onTap: () {}),
-      Divider(color: Colors.black),
+    return Scaffold(
+        body: ListView(children: <Widget>[
+          ListTile(
+              title: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Container(
+                      child: StreamBuilder(
+                          stream:
+                          Firestore.instance.collection('store').snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return new Text("Cannot Found..");
+                            }
+                            return new Image.network(
+                                snapshot.data.documents[0]['header']);
+                          }),
+                    )
+                  ]),
+              onTap: () {}),
+          Divider(color: Colors.black),
+
+//      ListTile(
+//          title: Column(children: <Widget>[
+//        Row(children: <Widget>[Text("고객님께 추천하는 영화볼 때 필수 아이템")]),
+//        Row(children: <Widget>[
+//          Column(children: <Widget>[
+//            Row(children: <Widget>[Text("제품 명")]),
+//            Row(children: <Widget>[Text("설명")]),
+//            Row(children: <Widget>[Text("가격")])
+//          ]),
+//          Column(children: <Widget>[Container(child: Text("사진"))])
+//        ])
+//      ])),
       Container(
         height: MediaQuery.of(context).size.height * 0.05,
         margin: EdgeInsets.all(10),
@@ -80,29 +95,21 @@ class Store1 extends State<Store> with SingleTickerProviderStateMixin {
       Divider(color: Colors.black),
 
       Card(child: Center(child: Text("이용안내")))
-    ]);
+    ]));
   }
 }
 
 Widget makeStoreTab(int index) {
   if (index == 0) {
-    return Column(
-      children: <Widget>[for (int i = 1; i < 4; i++) StoreTab(repeat: i)],
-    );
+    return StoreBottom("food");
   }
   if (index == 1) {
-    return Column(
-      children: <Widget>[for (int i = 7; i < 10; i++) StoreTab(repeat: i)],
-    );
+    return StoreBottom("card");
   }
   if (index == 2) {
-    return Column(
-      children: <Widget>[for (int i = 10; i < 13; i++) StoreTab(repeat: i)],
-    );
+    return StoreBottom("package");
   }
   if (index == 3) {
-    return Column(
-      children: <Widget>[for (int i = 16; i < 19; i++) StoreTab(repeat: i)],
-    );
+    return StoreBottom("ticket");
   }
 }

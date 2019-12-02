@@ -218,7 +218,6 @@ class MenuBar extends StatelessWidget {
           gridComponent(Icons.event_seat, "club서비스"),
           gridComponent(Icons.headset_mic, "고객센터")
 
-
         ],
       ),
     );
