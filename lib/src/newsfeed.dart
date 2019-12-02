@@ -1,15 +1,16 @@
+import 'package:dbapp/src/comment.dart';
 import 'package:dbapp/src/moviepage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 
-
-
 class NewsFeed extends StatefulWidget {
   DocumentSnapshot document;
+
   NewsFeed(DocumentSnapshot getDocument) {
     document = getDocument;
   }
+
   @override
   State<StatefulWidget> createState() => NewsFeedState(document);
 }
@@ -19,7 +20,7 @@ class NewsFeedState extends State<NewsFeed> {
   bool pushLike = false;
   DocumentSnapshot document;
 
-  NewsFeedState(DocumentSnapshot getDoc){
+  NewsFeedState(DocumentSnapshot getDoc) {
     document = getDoc;
   }
 
@@ -33,7 +34,7 @@ class NewsFeedState extends State<NewsFeed> {
         height: size.height * 0.4,
         decoration: BoxDecoration(
 //          border: Border.all()
-        ),
+            ),
         child: Column(
           children: <Widget>[
             ListTile(
@@ -41,61 +42,25 @@ class NewsFeedState extends State<NewsFeed> {
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
-
                 children: <Widget>[
                   getMovieName(),
-                  Text(document['date']
-                      .toDate()
-                      .toString()
-                      .split('.')[0])
+                  Text(document['date'].toDate().toString().split('.')[0])
                 ],
               ),
-              onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MoviePage(document['movieID'])));
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => MoviePage(document['movieID'])));
               },
-
             ),
-
-//            Container(
-//              height: MediaQuery.of(context).size.height * 0.055,
-//              padding: EdgeInsets.all(0),
-//              decoration: BoxDecoration(
-////                color: Colors.redAccent
-//                  ),
-//              child:
-//                Row(
-//                  children: <Widget>[
-////                  CircleAvatar(
-////                    radius: 25.0,
-////                    backgroundImage: ImageProvider(),
-////                  ),
-//                    getMovieImg(),
-//                    Container(
-//                      margin: EdgeInsets.only(left: 10),
-//                      child: Column(
-//                        crossAxisAlignment: CrossAxisAlignment.start,
-//                        mainAxisAlignment: MainAxisAlignment.center,
-//                        children: <Widget>[
-//                          getMovieName(),
-//                          Text(document['date']
-//                              .toDate()
-//                              .toString()
-//                              .split('.')[0])
-//                        ],
-//                      ),
-//                    )
-//                  ],
-//                ),
-//              ),
 
             Divider(),
             Container(
-                padding: EdgeInsets.only(left: 15,right: 15),
+                padding: EdgeInsets.only(left: 15, right: 15),
                 alignment: Alignment.centerLeft,
                 height: size.height * 0.20,
                 decoration: BoxDecoration(
 //                  color: Colors.blue
-                ),
+                    ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -107,7 +72,7 @@ class NewsFeedState extends State<NewsFeed> {
               height: size.height * 0.04,
               decoration: BoxDecoration(
 //                  color: Colors.yellow
-              ),
+                  ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -178,7 +143,10 @@ class NewsFeedState extends State<NewsFeed> {
                             Text("  댓글달기")
                           ],
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Comment(document.documentID,document['description'],getMovieImg())));
+                        },
                       ),
                     ),
                     Expanded(
@@ -187,7 +155,9 @@ class NewsFeedState extends State<NewsFeed> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[Icon(Icons.share), Text("  공유하기")],
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          _settingModalBottomSheet(context);
+                        },
                       ),
                     )
                   ],
@@ -234,25 +204,35 @@ class NewsFeedState extends State<NewsFeed> {
 //        );
         return CircleAvatar(
           radius: 25.0,
-          backgroundImage: NetworkImage(snapshot.data['img'],),
+          backgroundImage: NetworkImage(
+            snapshot.data['img'],
+          ),
         );
       },
     );
   }
 
   void pushLikeButton() {
-    if(pushLike){
-      document.reference.updateData({
-        'like' : document['like']
-      });
-    }
-    else{
-      document.reference.updateData({
-        'like' : document['like']+1
-      });
+    if (pushLike) {
+      try {
+        db
+            .collection('feed')
+            .document()
+            .updateData({'like': document['like'] - 1});
+      } catch (e) {
+        print(e.toString());
+      }
+    } else {
+      try {
+        db
+            .collection('feed')
+            .document()
+            .updateData({'like': document['like'] + 1});
+      } catch (e) {
+        print(e.toString());
+      }
     }
     pushLike = !pushLike;
-
   }
 
   Widget likeButton() {
@@ -271,6 +251,33 @@ class NewsFeedState extends State<NewsFeed> {
         });
       },
     );
+  }
+
+  void _settingModalBottomSheet(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            child: new Wrap(
+              children: <Widget>[
+                new ListTile(
+//                    leading: new Icon(Icons.music_note),
+                    title: new Text("Facebook"),
+                    onTap: () => {}),
+                new ListTile(
+//                  leading: new Icon(Icons.videocam),
+                  title: new Text('Kakao Talk'),
+                  onTap: () => {},
+                ),
+                new ListTile(
+//                  leading: new Icon(Icons.videocam),
+                  title: new Text('Instagram'),
+                  onTap: () => {},
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   Widget Feed(String movieID) {}
