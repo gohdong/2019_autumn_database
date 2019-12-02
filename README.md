@@ -1,12 +1,13 @@
 # HYU ERICA 2019 Autumn Database
 
-Multiplex Cinema Application Program
+
  <p align="center">
   <a href="https://dart.dev"><img src="https://img.shields.io/badge/language-Dart-blue.svg" alt="Language"></a>
   <a href="https://flutter.dev"><img src="https://img.shields.io/badge/-Flutter-9cf.svg" alt="nodejs"></a>
   <a href="https://firebase.google.com"><img src="https://img.shields.io/badge/-Firebase-orange.svg"></a>
     <a href="https://nodejs.org/ko"><img src="https://img.shields.io/badge/-node.js-lightgreen.svg" alt="nodejs"></a>
 </p>
+Multiplex Cinema Application Program
 
 
 ## Team 8
