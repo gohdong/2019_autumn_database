@@ -17,6 +17,8 @@ environment:
   sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
+  time_formatter: ^1.0.0
+  flutter_money_formatter: ^0.8.3
   date_format : ^1.0.8
   intl : ^0.15.8
   iamport_flutter: ^0.9.0

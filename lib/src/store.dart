@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dbapp/src/StorePackage.dart';
 import 'package:dbapp/src/StoreTab.dart';
+import 'package:dbapp/src/store/store_make_bottom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'StoreCombo.dart';
@@ -72,7 +73,7 @@ class Store1 extends State<Store> with SingleTickerProviderStateMixin {
               controller: ctr,
               tabs: [
                 new Tab(
-                  text: '콤보',
+                  text: '푸드',
                 ),
                 new Tab(
                   text: '기프트카드',
@@ -113,23 +114,15 @@ class Store1 extends State<Store> with SingleTickerProviderStateMixin {
 
 Widget makeStoreTab(int index) {
   if (index == 0) {
-    return Column(
-      children: <Widget>[for (int i = 1; i < 4; i++) StoreTab(repeat: i)],
-    );
+    return StoreBottom("food");
   }
   if (index == 1) {
-    return Column(
-      children: <Widget>[for (int i = 7; i < 10; i++) StoreTab(repeat: i)],
-    );
+    return StoreBottom("card");
   }
   if (index == 2) {
-    return Column(
-      children: <Widget>[for (int i = 10; i < 13; i++) StoreTab(repeat: i)],
-    );
+    return StoreBottom("package");
   }
   if (index == 3) {
-    return Column(
-      children: <Widget>[for (int i = 16; i < 19; i++) StoreTab(repeat: i)],
-    );
+    return StoreBottom("ticket");
   }
 }

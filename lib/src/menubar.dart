@@ -54,9 +54,9 @@ class MenuBar extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            title: Text('Perchase',textScaleFactor: 1.5,),
+            title: Text('make_seat',textScaleFactor: 1.5,),
             onTap: () {
-//              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Success()));
+//              Navigator.of(context).push(MaterialPageRoute(builder: (context) => prefix0.Make_seat()));
 //
             },
           ),
@@ -64,7 +64,7 @@ class MenuBar extends StatelessWidget {
           ListTile(
             title: Text('add',textScaleFactor: 1.5,),
             onTap: () {
-//              Navigator.of(context).push(MaterialPageRoute(builder: (context) => prefix0.Make_seat()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Success()));
 //
             },
           ),
