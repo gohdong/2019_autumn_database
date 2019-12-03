@@ -5,6 +5,7 @@ import 'package:dbapp/src/moviepage.dart';
 import 'package:expandable/expandable.dart';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class MyList extends StatefulWidget {
@@ -103,43 +104,26 @@ class _MyListState extends State<MyList>
   }
 
   Widget wishList() {
-    List<dynamic> ad;
     return StreamBuilder(
 
         stream:
-          db.collection('member').document('email').snapshots(),
+          db.collection('member').document(email).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData){
           return Center(child: CircularProgressIndicator());}
-        if(ad == null || ad.length==0){
-          return Text('좋아요를 눌러주세요');
-        }
         else{
-          ad = snapshot.data['like_movie'];
         return GridView.builder(
           primary: false,
           gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: (0.53),
           ),
-          itemCount: ad.length,
+          itemCount: snapshot.data['like_movie'].length,
           itemBuilder: (context, index) {
-            return cardBuild(ad[index]);
+            return getMovieImg(snapshot.data['like_movie'][index]);
           },
         );
         }
-      },
-    );
-  }
-  Widget cardBuild(String movieID) {
-    return StreamBuilder(
-      stream: db.collection('movie').snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return Center(child: CircularProgressIndicator());
-        return Container(
-          child: getMovieImg(movieID),
-        );
       },
     );
   }
@@ -213,7 +197,7 @@ class _MyListState extends State<MyList>
           .where('email', isEqualTo: email)
           .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData)
+        if (!snapshot.hasData || snapshot.data.documents== null)
           return Center(child: CircularProgressIndicator());
         return ListView.builder(
           primary: false,
@@ -330,40 +314,59 @@ class _MyListState extends State<MyList>
   }
 
   Widget reviewList() {
-    List<dynamic> ad;
     return StreamBuilder(
 
       stream:
-      db.collection('member').document('email').snapshots(),
+      db.collection('reviews').where('memberID',isEqualTo: email).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData){
           return Center(child: CircularProgressIndicator());}
-        if(ad.length==0){
-          return Text('리뷰를 남겨주세요');
-        }
         else{
-          ad = snapshot.data['like_movie'];
           return ListView.builder(
             primary: false,
-            itemCount: ad.length,
+            itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index) {
-              return cardBuild3(ad[index]);
+              return cardBuild3(snapshot.data.documents[index]['movieID'],snapshot.data.documents[index]['title'],snapshot.data.documents[index]['description'],snapshot.data.documents[index]['score'],snapshot.data.documents[index]['date'].toDate().toString().split('.')[0]);
             },
           );
         }
       },
     );
   }
-  Widget cardBuild3(String movieID) {
+  Widget cardBuild3(String movieID,String title,String description,int score,String date) {
     return StreamBuilder(
       stream: db.collection('movie').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
-        return Container(
-          child: getMovieImg3(movieID),
-        );
-      },
+        return Card(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                  margin: EdgeInsets.only(left: 10,right: 20,top: 10,bottom: 10),
+                  child: getMovieImg3(movieID)),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  getMovieName(movieID),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(title,textScaleFactor: 1.2,),
+                  Text(description),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(date +' 작성'),
+
+                ],
+          )
+          ],
+          ),
+        );},
     );
   }
   Widget getMovieImg3(String movieID) {
@@ -373,55 +376,37 @@ class _MyListState extends State<MyList>
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Center(child: Text("Can't find"));
         return Container(
-          height: 500,
+          child: Container(
+            height: MediaQuery.of(context).size.height*0.2,
+            child: Image(
+              image: NetworkImage(snapshot.data['img']),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget getMovieName(String movieID){
+    return StreamBuilder(
+      stream:
+      Firestore.instance.collection('movie').document(movieID).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Center(child: Text("Can't find"));
+        return Padding(
+          padding: EdgeInsets.only(bottom: 5),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+
             children: <Widget>[
-              Container(
-                child: Image(
-                  image: NetworkImage(snapshot.data['img']),
-                  fit: BoxFit.fill,
-                ),
-              ),
               Text(
                 snapshot.data['name'],
-                textScaleFactor: 1.7,
+                textScaleFactor: 1.3,
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
                 snapshot.data['en_name'],
-                textScaleFactor: 1.0,
+                textScaleFactor: 0.8,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  OutlineButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.open_in_new,
-                        ),
-                        Text("공유")
-                      ],
-                    ),
-                    onPressed: () {},
-                  ),
-                  OutlineButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.bookmark),
-                        Text("예매"),
-                      ],
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MoviePage(movieID)));
-                    },
-                  ),
-                ],
-              ),
-              Divider(),
             ],
           ),
         );
