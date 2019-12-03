@@ -5,12 +5,14 @@ import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/makeMovieTicket.dart';
 import 'package:dbapp/src/menubar.dart';
 import 'package:dbapp/src/my.dart';
+import 'package:dbapp/src/store/snackBox.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 import 'package:provider/provider.dart';
-import 'src/store.dart';
 
 void main() => runApp(MyApp());
 
@@ -83,13 +85,13 @@ class _TabsState extends State<Tabs> {
     final _kTabPages = <Widget>[
       Center(child: Home()),
       Center(child: Event()),
-      Center(child: Store()),
+      Center(child: SnackBox()),
       Center(child: My()),
     ];
     final _kTabs = <Tab>[
       Tab(text: 'Home'),
       Tab(text: 'Event'),
-      Tab(text: 'Store'),
+      Tab(text: 'Snack'),
       Tab(text: 'My'),
     ];
     return DefaultTabController(
@@ -104,8 +106,7 @@ class _TabsState extends State<Tabs> {
               height: 30,
             ),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => MakeMovieTicket("movie")));
+              launch("https://github.com/gohdong/2019_autumn_database");
             },
           ),
 //          title: email==null?Text("NNN"):Text(email),

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dbapp/src/StoreProduct.dart';
 import 'package:dbapp/src/store/store_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +79,7 @@ class _StoreBottomState extends State<StoreBottom> {
               return new Text('Loading...');
             default:
               return new ListView(
+                physics: BouncingScrollPhysics(),
 //                  shrinkWrap: true,
 //                crossAxisAlignment: WrapCrossAlignment.start,
                 children: snapshot.data.documents

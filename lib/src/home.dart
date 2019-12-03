@@ -22,10 +22,11 @@ class _HomeState extends State<Home> {
     refreshKey.currentState?.show(atTop: false);
     await Future.delayed(Duration(seconds: 2));
 
-    setState(() {
+    setState(() async{
+
+      await Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => MyApp()));
       Navigator.of(context).pop();
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => Tabs()));
     });
 
     return null;
