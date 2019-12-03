@@ -106,7 +106,7 @@ class MovieChartState extends State<MovieChart> {
                 textScaleFactor: 0.7,
               ),
               onPressed: () {
-                print("현재 이름 : " +  name);
+//                print("현재 이름 : " +  name);
                   if(name==null){
                     Navigator.of(context).push(MaterialPageRoute
                         (builder: (context) => Login()));}

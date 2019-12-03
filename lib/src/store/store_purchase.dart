@@ -72,8 +72,8 @@ class _Food_purchaseState extends State<Food_purchase> {
               InkWell(
                 onTap: () async {
                   await db.collection('payment_store').add({
-                    'memberID': '$name',
-                    'email': '$email',
+                    'memberID': name,
+                    'email': email,
                     'total': this.total,
                     'list': widget.select,
                     'payTime': Timestamp.now(),
@@ -290,6 +290,7 @@ class _Food_purchaseState extends State<Food_purchase> {
               'total': 10000,
               'list': widget.select,
               'payTime': Timestamp.now(),
+              'used' : false,
             });
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => Payment(this.total)));

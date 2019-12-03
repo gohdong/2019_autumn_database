@@ -25,15 +25,22 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    print("initstate");
 //    final counter = Provider.of<Counter>(context);
     super.initState();
     getUser().then((user) {
-      if (user != null) {
+      print("1");
+
+      if (user.displayName != null) {
+        print("2");
+
         print(user);
         email = user.email;
         name = user.displayName;
         imageUrl = user.photoUrl;
       } else {
+        print("3");
+
         email = null;
         name = null;
       }
