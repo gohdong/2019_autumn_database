@@ -63,12 +63,13 @@ class _StoreBottomState extends State<StoreBottom> {
 
   @override
   Widget make_stream(name){
-    return  Scaffold(
-        body:
-      StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance
-            .collection('store')
-            .where('category', isEqualTo: 'food')
+    return
+      Scaffold(
+        body:SingleChildScrollView(child:
+        StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance
+                .collection('store')
+                .where('category', isEqualTo: 'food')
 //          .orderBy('key', )
             .snapshots(),
         builder:
@@ -82,12 +83,14 @@ class _StoreBottomState extends State<StoreBottom> {
                 physics: BouncingScrollPhysics(),
 //                  shrinkWrap: true,
 //                crossAxisAlignment: WrapCrossAlignment.start,
-                children: snapshot.data.documents
-                    .map((document) => make_contents(context, document))
-                    .toList(),
-              );
-          }
-        }));
+                    children: snapshot.data.documents
+                        .map((document) => make_contents(context, document))
+                        .toList(),
+                  );
+              }
+            }))
+          );
+
   }
 
   @override
