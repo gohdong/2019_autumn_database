@@ -1,4 +1,5 @@
 import 'package:date_format/date_format.dart';
+import 'package:dbapp/src/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:dbapp/src/my.dart';
 
 import 'data/sign_in.dart';
-
 
 class Screen_purchase extends StatelessWidget {
   List<String> select_list;
@@ -34,7 +34,6 @@ class Screen_purchase extends StatelessWidget {
   List<List<String>> mylist = [[], [], [], [], [], [], [], [], [], []];
   String seat;
   List<String> select = [];
-
 
 //  String title2 = 'JOKER2019';
 
@@ -85,10 +84,8 @@ class Screen_purchase extends StatelessWidget {
     List<String> test2 = se_li_ra;
     int price = select_list.length * 100;
     FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
-        amount: double.parse((select_list.length*8000).toString())
-    );
+        amount: double.parse((select_list.length * 8000).toString()));
 //    print(fmf);
-
 
 //    print("여기가ㅏ각 ");
 //    final timeStamp = document_table['startAt'].millisecondsSinceEpoch;
@@ -105,7 +102,8 @@ class Screen_purchase extends StatelessWidget {
 //    print((document_table['startAt']));
 //    print("adfdkjfkd");
 //    print(formatted);
-    String time = formatDate((document_table['startAt']).toDate(), [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn]);
+    String time = formatDate((document_table['startAt']).toDate(),
+        [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn]);
 ////    print(formatDate(todayDate, [yyyy, '-', mm, '-', dd, ' ', hh, ':', nn, ':', ss, ' ', am]));
 
     List<String> sub = [];
@@ -201,7 +199,7 @@ class Screen_purchase extends StatelessWidget {
                                     Container(
                                       margin: EdgeInsets.only(top: 5),
                                       child: Text(
-                                        select_list.length.toString()+"명",
+                                        select_list.length.toString() + "명",
                                         style: TextStyle(
                                           fontSize: 14,
                                         ),
@@ -210,7 +208,7 @@ class Screen_purchase extends StatelessWidget {
                                     Container(
                                       margin: EdgeInsets.only(top: 5),
                                       child: Text(
-                                        "본점 "+document_table['theater']+"관",
+                                        "본점 " + document_table['theater'] + "관",
                                         style: TextStyle(
                                           fontSize: 14,
                                         ),
@@ -228,7 +226,7 @@ class Screen_purchase extends StatelessWidget {
 //                         ),
                               margin: EdgeInsets.only(left: 15),
                               child: Text(
-                                fmf.output.withoutFractionDigits+" 원",
+                                fmf.output.withoutFractionDigits + " 원",
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 29,
@@ -262,14 +260,16 @@ class Screen_purchase extends StatelessWidget {
               Container(
                 child: InkWell(
                   onTap: () async {
+                    print("sdffsfdsds : "+'$name');
+                    print('$name' == null);
                     await db.collection('payment_movie').add({
-                      'memberID': '$name',
-                      'email' : '$email',
-                      'movieID': document_movie.documentID,
-                      'time_tableID': document_table.documentID,
-                      'seats': sort_array,
-                      'payTime': Timestamp.now(),
-                    });
+                            'memberID': '$name',
+                            'email': '$email',
+                            'movieID': document_movie.documentID,
+                            'time_tableID': document_table.documentID,
+                            'seats': sort_array,
+                            'payTime': Timestamp.now(),
+                          });
                     // 선택한 좌석 firebase 변경
                     for (var i = 0; i < sub.length; i++) {
                       Firestore.instance
@@ -288,14 +288,14 @@ class Screen_purchase extends StatelessWidget {
                         .collection("time_table")
                         .document(document_table.documentID)
                         .updateData({
-                      'select_count' : document_table['select_count']+sub.length
-
+                      'select_count':
+                          document_table['select_count'] + sub.length
                     });
-                    Navigator.of(ctx).push( MaterialPageRoute(builder: (context) => Payment(price)));
+                    Navigator.of(ctx).push(MaterialPageRoute(
+                        builder: (context) => Payment(price)));
 
 //                    Navigator.of(ctx).push( MaterialPageRoute(builder: (context) => Payment(select_list,document_table, price)));
-
-                  },
+                    },
                   child: Text(
                     "결제하기",
                     textAlign: TextAlign.center,
