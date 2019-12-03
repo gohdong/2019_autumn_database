@@ -441,7 +441,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
           ,)
     ],));
   }
-  
+
   void showDialog2(str) {
     showDialog(
         context: context,
