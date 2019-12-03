@@ -4,7 +4,7 @@ import 'package:dbapp/src/data/is_login.dart';
 import 'package:dbapp/src/data/sign_in.dart';
 import 'package:dbapp/src/event.dart';
 import 'package:dbapp/src/home.dart';
-import 'package:dbapp/src/makeQR.dart';
+import 'package:dbapp/src/makeMovieTicket.dart';
 import 'package:dbapp/src/menubar.dart';
 import 'package:dbapp/src/my.dart';
 import 'package:firebase_auth/firebase_auth.dart';

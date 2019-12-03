@@ -3,22 +3,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class QR extends StatefulWidget {
-  String type;
+class MakeMovieTicket extends StatefulWidget {
+  String reservationID;
 
-  QR(String getType) {
-    this.type = getType;
+  MakeMovieTicket(String getID) {
+    this.reservationID = getID;
   }
 
   @override
-  _QRState createState() => _QRState(type);
+  _MakeMovieTicketState createState() => _MakeMovieTicketState(reservationID);
 }
 
-class _QRState extends State<QR> {
-  String type;
+class _MakeMovieTicketState extends State<MakeMovieTicket> {
+  String reservationID;
 
-  _QRState(String getType) {
-    this.type = getType;
+  _MakeMovieTicketState(String getID) {
+    this.reservationID = getID;
   }
 
   @override
@@ -36,7 +36,7 @@ class _QRState extends State<QR> {
           // Another way is to use a self-defined controller, c.f. "Bottom tab
           // bar" example.
         ),
-        body: type == 'movie' ? getMovieTicket() : getStoreExchange());
+        body: getMovieTicket());
   }
 
   Widget getStoreExchange() {
@@ -47,7 +47,7 @@ class _QRState extends State<QR> {
     return StreamBuilder(
       stream: Firestore.instance
           .collection('payment_movie')
-          .document('TZ2DcceSPFsaCWcuflUw')
+          .document('')
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -167,7 +167,7 @@ class _QRState extends State<QR> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // return object of type Dialog
+        // return object of reservationID Dialog
         return CupertinoAlertDialog(
           title: new Text("확인"),
           content: new Text("정말 취소 하시겠습니까?"),
@@ -176,7 +176,7 @@ class _QRState extends State<QR> {
             new FlatButton(
               child: new Text("Confirm"),
               onPressed: () async {
-                await Firestore.instance.collection('payment_movie').document('XC7oVMd66A8zmBp1YN4t').delete();
+                await Firestore.instance.collection('payment_movie').document('s2xGOcXdVAdoimnX8m89').delete();
                 int count = 0;
                 Navigator.of(context).popUntil((_) => count++ >= 2);
               },
@@ -193,5 +193,6 @@ class _QRState extends State<QR> {
         );
       },
     );
+
   }
 }

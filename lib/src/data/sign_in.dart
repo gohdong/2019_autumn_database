@@ -41,7 +41,6 @@ Future<String> signInWithGoogle() async {
   final AuthResult authResult = await _auth.signInWithCredential(credential);
   final FirebaseUser user = authResult.user;
 
-  // Checking if email and name is null
   assert(user.email != null);
   assert(user.displayName != null);
   assert(user.photoUrl != null);
@@ -50,7 +49,6 @@ Future<String> signInWithGoogle() async {
   email = user.email;
   imageUrl = user.photoUrl;
 
-  // Only taking the first part of the name, i.e., First Name
   if (name.contains(" ")) {
     name = name.substring(0, name.indexOf(" "));
   }
@@ -63,6 +61,8 @@ Future<String> signInWithGoogle() async {
 
   return 'signInWithGoogle succeeded: $user';
 }
+
+
 
 void signOutGoogle() async {
   await googleSignIn.signOut();
