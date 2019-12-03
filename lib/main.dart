@@ -1,9 +1,11 @@
 import 'package:dbapp/src/data/is_login.dart';
+import 'package:dbapp/src/data/sign_in.dart';
 import 'package:dbapp/src/event.dart';
 import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/makeQR.dart';
 import 'package:dbapp/src/menubar.dart';
 import 'package:dbapp/src/my.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -19,6 +21,24 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 class _MyAppState extends State<MyApp> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+
+  @override
+  void initState() {
+
+//    final counter = Provider.of<Counter>(context);
+    super.initState();
+    getUser().then((user) {
+      if (user != null) {
+        // send the user to the home page
+//        counter.increment();
+      email = user.email;
+      print(email);
+
+      }
+    });
+  }
 
 
   @override
@@ -38,6 +58,10 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+
+  Future<FirebaseUser> getUser() async {
+    return await _auth.currentUser();
+  }
 }
 
 class Tabs extends StatefulWidget {
@@ -48,6 +72,7 @@ class Tabs extends StatefulWidget {
 }
 
 class _TabsState extends State<Tabs> {
+
   @override
   Widget build(BuildContext context) {
     final _kTabPages = <Widget>[
@@ -67,9 +92,10 @@ class _TabsState extends State<Tabs> {
       child: Scaffold(
         endDrawer: MenuBar(),
         appBar: AppBar(
-          title: FlatButton(padding: EdgeInsets.all(0),child: Image.asset('img/gva_logo1.png',height: 30,),onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>QR("movie")));
-          },),
+//          title: FlatButton(padding: EdgeInsets.all(0),child: Image.asset('img/gva_logo1.png',height: 30,),onPressed: (){
+//            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>QR("movie")));
+//          },),
+          title: email==null?Text("NNN"):Text(email),
           centerTitle: true,
           elevation: 0,
           // If `TabController controller` is not provided, then a
@@ -86,5 +112,6 @@ class _TabsState extends State<Tabs> {
       ),
     );
   }
+
 }
 
