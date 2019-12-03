@@ -105,7 +105,6 @@ class _PurchaseState extends State<Purchase>
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
         List<dynamic> ad = snapshot.data['like_movie'];
-        print(ad[1].toString());
         return GridView.builder(
           primary: false,
           gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(

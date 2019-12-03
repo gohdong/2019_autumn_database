@@ -8,8 +8,6 @@ import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/login.dart';
 import 'package:dbapp/src/my.dart';
 
-
-
 import 'package:dbapp/src/data/make_seat.dart' as prefix0;
 import 'package:dbapp/src/login.dart';
 import 'package:dbapp/src/reservation.dart';
@@ -152,16 +150,20 @@ class MenuBar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             InkWell(
-              onTap: (){
-                counter.getCounter()==0?
-                null:Navigator.of(context).push(MaterialPageRoute(builder: (context) => Purchase()));
+              onTap: () {
+                counter.getCounter() == 0
+                    ? null
+                    : Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Purchase()));
               },
               child: Column(
                 children: <Widget>[
                   Text("위시영화"),
                   Container(
-                    child: likeMovie(context),
-                    ), //database 연결
+                    child: counter.getCounter() == 0
+                        ? Text('-')
+                        : likeMovie(context),
+                  ), //database 연결
                 ],
               ),
             ),
@@ -169,10 +171,9 @@ class MenuBar extends StatelessWidget {
               children: <Widget>[
                 Text("내가 본 영화"),
                 Container(
-                  child: Text(
-                    "7",
-                    textScaleFactor: 1.5,
-                  ), //database 연결
+                  child: counter.getCounter() == 0
+                      ? Text('-')
+                      : viewMovie(context), //database 연결
                 )
               ],
             ),
@@ -180,8 +181,8 @@ class MenuBar extends StatelessWidget {
               children: <Widget>[
                 Text("내가 쓴 댓글"),
                 Container(
-                  child: reviewList(),
-                   //database 연결
+                  child: counter.getCounter() == 0 ? Text('-') : reviewList(),
+                  //database 연결
                 )
               ],
             ),
@@ -190,7 +191,6 @@ class MenuBar extends StatelessWidget {
       ],
     );
   }
-
 
   Widget gird(BuildContext context) {
     return Container(
@@ -201,13 +201,13 @@ class MenuBar extends StatelessWidget {
         crossAxisCount: 3,
         children: <Widget>[
           InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => Home()));
               },
               child: gridComponent(Icons.home, "홈")),
           InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => My()));
               },
@@ -216,7 +216,7 @@ class MenuBar extends StatelessWidget {
           gridComponent(Icons.info, '고객센터'),
           gridComponent(Icons.stars, "특별관"),
           InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => Event()));
               },
@@ -224,7 +224,6 @@ class MenuBar extends StatelessWidget {
           gridComponent(Icons.collections_bookmark, "매거진"),
           gridComponent(Icons.event_seat, "club서비스"),
           gridComponent(Icons.headset_mic, "고객센터")
-
         ],
       ),
     );
@@ -248,51 +247,83 @@ class MenuBar extends StatelessWidget {
 
   Widget likeMovie(context) {
     final counter = Provider.of<Counter>(context);
-    if(counter.getCounter()==0){
-      return Text('0', textScaleFactor: 1.5,);
+    if (counter.getCounter() == 0) {
+      return Text(
+        '0',
+        textScaleFactor: 1.5,
+      );
     }
     return StreamBuilder(
-        stream: Firestore.instance
-            .collection('member')
-            .document(email)
-            .snapshots(),
+        stream:
+            Firestore.instance.collection('member').document(email).snapshots(),
         builder: (context, snapshot) {
           List<dynamic> ad = snapshot.data['like_movie'];
           if (!snapshot.hasData) return const Text('Loading…');
           return Container(
-              child: _likeMovie(context, ad),
+            child: _likeMovie(context, ad),
           );
+        });
+  }
 
-        }
+  Widget _likeMovie(BuildContext context, List<dynamic> ad) {
+    return Container(
+      child: Text(
+        ad.length.toString(),
+        textScaleFactor: 1.5,
+      ),
     );
   }
-  Widget _likeMovie(BuildContext context,List<dynamic> ad) {
+
+  Widget viewMovie(context) {
+    final counter = Provider.of<Counter>(context);
+    if (counter.getCounter() == 0) {
+      return Text(
+        '0',
+        textScaleFactor: 1.5,
+      );
+    }
+    return StreamBuilder(
+        stream: Firestore.instance
+            .collection('payment_movie')
+            .where('email', isEqualTo: email)
+            .snapshots(),
+        builder: (context, snapshot) {
+          int ad = snapshot.data.documents.length;
+          if (!snapshot.hasData) return const Text('Loading…');
+          return Container(
+            child: _viewMovie(context, ad),
+          );
+        });
+  }
+
+  Widget _viewMovie(BuildContext context, int ad) {
     return Container(
-      child: Text(ad.length.toString(), textScaleFactor: 1.5,),
+      child: Text(
+        ad.toString(),
+        textScaleFactor: 1.5,
+      ),
     );
   }
 
   Widget reviewList() {
     return StreamBuilder(
-        stream: Firestore.instance
-            .collection('member')
-            .document('wangjh789@gmail.com')
-            .snapshots(),
+        stream:
+            Firestore.instance.collection('member').document(email).snapshots(),
         builder: (context, snapshot) {
           List<dynamic> ad = snapshot.data['review_movieID'];
           if (!snapshot.hasData) return const Text('Loading…');
           return Container(
             child: _reviewList(context, ad),
           );
-
-        }
-    );
+        });
   }
+
   Widget _reviewList(BuildContext context, List<dynamic> document) {
     return Container(
-      child: Text(document.length.toString(), textScaleFactor: 1.5,),
+      child: Text(
+        document.length.toString(),
+        textScaleFactor: 1.5,
+      ),
     );
   }
-
-
 }
