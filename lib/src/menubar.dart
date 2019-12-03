@@ -8,14 +8,13 @@ import 'package:dbapp/src/home.dart';
 import 'package:dbapp/src/login.dart';
 import 'package:dbapp/src/my.dart';
 
-
-
 import 'package:dbapp/src/data/make_seat.dart' as prefix0;
 import 'package:dbapp/src/login.dart';
 import 'package:dbapp/src/reservation.dart';
 import 'package:dbapp/src/data/make_seat.dart';
 import 'package:dbapp/src/test_movie_buy.dart';
 import 'package:dbapp/src/success_pay.dart';
+import 'package:dbapp/src/wishList.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +24,6 @@ import 'data/sign_in.dart';
 class MenuBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final counter = Provider.of<Counter>(context);
     Size size = MediaQuery.of(context).size;
     return Drawer(
       child: Container(
@@ -79,7 +77,6 @@ class MenuBar extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).pop();
                 signOutGoogle();
-                counter.decrement();
               },
               child: Container(
                 child: Text(
@@ -96,7 +93,6 @@ class MenuBar extends StatelessWidget {
   }
 
   Widget head(context, size) {
-    final counter = Provider.of<Counter>(context);
     return Column(
       children: <Widget>[
         Container(
@@ -108,7 +104,7 @@ class MenuBar extends StatelessWidget {
           children: <Widget>[
             Icon(Icons.add_alert),
             Container(
-                child: counter.getCounter() == 0
+                child: name == null
                     ? Container(
                         padding:
                             EdgeInsets.only(left: 20, right: 20, bottom: 10),
@@ -117,14 +113,15 @@ class MenuBar extends StatelessWidget {
                         padding:
                             EdgeInsets.only(left: 20, right: 20, bottom: 10),
                         child: CircleAvatar(
-                            radius: 40.0,
-                            backgroundImage: NetworkImage('$imageUrl')))),
+                          radius: 40,
+                          backgroundImage: NetworkImage(imageUrl),
+                        ))),
             Icon(Icons.settings)
           ],
         ),
         Container(
           padding: EdgeInsets.only(bottom: 30),
-          child: counter.getCounter() == 0
+          child: email == null
               ? OutlineButton.icon(
                   icon: Icon(Icons.power_settings_new),
                   label: Text("login"),
@@ -150,22 +147,29 @@ class MenuBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                Text("위시영화"),
-                Container(
-                  child: likeMovie(),
+            InkWell(
+              onTap: () {
+                email == null
+                    ? null
+                    : Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Purchase()));
+              },
+              child: Column(
+                children: <Widget>[
+                  Text("위시영화"),
+                  Container(
+                    child: email == null ? Text('-') : likeMovie(context),
                   ), //database 연결
-              ],
+                ],
+              ),
             ),
             Column(
               children: <Widget>[
                 Text("내가 본 영화"),
                 Container(
-                  child: Text(
-                    "7",
-                    textScaleFactor: 1.5,
-                  ), //database 연결
+                  child: email == null
+                      ? Text('-')
+                      : viewMovie(context), //database 연결
                 )
               ],
             ),
@@ -173,8 +177,8 @@ class MenuBar extends StatelessWidget {
               children: <Widget>[
                 Text("내가 쓴 댓글"),
                 Container(
-                  child: reviewList(),
-                   //database 연결
+                  child: email == null ? Text('-') : reviewList(),
+                  //database 연결
                 )
               ],
             ),
@@ -183,7 +187,6 @@ class MenuBar extends StatelessWidget {
       ],
     );
   }
-
 
   Widget gird(BuildContext context) {
     return Container(
@@ -194,13 +197,13 @@ class MenuBar extends StatelessWidget {
         crossAxisCount: 3,
         children: <Widget>[
           InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => Home()));
               },
               child: gridComponent(Icons.home, "홈")),
           InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => My()));
               },
@@ -209,7 +212,7 @@ class MenuBar extends StatelessWidget {
           gridComponent(Icons.info, '고객센터'),
           gridComponent(Icons.stars, "특별관"),
           InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => Event()));
               },
@@ -217,7 +220,6 @@ class MenuBar extends StatelessWidget {
           gridComponent(Icons.collections_bookmark, "매거진"),
           gridComponent(Icons.event_seat, "club서비스"),
           gridComponent(Icons.headset_mic, "고객센터")
-
         ],
       ),
     );
@@ -239,49 +241,84 @@ class MenuBar extends StatelessWidget {
     );
   }
 
-  Widget likeMovie() {
+  Widget likeMovie(context) {
+    final counter = Provider.of<Counter>(context);
+    if (email == null) {
+      return Text(
+        '0',
+        textScaleFactor: 1.5,
+      );
+    }
     return StreamBuilder(
-        stream: Firestore.instance
-            .collection('member')
-            .document('wangjh789@gmail.com')
-            .snapshots(),
+        stream:
+            Firestore.instance.collection('member').document(email).snapshots(),
         builder: (context, snapshot) {
           List<dynamic> ad = snapshot.data['like_movie'];
           if (!snapshot.hasData) return const Text('Loading…');
           return Container(
-              child: _likeMovie(context, ad),
+            child: _likeMovie(context, ad),
           );
+        });
+  }
 
-        }
+  Widget _likeMovie(BuildContext context, List<dynamic> ad) {
+    return Container(
+      child: Text(
+        ad.length.toString(),
+        textScaleFactor: 1.5,
+      ),
     );
   }
-  Widget _likeMovie(BuildContext context,List<dynamic> ad) {
+
+  Widget viewMovie(context) {
+    final counter = Provider.of<Counter>(context);
+    if (email == null) {
+      return Text(
+        '0',
+        textScaleFactor: 1.5,
+      );
+    }
+    return StreamBuilder(
+        stream: Firestore.instance
+            .collection('payment_movie')
+            .where('email', isEqualTo: email)
+            .snapshots(),
+        builder: (context, snapshot) {
+          int ad = snapshot.data.documents.length;
+          if (!snapshot.hasData) return const Text('Loading…');
+          return Container(
+            child: _viewMovie(context, ad),
+          );
+        });
+  }
+
+  Widget _viewMovie(BuildContext context, int ad) {
     return Container(
-      child: Text(ad.length.toString(), textScaleFactor: 1.5,),
+      child: Text(
+        ad.toString(),
+        textScaleFactor: 1.5,
+      ),
     );
   }
 
   Widget reviewList() {
     return StreamBuilder(
-        stream: Firestore.instance
-            .collection('member')
-            .document('wangjh789@gmail.com')
-            .snapshots(),
+        stream:
+            Firestore.instance.collection('member').document(email).snapshots(),
         builder: (context, snapshot) {
-          List<dynamic> ad = snapshot.data['review_movieID'];
           if (!snapshot.hasData) return const Text('Loading…');
           return Container(
-            child: _reviewList(context, ad),
+            child: _reviewList(context, snapshot.data['review_movieID']),
           );
-
-        }
-    );
+        });
   }
+
   Widget _reviewList(BuildContext context, List<dynamic> document) {
     return Container(
-      child: Text(document.length.toString(), textScaleFactor: 1.5,),
+      child: Text(
+        document.length.toString(),
+        textScaleFactor: 1.5,
+      ),
     );
   }
-
-
 }

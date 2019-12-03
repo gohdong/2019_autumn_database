@@ -1,3 +1,5 @@
+
+
 import 'package:dbapp/src/data/is_login.dart';
 import 'package:dbapp/src/data/sign_in.dart';
 import 'package:dbapp/src/event.dart';
@@ -31,11 +33,13 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     getUser().then((user) {
       if (user != null) {
-        // send the user to the home page
-//        counter.increment();
       email = user.email;
-      print(user.displayName);
-
+      name= user.displayName;
+      imageUrl = user.photoUrl;
+      }
+      else{
+        email = null;
+        name = null;
       }
     });
   }
@@ -95,7 +99,7 @@ class _TabsState extends State<Tabs> {
 //          title: FlatButton(padding: EdgeInsets.all(0),child: Image.asset('img/gva_logo1.png',height: 30,),onPressed: (){
 //            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>QR("movie")));
 //          },),
-          title: email==null?Text("NNN"):Text(email),
+          title: Text('GVA'),
           centerTitle: true,
           elevation: 0,
           // If `TabController controller` is not provided, then a
