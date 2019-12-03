@@ -50,7 +50,7 @@ class _StoreDetailState extends State<StoreDetail> {
               Image.network(widget.document['img'],
                   height: MediaQuery.of(context).size.width * 0.9), // 제품사진
               Container(
-                margin: EdgeInsets.only(bottom: 15),
+                margin: EdgeInsets.only(bottom: 10),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(width: 1.0, color: Colors.grey[400]),
@@ -58,7 +58,7 @@ class _StoreDetailState extends State<StoreDetail> {
                 ),
               ),// 중간 줄 생성
               Container(
-                  height: MediaQuery.of(context).size.width * 0.5,
+                  height: MediaQuery.of(context).size.width * 0.4,
                   child:
               Row(
 
@@ -142,7 +142,7 @@ class _StoreDetailState extends State<StoreDetail> {
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.redAccent
                           ),
-                          margin: EdgeInsets.only(top: 20, right :20),
+                          margin: EdgeInsets.only(top: 20, right :0),
                           child: Text(
                             "장바구니 담기",
                             style: TextStyle(
@@ -234,7 +234,12 @@ class _StoreDetailState extends State<StoreDetail> {
   Widget make_button() {
     var keys;
     return Container(
-      margin: EdgeInsets.only(left: 60, top : 30),
+      padding: EdgeInsets.only(right : 65),
+//      decoration: BoxDecoration(
+//        border: Border.all(width: 2, color: Colors.black),
+//      ),
+      alignment: Alignment.centerRight,
+      margin: EdgeInsets.only(left : 27, top : 30),
       child: Row(
         children: <Widget>[
           InkWell(
@@ -283,7 +288,7 @@ class _StoreDetailState extends State<StoreDetail> {
                 ),
                 child: Icon(Icons.expand_more),
               )),
-        ],
+        ],mainAxisAlignment: MainAxisAlignment.end,
       ),
     );
   }
