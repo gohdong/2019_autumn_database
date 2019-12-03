@@ -53,12 +53,62 @@ exports.increaseSpectator = functions.firestore.document('payment_movie/{payment
         return transaction.get(restRef).then(restDoc => {
             // Compute new number of ratings
             var newSpectator = restDoc.data().spectator + ratingVal;
-
-
             // Update restaurant info
             return transaction.update(restRef, {
                 spectator: newSpectator,
             });
         });
     });
+
+
 });
+
+
+exports.decreaseSelectSeats = functions.firestore
+    .document('payment_movie/{payment_movieId}')
+    .onDelete(async snapshot => {
+
+        const payment = snapshot.data();
+
+        var restRef = db.collection('time_table').doc(payment.time_tableID);
+
+        // Update aggregations in a transaction
+        return db.runTransaction(transaction => {
+            return transaction.get(restRef).then(restDoc => {
+                // Compute new number of ratings
+                var newSelectCount = restDoc.data().select_count - payment.seats.length;
+
+                return transaction.update(restRef, {
+                    select_count : newSelectCount,
+                });
+            });
+        });
+    });
+
+exports.resetSelectSeat = functions.firestore
+    .document('payment_movie/{payment_movieId}')
+    .onDelete(async snapshot => {
+
+        const payment = snapshot.data();
+
+        var restRef = db.collection('time_table').doc(payment.time_tableID).collection('seats').doc('1');
+
+        // Update aggregations in a transaction
+        return db.runTransaction(transaction => {
+            return transaction.get(restRef).then(restDoc => {
+                // Compute new number of ratings
+                var newSelectCount = restDoc.data().select_count - payment.seats.length;
+
+                for (var i=0;i<payment.seats.length;i++){
+                    var seat = payment.seats[i];
+                    var seatNum = seat+".number";
+                    transaction.update(restRef,{
+                        [seatNum] : "1"
+                    });
+
+                }
+
+                return true;
+            });
+        });
+    });

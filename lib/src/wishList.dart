@@ -2,16 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dbapp/src/data/is_login.dart';
 import 'package:dbapp/src/data/sign_in.dart';
 import 'package:dbapp/src/moviepage.dart';
+import 'package:expandable/expandable.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Purchase extends StatefulWidget {
+class MyList extends StatefulWidget {
   @override
-  _PurchaseState createState() => _PurchaseState();
+  _MyListState createState() => _MyListState();
 }
 
-class _PurchaseState extends State<Purchase>
+class _MyListState extends State<MyList>
     with SingleTickerProviderStateMixin {
   final db = Firestore.instance;
 
@@ -20,7 +21,7 @@ class _PurchaseState extends State<Purchase>
   @override
   void initState() {
     super.initState();
-    ctr = new TabController(vsync: this, length: 2);
+    ctr = new TabController(vsync: this, length: 3);
   }
 
   @override
@@ -46,6 +47,9 @@ class _PurchaseState extends State<Purchase>
                   new Tab(
                     text: '내가 본 영화',
                   ),
+                  new Tab(
+                    text: '내가 쓴 리뷰',
+                  ),
                 ],
               ),
             ),
@@ -54,7 +58,7 @@ class _PurchaseState extends State<Purchase>
 //      margin: EdgeInsets.all(10),
               child: TabBarView(
                 controller: ctr,
-                children: <Widget>[wishList(), Text(' 2')],
+                children: <Widget>[wishList(), movieList(),reviewList()],
               ),
             ),
           ],
@@ -67,12 +71,12 @@ class _PurchaseState extends State<Purchase>
       color: Colors.black87,
       height: 150,
       child: Column(
-      children: <Widget>[
-        Container(
-          height: 10,
-        ),
+        children: <Widget>[
           Container(
-              child: counter.getCounter() == 0
+            height: 10,
+          ),
+          Container(
+              child: email==null
                   ? Container(
                       padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
                       child: Icon(Icons.account_circle, size: 50))
@@ -83,11 +87,17 @@ class _PurchaseState extends State<Purchase>
                           backgroundImage: NetworkImage('$imageUrl')))),
           Container(
               child: Text(
-            '왕종휘',
+                email == null?
+            '로그인을 해주세요':name,
             textScaleFactor: 1.5,
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           )),
-          Container(child: Text('wangjh789@gmail.com',style: TextStyle(color: Colors.white),))
+          Container(
+              child: Text(
+                email==null?
+            '':email,
+            style: TextStyle(color: Colors.white),
+          ))
         ],
       ),
     );
@@ -96,8 +106,8 @@ class _PurchaseState extends State<Purchase>
   Widget wishList() {
     return StreamBuilder(
       stream:
-          db.collection('member').document('wangjh789@gmail.com').snapshots(),
-        builder: (context, snapshot) {
+          db.collection('member').document('email').snapshots(),
+      builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
         List<dynamic> ad = snapshot.data['like_movie'];
@@ -115,12 +125,9 @@ class _PurchaseState extends State<Purchase>
       },
     );
   }
-
-//DocumentSnapshot document
   Widget cardBuild(String movieID) {
     return StreamBuilder(
-      stream:
-          db.collection('movie').snapshots(),
+      stream: db.collection('movie').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
@@ -130,13 +137,10 @@ class _PurchaseState extends State<Purchase>
       },
     );
   }
-
   Widget getMovieImg(String movieID) {
     return StreamBuilder(
-      stream: Firestore.instance
-          .collection('movie')
-          .document(movieID)
-          .snapshots(),
+      stream:
+          Firestore.instance.collection('movie').document(movieID).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Center(child: Text("Can't find"));
         return Container(
@@ -146,19 +150,17 @@ class _PurchaseState extends State<Purchase>
             children: <Widget>[
               Container(
                 child: Image(
-                  image: NetworkImage(
-                      snapshot.data['img']
-                  ),
-                  fit: BoxFit.contain,
+                  image: NetworkImage(snapshot.data['img']),
+                  fit: BoxFit.fill,
                 ),
               ),
               Text(
                 snapshot.data['name'],
-                textScaleFactor: 1.5,
+                textScaleFactor: 1.7,
               ),
               Text(
                 snapshot.data['en_name'],
-                textScaleFactor: 0.9,
+                textScaleFactor: 1.0,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -184,7 +186,8 @@ class _PurchaseState extends State<Purchase>
                       ],
                     ),
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MoviePage(movieID)));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MoviePage(movieID)));
                     },
                   ),
                 ],
@@ -196,4 +199,279 @@ class _PurchaseState extends State<Purchase>
       },
     );
   }
+
+  Widget movieList() {
+    return StreamBuilder(
+      stream: db
+          .collection('payment_movie')
+          .where('email', isEqualTo: email)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
+        return ListView.builder(
+          primary: false,
+          itemCount: snapshot.data.documents.length,
+          itemBuilder: (context, index) {
+            return cardBuild2(snapshot.data.documents[index]['movieID'],
+                snapshot.data.documents[index]['time_tableID'],snapshot.data.documents[index]['seats']);
+          },
+        );
+      },
+    );
+  }
+  Widget cardBuild2(String movieID, String timeTableID,List<dynamic> ad) {
+    return StreamBuilder(
+      stream: db.collection('movie').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
+        return Container(
+          color: Colors.grey[50],
+          child: getMovieImg2(movieID, timeTableID, ad),
+        );
+      },
+    );
+  }
+  Widget getMovieImg2(String movieID, String timeTableID,List<dynamic> ad) {
+    DocumentSnapshot document;
+    return StreamBuilder(
+      stream:
+          Firestore.instance.collection('movie').document(movieID).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Center(child: Text("Can't find"));
+        return Card(
+          color: Colors.white,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 10,bottom: 10,right: 10),
+                child: Image(
+                  height:MediaQuery.of(context).size.height * 0.25,
+                  image: NetworkImage(snapshot.data['img']),
+                ),
+              ),
+              Column(
+                children: <Widget>[
+                  Text(
+                    snapshot.data['name'],
+                    textScaleFactor: 1.5,
+                  ),
+                  Text(
+                    snapshot.data['en_name'],
+                    textScaleFactor: 0.9,
+                  ),
+                  SizedBox(
+                    height:MediaQuery.of(context).size.height *0.05 ,
+                  ),
+                  getTimeTable(timeTableID,ad),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      OutlineButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.open_in_new,
+                            ),
+                            Text("리뷰")
+                          ],
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => MoviePage(movieID)));
+                        },
+                      ),
+                      OutlineButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(Icons.bookmark),
+                            Text("예매"),
+                          ],
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => MoviePage(movieID)));
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+  Widget getTimeTable(String tableID,List<dynamic> seat) {
+    return StreamBuilder(
+      stream: db.collection('time_table').document(tableID).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
+        return Column(
+            children: <Widget>[
+              Text(snapshot.data['theater'].toString()+'관 / '+seat.toString()+'석'),
+                  Text(
+                  snapshot.data['startAt'].toDate().toString().split('.')[0]),
+            ]);
+      },
+    );
+  }
+
+  Widget reviewList() {
+    return StreamBuilder(
+      stream:
+      db.collection('member').document(email).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
+        List<dynamic> ad = snapshot.data['review_movieID'];
+        return GridView.builder(
+          primary: false,
+          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: (0.53),
+          ),
+          itemCount: ad.length,
+          itemBuilder: (context, index) {
+            return cardBuild3(ad[index],index);
+          },
+        );
+      },
+    );
+  }
+  Widget cardBuild3(String movieID,int index) {
+    return StreamBuilder(
+      stream: Firestore.instance
+          .collection('movie')
+          .document(movieID).collection('reviews').where('writer',isEqualTo: name)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
+        return ListView.builder(
+          physics: BouncingScrollPhysics(),
+          itemCount: snapshot.data.documents.length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: <Widget>[
+                ExpandablePanel(
+                  header: Container(
+                    margin:
+                    EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                    child: Row(
+                      children: <Widget>[
+                       getMovieImg3(movieID),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  snapshot.data.documents[index]['title'],
+                                  textScaleFactor: 1.5,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  snapshot.data.documents[index]['date']
+                                      .toDate()
+                                      .toString()
+                                      .split('.')[0],
+                                  textScaleFactor: 0.9,
+                                  style: TextStyle(color: Colors.black45),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  expanded: Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(left: 70),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          snapshot.data.documents[index]['description'],
+                          softWrap: true,
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+//                        Container(
+//                            child: Row(
+//                              children: <Widget>[
+//                                Expanded(
+//                                  child: Text(
+//                                    'By ' + document['name'],
+//                                    textScaleFactor: 1.5,
+//                                    style: TextStyle(fontStyle: FontStyle.italic),
+//                                  ),
+//                                ),
+//                                IconButton(
+//                                  icon: Icon(Icons.delete_forever),
+//                                  iconSize: 40,
+//                                  onPressed: () {
+//                                    _showDialog(context, db, document);
+//                                  },
+//                                )
+//                              ],
+//                            ))
+                    ],
+                  ),
+                  tapHeaderToExpand: true,
+                  hasIcon: false,
+                ),
+                Divider(
+                  thickness: 1.5,
+                  endIndent: 10,
+                  indent: 10,
+                )
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+  Widget getMovieImg3(String movieID) {
+    return StreamBuilder(
+      stream:
+      Firestore.instance.collection('movie').document(movieID).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Center(child: Text("Can't find"));
+        return Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                height: MediaQuery.of(context).size.height*0.2,
+                child: Image(
+                  image: NetworkImage(snapshot.data['img']),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Text(
+                snapshot.data['name'],
+                textScaleFactor: 1,
+              ),
+              Text(
+                snapshot.data['en_name'],
+                textScaleFactor: 0.5,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
 }

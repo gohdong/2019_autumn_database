@@ -6,9 +6,8 @@ import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
 
-  final Counter counter;
 
-  const Login({Key key, this.counter}) : super(key: key);
+  const Login({Key key}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
@@ -46,10 +45,7 @@ class _LoginState extends State<Login> {
       splashColor: Colors.grey,
       onPressed: () {
         signInWithGoogle().whenComplete(() {
-          if ("$email" != "null"){
-            counter.increment();
             Navigator.of(context).pop();
-          }
 
         });
       },

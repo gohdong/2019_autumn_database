@@ -1,9 +1,11 @@
 import 'package:dbapp/src/data/is_login.dart';
+import 'package:dbapp/src/data/sign_in.dart';
 import 'package:dbapp/src/event.dart';
 import 'package:dbapp/src/home.dart';
-import 'package:dbapp/src/makeQR.dart';
+import 'package:dbapp/src/makeMovieTicket.dart';
 import 'package:dbapp/src/menubar.dart';
 import 'package:dbapp/src/my.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,30 +15,51 @@ import 'src/store.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
-
   // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
 }
-class _MyAppState extends State<MyApp> {
 
+class _MyAppState extends State<MyApp> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+//    final counter = Provider.of<Counter>(context);
+    super.initState();
+    getUser().then((user) {
+      if (user != null) {
+        print(user);
+        email = user.email;
+        name = user.displayName;
+        imageUrl = user.photoUrl;
+      } else {
+        email = null;
+        name = null;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
+      statusBarColor: Colors.white,
     ));
     return ChangeNotifierProvider(
-      builder: (_)=> Counter(),
+      builder: (_) => Counter(),
       child: MaterialApp(
         title: 'GVA_app',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Colors.white,
-
         ),
         home: Tabs(),
       ),
     );
+  }
+
+  Future<FirebaseUser> getUser() async {
+    return await _auth.currentUser();
   }
 }
 
@@ -67,9 +90,19 @@ class _TabsState extends State<Tabs> {
       child: Scaffold(
         endDrawer: MenuBar(),
         appBar: AppBar(
-          title: FlatButton(padding: EdgeInsets.all(0),child: Image.asset('img/gva_logo1.png',height: 30,),onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>QR("movie")));
-          },),
+          title: FlatButton(
+            padding: EdgeInsets.all(0),
+            child: Image.asset(
+              'img/gva_logo1.png',
+              height: 30,
+            ),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => MakeMovieTicket("movie")));
+            },
+          ),
+//          title: email==null?Text("NNN"):Text(email),
+
           centerTitle: true,
           elevation: 0,
           // If `TabController controller` is not provided, then a
@@ -87,4 +120,3 @@ class _TabsState extends State<Tabs> {
     );
   }
 }
-
