@@ -342,7 +342,6 @@ class _MoviePageState extends State<MoviePage>
         Flexible(
           child: StreamBuilder(
             stream: Firestore.instance
-
                 .collection('movie')
                 .document(movieID).collection('reviews').orderBy('date',descending: true)
                 .snapshots(),
@@ -841,7 +840,6 @@ class _MoviePageState extends State<MoviePage>
       stream: Firestore.instance
           .collection('roles')
           .where("movieID", isEqualTo: movieID)
-          .orderBy('importance')
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)

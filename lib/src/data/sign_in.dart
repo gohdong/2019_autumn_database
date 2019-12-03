@@ -18,6 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -48,6 +49,14 @@ Future<String> signInWithGoogle() async {
   name = user.displayName;
   email = user.email;
   imageUrl = user.photoUrl;
+  
+  await Firestore.instance.collection('member').document(email).setData({
+    'email' : email,
+    'name' : name,
+    'img' : imageUrl,
+    'like_movie' : FieldValue.arrayUnion([]),
+    'review_movieID' : FieldValue.arrayUnion([])
+  },merge: true);
 
   if (name.contains(" ")) {
     name = name.substring(0, name.indexOf(" "));

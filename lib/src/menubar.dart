@@ -223,7 +223,7 @@ class MenuBar extends StatelessWidget {
           InkWell(
               onTap: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Event()));
+                    .push(MaterialPageRoute(builder: (context) => MyApp()));
               },
               child: gridComponent(Icons.event, "이벤트")),
           gridComponent(Icons.collections_bookmark, "매거진"),
