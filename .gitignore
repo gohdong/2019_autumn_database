@@ -28,7 +28,7 @@
 .pub-cache/
 .pub/
 /build
-functions/
+functions/src/config.js
 
 **/android/app/google-services.json
 **/ios/Runner/GoogleService-Info.plist

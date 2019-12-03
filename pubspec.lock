@@ -79,23 +79,12 @@ packages:
     source: hosted
     version: "1.0.8"
   expandable:
-<<<<<<< HEAD
     dependency: "direct main"
     description:
       name: expandable
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-=======
-
-    dependency: "direct main"
-    description:
-      name: date_format
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.8"
-
->>>>>>> 422726ab55bbc6d0e3b16f252a3998804082d60f
   firebase_auth:
     dependency: "direct main"
     description:
@@ -122,6 +111,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_money_formatter:
+    dependency: "direct main"
+    description:
+      name: flutter_money_formatter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.3"
   flutter_statusbarcolor:
     dependency: "direct main"
     description:
@@ -246,6 +242,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.5.7"
+  qr:
+    dependency: transitive
+    description:
+      name: qr
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
+  qr_flutter:
+    dependency: "direct main"
+    description:
+      name: qr_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
   quiver:
     dependency: transitive
     description:
@@ -314,6 +324,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.11"
+  time_formatter:
+    dependency: "direct main"
+    description:
+      name: time_formatter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0+5"
   typed_data:
     dependency: transitive
     description:

@@ -48,7 +48,13 @@ class _MoviePageState extends State<MoviePage>
 
     return Scaffold(
         appBar: AppBar(
+          title: Image.asset('img/gva_logo1.png',height: 30,),
+          centerTitle: true,
           elevation: 0,
+          // If `TabController controller` is not provided, then a
+          // DefaultTabController ancestor must be provided instead.
+          // Another way is to use a self-defined controller, c.f. "Bottom tab
+          // bar" example.
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.chat),
@@ -78,6 +84,7 @@ class _MoviePageState extends State<MoviePage>
           return CircularProgressIndicator();
         }
         return ListView(
+          physics: BouncingScrollPhysics(),
           children: <Widget>[
             Container(
               height: MediaQuery.of(context).size.height * 0.3,
@@ -270,6 +277,7 @@ class _MoviePageState extends State<MoviePage>
           return Center(child: CircularProgressIndicator());
         return ListView.builder(
           itemCount: snapshot.data.documents.length,
+          physics: BouncingScrollPhysics(),
           itemBuilder: (context, index) {
             return Column(
               children: <Widget>[
@@ -343,6 +351,7 @@ class _MoviePageState extends State<MoviePage>
               if (!snapshot.hasData)
                 return Center(child: CircularProgressIndicator());
               return ListView.builder(
+                physics: BouncingScrollPhysics(),
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
 //                  return Container(
@@ -879,7 +888,7 @@ class _MoviePageState extends State<MoviePage>
       stream: Firestore.instance
           .collection('roles')
           .where("movieID", isEqualTo: movieID)
-//          .orderBy('importance')
+          .orderBy('importance')
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
@@ -891,6 +900,7 @@ class _MoviePageState extends State<MoviePage>
                 (MediaQuery.of(context).size.height / 5),
           ),
           itemCount: snapshot.data.documents.length + 1,
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             if (index == 0) {
               return getDirector();

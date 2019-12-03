@@ -58,6 +58,7 @@ class _HomeState extends State<Home> {
           return Center(child: CircularProgressIndicator());
         return ListView.builder(
           itemCount: snapshot.data.documents.length + 3,
+          physics: BouncingScrollPhysics(),
           itemBuilder: (context, index) {
             if (index == 0) {
               return RandomTrailer();

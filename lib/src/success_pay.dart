@@ -15,15 +15,12 @@ import 'package:dbapp/src/test_movie_buy.dart';
 import 'package:dbapp/src/home.dart';
 import 'data/sign_in.dart';
 
-
 class Success extends StatelessWidget {
-
   String ok;
 
-  Success(String getdata) {
-    ok = getdata;
-  }
-
+//  Success(String getdata) {
+//    ok = getdata;
+//  }
 
   String seat;
   var i;
@@ -31,7 +28,6 @@ class Success extends StatelessWidget {
   Firestore firestore = Firestore.instance;
 
   ////// 필드 생성
-
 
 //}else if(widget.i == 1 || widget.i == 0){
 //  Firestore.instance.collection("time_table").
@@ -65,10 +61,10 @@ class Success extends StatelessWidget {
     print("success 진입@@@@@@");
     print('$global_select_list'.length);
     print(global_select_list.length);
-    for(i=0; i<'$global_select_list'.length; i++){
+    for (i = 0; i < '$global_select_list'.length; i++) {
       print('$global_select_list'[i]);
     }
-    for(i=0; i<global_select_list.length; i++){
+    for (i = 0; i < global_select_list.length; i++) {
       print(global_select_list[i]);
     }
     print("success 진입@@@@@@");
@@ -80,75 +76,105 @@ class Success extends StatelessWidget {
 //        'type' : 'disabled',
 //      }});
 
-
     String a = '$global_time_table_ID';
 
 //    print("document.table : " + document_table['movieID']);
     return Scaffold(
-        appBar: AppBar(title: Text('$name')),
-        body: Column(
-          children: <Widget>[
-//            Text(select_list[0]),
-//            Text(document_table['movieID']),
-            Center(
-                child: InkWell(
-              onTap: () {
-                ////// 필드 생성
+        appBar: AppBar(title: Text('')),
+        body: Column(children: <Widget>[
+          Container(
+            height: 280,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.grey[300],
+            ),
+            margin: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+            child: ListView(
+                padding: EdgeInsets.only(bottom: 70),
+                shrinkWrap: true,
+                children: <Widget>[
+//                  Refresh(),
+                  Container(
+                      height: 60,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10.0),
+                            topLeft: Radius.circular(10.0),
+                          ),
+                          color: Colors.grey[200]),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            "결제가 완료되었습니다",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      )),
+                  Container(
+                      padding: EdgeInsets.all(15),
+                      height: 150,
+                      decoration: BoxDecoration(
+                          border: Border(
+                            top: BorderSide(width: 1.0, color: Colors.grey[400]),
+                          ),
+                          color: Colors.grey[200]),
+                      child: Column(
+                        children: <Widget>[
+// 아래로
+                          Column(
+                            children: <Widget>[],
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                          )
+                        ],
+                        crossAxisAlignment: CrossAxisAlignment.start,
+//                      mainAxisAlignment: MainAxisAlignment.start,
+                      )),
+                  Container(
+                    height: 70,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(10.0),
+                          bottomLeft: Radius.circular(10.0),
+                        ),
+                        color: Colors.red),
+                    child: Container(
+                        child: InkWell(
+                          onTap: () {
+//                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Screen_purchase()));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    Tabs()));
 
-                Firestore.instance
-                    .collection("time_table")
-                    .document('20191126_CINEMA1_0920')
-                    .collection('seats')
-                    .document('1')
-                    .updateData({
-                  seat: <String, dynamic>{
-                    'number': "1",
-                    'type': 'disabled',
-                  }
-                });
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Home()));
+                            return null;
+                          },
+                          child: Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    "홈으로 돌아가기",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                                mainAxisAlignment: MainAxisAlignment.center,
+                              )),
+                        )),
+                  )
+                ]),
+          )
+        ],crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center
 
-                return null;
-              },
-              child: Container(
-                margin: const EdgeInsets.only(top: 50, bottom: 30),
-                width: 300.0,
-                height: 48.0,
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.black),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.0),
-                    )),
-                child: Center(
-//              child : Text("a"),
-//              child : Text("Screen"),
-                  child: Text(
-                    "돌아가기",
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-//          child: Text(reState.seatlist.length.toString(), style: TextStyle(
-//            fontSize: 20,
-//          ),),
-                ),
-              ),
-            ))
-          ],
-        ));
+          ,)
+    );
   }
-
-//  @override
-//  Widget Test(string){
-//    var a=0;
-//    print("ok");
-//    this.title = string;
-////    print(string);
-//      return Row(
-//        children: <Widget>[
-//          Text(string),
-//        ],
-//      );
-//  }
 
 }

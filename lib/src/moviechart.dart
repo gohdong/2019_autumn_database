@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dbapp/src/reservation_time_table.dart';
+import 'package:intl/intl.dart';
 
 class MovieChart extends StatefulWidget {
   @override
@@ -25,21 +26,18 @@ class MovieChartState extends State<MovieChart> {
     return Container(
       height: size.height * 0.5,
       padding: EdgeInsets.all(10),
-      child: Column(
-        children: <Widget>[
-          Text("Movie Chart",),
-          Flexible(child: newsFeedBuild())],
-      ),
+      child: newsFeedBuild(),
     );
   }
 
   Widget newsFeedBuild() {
     return StreamBuilder(
-      stream: db.collection('movie').snapshots(),
+      stream: db.collection('movie').orderBy('spectator',descending: true).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
         return ListView.builder(
+          physics: BouncingScrollPhysics(),
           itemCount: snapshot.data.documents.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
@@ -52,6 +50,7 @@ class MovieChartState extends State<MovieChart> {
 
   Widget cardBuild(DocumentSnapshot document) {
     Size size = MediaQuery.of(context).size;
+    final formatter = new NumberFormat("#,###");
     return Container(
       decoration: BoxDecoration(
 //        color: Colors.blue
@@ -87,8 +86,11 @@ class MovieChartState extends State<MovieChart> {
                 softWrap: false,
               )),
           Container(
-              child: Text(
-            "예매율",
+              child: Text("관객수 : "+
+            formatter.format(document['spectator']),
+            style: TextStyle(
+              color: Colors.black54
+            ),
             textScaleFactor: 0.8,
           )),
           Container(

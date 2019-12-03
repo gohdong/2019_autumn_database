@@ -10,14 +10,17 @@ import 'package:dbapp/src/success_pay.dart';
 
 class Payment extends StatelessWidget {
 
-  List<String> select_list;
-  DocumentSnapshot document_table; // movie.docuemnt
+//  List<String> select_list;
+//  DocumentSnapshot document_table; // movie.docuemnt
+  int money;
    // time_table.document
 
-  Payment(List<String> getlist, DocumentSnapshot gettable) {
+  Payment(int getmoney) {
 
-    select_list = getlist;
-    document_table = gettable;
+//    select_list = getlist;
+//    document_table = gettable;
+    money = getmoney;
+
   }
 
   String check = "what?";
@@ -51,7 +54,7 @@ class Payment extends StatelessWidget {
         'payMethod': 'card',                                           // 결제수단
         'name': '아임포트 결제데이터 분석',                                  // 주문명
         'merchantUid': 'mid_${DateTime.now().millisecondsSinceEpoch}', // 주문번호
-        'amount': 100,                                             // 결제금액
+        'amount': money,                                             // 결제금액
         'buyerName': "client_ID",                                           // 구매자 이름
         'buyerTel': '01012345678',                                     // 구매자 연락처
         'buyerEmail': 'example@naver.com',                             // 구매자 이메일
@@ -69,10 +72,10 @@ class Payment extends StatelessWidget {
 //          arguments: result,
 //        );
 //      },
-
+// Map<String, String> result
       callback: (Map<String, String> result) {
         print("콜백함수 진입@@@@@@@@");
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Success(check)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Success()));
 
 //        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Success(this.select_list, this.document_table)));
       },
