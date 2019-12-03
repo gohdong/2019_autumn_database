@@ -291,7 +291,6 @@ class _Screen_purchaseState extends State<Screen_purchase> {
                             'time_tableID': widget.document_table.documentID,
                             'seats': sort_array,
                             'payTime': Timestamp.now(),
-                            'mileage' : this.remain,
                           });
                     // 선택한 좌석 firebase 변경
                     for (var i = 0; i < sub.length; i++) {
@@ -315,7 +314,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
                           widget.document_table['select_count'] + sub.length
                     });
                     Navigator.of(ctx).push(MaterialPageRoute(
-                        builder: (context) => Payment(price)));
+                        builder: (context) => Payment(widget.money)));
 
 //                    Navigator.of(ctx).push( MaterialPageRoute(builder: (context) => Payment(select_list,document_table, price)));
                     },
