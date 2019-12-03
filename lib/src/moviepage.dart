@@ -158,7 +158,7 @@ class _MoviePageState extends State<MoviePage>
                       ),
 
                       onPressed: () {
-                        if(email==null){
+                        if(email != null){
                           if(!pushLike){
                           try {
                           db.collection('movie').document(movieID)

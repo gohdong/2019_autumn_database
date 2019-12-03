@@ -61,23 +61,6 @@ class MenuBar extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Tabs()));
-              },
-              child: Container(
-                child: Text(
-                  'Home',
-                  textAlign: TextAlign.center,
-                  textScaleFactor: 1.5,
-                ),
-              ),
-            ),
-            Divider(
-              indent: 15,
-              endIndent: 15,
-            ),
-            InkWell(
-              onTap: () {
                 _firebaseAuth.signOut();
                 email = null;
                 name = null;
@@ -256,7 +239,6 @@ class MenuBar extends StatelessWidget {
   }
 
   Widget likeMovie(context) {
-    final counter = Provider.of<Counter>(context);
     if (email == null) {
       return Text(
         '0',
@@ -285,7 +267,6 @@ class MenuBar extends StatelessWidget {
   }
 
   Widget viewMovie(context) {
-    final counter = Provider.of<Counter>(context);
     if (email == null) {
       return Text(
         '0',
