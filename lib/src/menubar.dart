@@ -83,7 +83,7 @@ class MenuBar extends StatelessWidget {
               },
               child: Container(
                 child: Text(
-                  counter.getCounter() == 0 ? '' : 'LogOut',
+                  'LogOut',
                   textScaleFactor: 1.5,
                   textAlign: TextAlign.center,
                 ),

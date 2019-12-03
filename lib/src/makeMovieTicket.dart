@@ -3,21 +3,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class QR extends StatefulWidget {
+class MakeMovieTicket extends StatefulWidget {
   String type;
 
-  QR(String getType) {
+  MakeMovieTicket(String getType) {
     this.type = getType;
   }
 
   @override
-  _QRState createState() => _QRState(type);
+  _MakeMovieTicketState createState() => _MakeMovieTicketState(type);
 }
 
-class _QRState extends State<QR> {
+class _MakeMovieTicketState extends State<MakeMovieTicket> {
   String type;
 
-  _QRState(String getType) {
+  _MakeMovieTicketState(String getType) {
     this.type = getType;
   }
 
@@ -47,7 +47,7 @@ class _QRState extends State<QR> {
     return StreamBuilder(
       stream: Firestore.instance
           .collection('payment_movie')
-          .document('TZ2DcceSPFsaCWcuflUw')
+          .document('')
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -176,7 +176,7 @@ class _QRState extends State<QR> {
             new FlatButton(
               child: new Text("Confirm"),
               onPressed: () async {
-                await Firestore.instance.collection('payment_movie').document('XC7oVMd66A8zmBp1YN4t').delete();
+                await Firestore.instance.collection('payment_movie').document('s2xGOcXdVAdoimnX8m89').delete();
                 int count = 0;
                 Navigator.of(context).popUntil((_) => count++ >= 2);
               },
@@ -193,5 +193,6 @@ class _QRState extends State<QR> {
         );
       },
     );
+
   }
 }
