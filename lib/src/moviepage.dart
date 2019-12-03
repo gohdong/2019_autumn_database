@@ -353,52 +353,6 @@ class _MoviePageState extends State<MoviePage>
                 physics: BouncingScrollPhysics(),
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
-//                  return Container(
-//                    height: MediaQuery.of(context).size.height * 0.1,
-//                    margin: EdgeInsets.only(left: 10, right: 10),
-//                    child: Row(
-//                      children: <Widget>[
-//                        Container(
-//                            width: MediaQuery.of(context).size.width * 0.2,
-//                            child: starPoint(
-//                                snapshot.data.documents[index]['score'], 0.02)),
-//                        Container(
-//                          margin: EdgeInsets.only(left: 10),
-//                          child: Column(
-//                            mainAxisAlignment: MainAxisAlignment.center,
-//                            crossAxisAlignment: CrossAxisAlignment.start,
-//                            children: <Widget>[
-//                              Text(
-//                                snapshot.data.documents[index]['writer'],
-//                                textScaleFactor: 1.5,
-//                              ),
-//                              Container(
-//                                  width:
-//                                      MediaQuery.of(context).size.width * 0.7,
-//                                  child: Text(
-//                                    snapshot.data.documents[index]
-//                                        ['description'],
-//                                  )),
-//                            ],
-//                          ),
-//                        ),
-//                      ],
-//                    ),
-//                  );
-
-//                  return ListTile(
-//                    leading: CircleAvatar(
-//                      radius: 25.0,
-//                      child: Text(snapshot.data.documents[index]['writer']),
-//                    ),
-//                    title: Text(snapshot.data.documents[index]['title']),
-//                    subtitle: Text(snapshot.data.documents[index]['date'].toDate().toString().split('.')[0]),
-//                    trailing: reviewTail(snapshot.data.documents[index]['score']),
-//                    onTap: (){
-//
-//                    },
-//                  );
-
                   return Column(
                     children: <Widget>[
                       ExpandablePanel(
