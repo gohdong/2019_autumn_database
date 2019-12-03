@@ -5,6 +5,7 @@ import 'package:dbapp/src/reservation.dart';
 import 'package:date_format/date_format.dart';
 
 import 'data/sign_in.dart';
+import 'login.dart';
 
 Show_time_table_run showState = new Show_time_table_run();
 
@@ -144,7 +145,7 @@ class Show_time_table_run extends State<Show_time_table2> {
           InkWell(
             onTap: () {
               email == null
-                  ? null
+                  ? _confirmLogOut(context)
                   : Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
                           sub_Reserve(widget.document_movie, document)));
@@ -205,9 +206,9 @@ class Show_time_table_run extends State<Show_time_table2> {
         children: <Widget>[
           InkWell(
             onTap: () {
-              print(document.documentID);
-              print(time);
-              Navigator.of(context).push(MaterialPageRoute(
+              email == null
+                  ? _confirmLogOut(context)
+                  : Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
                       sub_Reserve(widget.document_movie, document)));
             },
@@ -270,14 +271,10 @@ class Show_time_table_run extends State<Show_time_table2> {
           InkWell(
             onTap: () {
               email == null
-                  ? null
+                  ? _confirmLogOut(context)
                   : Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          sub_Reserve(widget.document_movie, document)));
-
-//            Navigator.of(context).push(MaterialPageRoute(
-//
-//                builder: (context) => Reserve(title : document['title'], time : document['time'])));
+                  builder: (context) =>
+                      sub_Reserve(widget.document_movie, document)));
             },
             child: Container(
               padding: EdgeInsets.all(5),
@@ -330,5 +327,39 @@ class Show_time_table_run extends State<Show_time_table2> {
         crossAxisAlignment: CrossAxisAlignment.center,
       );
     }
+
   }
+  void _confirmLogOut(BuildContext context) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return CupertinoAlertDialog(
+          content: new Text("계속 진행하시려면\n로그인이 필요합니다."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("확인"),
+              onPressed: () async {
+                await Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Login()));
+//                int count = 0;
+                Navigator.of(context).pop();
+              },
+              textColor: Colors.blue,
+            ),
+            new FlatButton(
+              child: new Text("취소"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              textColor: Colors.red,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
 }

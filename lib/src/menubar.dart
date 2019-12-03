@@ -16,6 +16,7 @@ import 'package:dbapp/src/test_movie_buy.dart';
 import 'package:dbapp/src/success_pay.dart';
 import 'package:dbapp/src/wishList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -59,22 +60,20 @@ class MenuBar extends StatelessWidget {
               indent: 15,
               endIndent: 15,
             ),
-            InkWell(
-              onTap: () {
-                _firebaseAuth.signOut();
-                email = null;
-                name = null;
-                imageUrl = null;
-                Navigator.of(context).pop();
-              },
-              child: Container(
-                child: Text(
-                  'LogOut',
-                  textScaleFactor: 1.5,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
+            email != null
+                ? InkWell(
+                    onTap: () {
+                      _confirmLogOut(context);
+                    },
+                    child: Container(
+                      child: Text(
+                        'LogOut',
+                        textScaleFactor: 1.5,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
@@ -250,7 +249,10 @@ class MenuBar extends StatelessWidget {
             Firestore.instance.collection('member').document(email).snapshots(),
         builder: (context, snapshot) {
           List<dynamic> ad = snapshot.data['like_movie'];
-          if (!snapshot.hasData) return Center(child: CircularProgressIndicator(),);
+          if (!snapshot.hasData)
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           return Container(
             child: _likeMovie(context, ad),
           );
@@ -279,7 +281,10 @@ class MenuBar extends StatelessWidget {
             .where('email', isEqualTo: email)
             .snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Center(child: CircularProgressIndicator(),);
+          if (!snapshot.hasData)
+            return Center(
+              child: CircularProgressIndicator(),
+            );
 
           int ad = snapshot.data.documents.length;
           return Container(
@@ -302,7 +307,10 @@ class MenuBar extends StatelessWidget {
         stream:
             Firestore.instance.collection('member').document(email).snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Center(child: CircularProgressIndicator(),);
+          if (!snapshot.hasData)
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           return Container(
             child: _reviewList(context, snapshot.data['review_movieID']),
           );
@@ -315,6 +323,43 @@ class MenuBar extends StatelessWidget {
         document.length.toString(),
         textScaleFactor: 1.5,
       ),
+    );
+  }
+
+  void _confirmLogOut(BuildContext context) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return CupertinoAlertDialog(
+          title: new Text("Alert"),
+          content: new Text("Are you sure to add it?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Confirm"),
+              onPressed: () async {
+                await _firebaseAuth.signOut();
+                email = null;
+                name = null;
+                imageUrl = null;
+
+                int count = 0;
+                Navigator.of(context).popUntil((_) => count++ >= 2);
+              },
+              textColor: Colors.blue,
+            ),
+            new FlatButton(
+              child: new Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              textColor: Colors.red,
+            ),
+          ],
+        );
+      },
     );
   }
 }

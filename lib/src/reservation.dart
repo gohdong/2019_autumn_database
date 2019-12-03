@@ -211,7 +211,7 @@ class ParentReserve extends State<sub_Reserve> {
 //                      select_list : reState.seatlist,
 //                      count : reState.seatlist.length)));
                   builder: (context) => Screen_purchase(
-                      reState.seatlist, reState.seatlist_rank, widget.document_movie, widget.document_table
+                      reState.seatlist, reState.seatlist_rank, widget.document_movie, widget.document_table, reState.seatlist.length*8000
 
                   )));
             }

@@ -48,7 +48,7 @@ class _StoreDetailState extends State<StoreDetail> {
           child: Column(
             children: <Widget>[
               Image.network(widget.document['img'],
-                  width: MediaQuery.of(context).size.width * 0.9),
+                  height: MediaQuery.of(context).size.width * 0.9), // 제품사진
               Container(
                 margin: EdgeInsets.only(bottom: 15),
                 decoration: BoxDecoration(
@@ -56,13 +56,17 @@ class _StoreDetailState extends State<StoreDetail> {
                     bottom: BorderSide(width: 1.0, color: Colors.grey[400]),
                   ),
                 ),
-              ),
+              ),// 중간 줄 생성
+              Container(
+                  height: MediaQuery.of(context).size.width * 0.5,
+                  child:
               Row(
+
                 children: <Widget>[
                   Column(
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(left: 25),
+                        margin: EdgeInsets.only(left: 25, top : 27),
                         child: Text(
                           "상품  : " + widget.document['name'],
                           style: TextStyle(
@@ -88,67 +92,123 @@ class _StoreDetailState extends State<StoreDetail> {
                     ],
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
-                  ),
-                  Column(
-                    children: <Widget>[
+                  ),// 상품이름 / 상품가격
+                  Expanded(child:
+                    Column(children: <Widget>[
                       make_button(),
-                      InkWell(
+                      InkWell( // 장바구니 추가
                         onTap: () {
                           if (widget.array
-                              .containsKey(widget.document['name'])) {
-                            // 이미 추가한적이 있다 -> 최신화
-                            widget.array.update(widget.document['name'],
-                                (dynamic val) => widget.count);
-                            widget.array.putIfAbsent(
-                                widget.document['name'], () => widget.count);
-                            widget.money.putIfAbsent(
-                                widget.document['name'], () => widget.document['price']);
-                          } else {
-                            // 처음추가
-                            widget.array.putIfAbsent(
-                                widget.document['name'], () => widget.count);
-                            widget.money.putIfAbsent(
-                                widget.document['name'], () => widget.document['price']);
+                              .containsKey(widget.document['name'])) { //맵에 키가 존재
+                            if(widget.count > 0){ // 개수 1개 이상으로 변경
+                              // 이미 추가한적이 있다 -> 최신화
+                              widget.array.update(widget.document['name'],
+                                      (dynamic val) => widget.count);
+                              widget.array.putIfAbsent(
+                                  widget.document['name'], () => widget.count);
+                              widget.money.putIfAbsent(
+                                  widget.document['name'], ()=> widget.document['price']);
+                              print(widget.array);
+                              print(widget.money);
+                              _showDialog2("장바구니 내의 "+widget.document['name']+"의 수량이 "+widget.count.toString()+"개로 변경되었습니다.");
+                            }else{ // 개수 0개로 변경 -> 삭제
+                              // 이미 추가한적이 있다 -> 최신화다
+                              widget.array.remove(widget.document['name']);
+                              _showDialog2("상품이 삭제되었습니다");
+                            }
+                          } else { // 맵에 키가 없음
+                            if(widget.count == 0){
+                              _showDialog2("0개의 상품이 선택되었습니다. 1개이상 상품을 선택해주세요");
+                            }
+                            else {
+                              // 처음추가
+                              widget.array.putIfAbsent(
+                                  widget.document['name'], () => widget.count);
+                              widget.money.putIfAbsent(
+                                  widget.document['name'], () =>
+                              widget.document['price']);
+                              print(widget.array);
+                              print(widget.money);
+                              _showDialog();
+                            }
                           }
-                          print(widget.array);
-                          print(widget.money);
-                          _showDialog();
                         },
                         child: Container(
-                          margin: EdgeInsets.only(top: 10, left : 60),
+                          alignment: Alignment.center,
+                          height: 40,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Colors.white),
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.redAccent
+                          ),
+                          margin: EdgeInsets.only(top: 20, right :20),
                           child: Text(
                             "장바구니 담기",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
                           ),
                         ),
                       ),
                     ],
                   )
+                    ,)
                 ],
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-              ),
+              ),),
               Expanded(
-                  child: Row(
-                children: <Widget>[
+                  child:
                   Container(
+                    alignment: Alignment.center,
                     child: InkWell(
-                      onTap: () {
-                        print(widget.array);
+                      onTap: () { // 결제하기
+                        print("진행진행");
+                        if (widget.array
+                            .containsKey(widget.document['name'])) { //맵에 키가 존재
+                          if(widget.count > 0){ // 개수 1개 이상으로 변경
+                            // 이미 추가한적이 있다 -> 최신화
+                            widget.array.update(widget.document['name'],
+                                    (dynamic val) => widget.count);
+                            widget.array.putIfAbsent(
+                                widget.document['name'], () => widget.count);
+                            widget.money.putIfAbsent(
+                                widget.document['name'], ()=> widget.document['price']);
+                          }else{ // 개수 0개로 변경 -> 삭제
+                            // 이미 추가한적이 있다 -> 최신화다
+                            widget.array.remove(widget.document['name']);
+                          }
+                        } else { // 맵에 키가 없음
+                          if(widget.count == 0){
+//                            _showDialog2("0개의 상품이 선택되었습니다. 1개이상 상품을 선택해주세요");
+                          }
+                          else {
+                            // 처음추가
+                            widget.array.putIfAbsent(
+                                widget.document['name'], () => widget.count);
+                            widget.money.putIfAbsent(
+                                widget.document['name'], () =>
+                            widget.document['price']);
+                            print(widget.array);
+                            print(widget.money);
+//                            _showDialog();
+                          }
+
+                        }
+
                         if (widget.array.keys.toList().length != 0) {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
                                   Food_purchase(select: widget.array, money : widget.money)));
                         } else {
-                          _showDialog2();
+                          _showDialog2("장바구니에 담긴 품목이 없습니다. 상품을 골라주세요.");
                         }
                       },
                       child: Text(
-                        "장바구니 확인",
+                        "결제하기",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 30,
@@ -158,14 +218,11 @@ class _StoreDetailState extends State<StoreDetail> {
                     ),
                     color: Colors.red,
                     width: MediaQuery.of(context).size.width * 1,
-                    height: 60,
-                    alignment: Alignment(0, 0),
+                    height: 30,
+//                    alignment: Alignment(0, 0),
                     //              height: MediaQuery.of(ctx).size.height * 0.3,
                   ),
-                ],
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-              ))
+               )
             ],
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +234,7 @@ class _StoreDetailState extends State<StoreDetail> {
   Widget make_button() {
     var keys;
     return Container(
-      margin: EdgeInsets.only(left: 60),
+      margin: EdgeInsets.only(left: 60, top : 30),
       child: Row(
         children: <Widget>[
           InkWell(
@@ -186,11 +243,13 @@ class _StoreDetailState extends State<StoreDetail> {
                   widget.count = widget.count + 1;
                 });
               },
+
               child: Container(
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  border: Border.all(width: 2, color: Colors.grey[400]),
+                  shape: BoxShape.circle,
+                  border: Border.all(width: 2, color: Colors.black),
                 ),
                 child: Icon(Icons.expand_less),
               )),
@@ -198,9 +257,9 @@ class _StoreDetailState extends State<StoreDetail> {
               alignment: Alignment.center,
               width: 40,
               height: 40,
-              decoration: BoxDecoration(
-                border: Border.all(width: 2, color: Colors.grey[300]),
-              ),
+//              decoration: BoxDecoration(
+//                border: Border.all(width: 2, color: Colors.grey[300]),
+//              ),
               child: Text(
                 widget.count.toString(),
                 style: TextStyle(
@@ -219,7 +278,8 @@ class _StoreDetailState extends State<StoreDetail> {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  border: Border.all(width: 2, color: Colors.grey[400]),
+                  shape: BoxShape.circle,
+                  border: Border.all(width: 2, color: Colors.black),
                 ),
                 child: Icon(Icons.expand_more),
               )),
@@ -236,9 +296,9 @@ class _StoreDetailState extends State<StoreDetail> {
             return AlertDialog(
                 title: new Text("Message"),
                 content: new Text(
-                  "선택된 상품이 없습니다. 수량을 최소 1개이상 선택해주세요",
+                  "장바구니에 담긴 물건이 없습니다. 상품을 1개이상 담아주세요",
                 ),
-                actions: <Widget>[
+               actions: <Widget>[
                   new FlatButton(
                       child: new Text("닫기"),
                       onPressed: () {
@@ -263,14 +323,14 @@ class _StoreDetailState extends State<StoreDetail> {
         });
   }
 
-  void _showDialog2() {
+  void _showDialog2(str) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
             return AlertDialog(
                 title: new Text("Message"),
                 content: new Text(
-                  "장바구니에 담긴 품목이 없습니다. 상품을 골라주세요.",
+                  str,
                 ),
                 actions: <Widget>[
                   new FlatButton(
@@ -281,4 +341,6 @@ class _StoreDetailState extends State<StoreDetail> {
                 ]);
         });
   }
+
+
 }

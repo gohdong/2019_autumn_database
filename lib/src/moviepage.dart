@@ -206,8 +206,15 @@ class _MoviePageState extends State<MoviePage>
                         children: <Widget>[Icon(Icons.bookmark), Text("예매하기")],
                       ),
                       onPressed: () {                                                           //document.documentID, document
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Show_time_table(snapshot.data.documentID, snapshot.data)));
-
+                        if(name==null){
+                          Navigator.of(context).push(MaterialPageRoute
+                            (builder: (context) => Login()));}
+                        else {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  Show_time_table(snapshot.data.documentID, snapshot.data)));
+//
+                        }
                       },
                     ),
                   ),
@@ -342,7 +349,7 @@ class _MoviePageState extends State<MoviePage>
         Flexible(
           child: StreamBuilder(
             stream: Firestore.instance
-                .collection('reviews').where('movieId',isEqualTo: movieID).orderBy('date',descending: true)
+                .collection('reviews').where('movieID',isEqualTo: movieID).orderBy('date',descending: true)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData)

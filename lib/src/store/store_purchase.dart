@@ -31,6 +31,11 @@ class _Food_purchaseState extends State<Food_purchase> {
 
   @override
   Widget build(BuildContext context) {
+
+    FlutterMoneyFormatter total_won =
+    FlutterMoneyFormatter(amount: double.parse((this.total).toString()));
+
+
     var keys = widget.select.keys.toList();
     this.total = 0;
     for (var i = 0; i < keys.length; i++){
@@ -59,12 +64,16 @@ class _Food_purchaseState extends State<Food_purchase> {
                 height: 40,
                 width: MediaQuery.of(context).size.width * 1,
                 color: Colors.white70,
-                child: Text("총 결제금액 : "+  this.total.toString(), textAlign: TextAlign.center,),),
+                child: Text(
+                  "총 결제금액 : "+
+                      total_won.output.withoutFractionDigits.toString()+
+                  " 원"
+                  , textAlign: TextAlign.center,),),
               InkWell(
                 onTap: () async {
                   await db.collection('payment_store').add({
-                    'memberID': '$name',
-                    'email': '$email',
+                    'memberID': name,
+                    'email': email,
                     'total': this.total,
                     'list': widget.select,
                     'payTime': Timestamp.now(),
@@ -91,6 +100,9 @@ class _Food_purchaseState extends State<Food_purchase> {
   Widget Start(BuildContext ctx, Map<String, int> select) {
     int price = 1;
     var keys = select.keys.toList();
+//    int sub = widget.document['price'];
+//    FlutterMoneyFormatter price =
+
 //    var val = select[keys[idx]];
 
 //    print(select['더블콤보'].toString());
@@ -103,162 +115,16 @@ class _Food_purchaseState extends State<Food_purchase> {
               make_box(keys[i], select[keys[i]]),
           ],
         ),
-
-//        Column(
-//        children: <Widget>[
-//          Container(
-//            child: Column(
-//              children: <Widget>[
-//                for (var i = 0; i < keys.length; i++)
-//                  make_box(keys[i], select[keys[i]]),
-//              ],
-//              mainAxisAlignment: MainAxisAlignment.start,
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//            ),
-//          ),
-//          Container(
-//            child: Text("합계 : "),
-//          ),
-//          Expanded(
-//              child: Row(
-//            children: <Widget>[
-//              Container(
-//                child: InkWell(
-//                  onTap: () async {
-//                    await db.collection('payment_store').add({
-//                      'memberID': '$name',
-//                      'email': '$email',
-//                      'total': 10000,
-//                      'list': select,
-//                      'payTime': Timestamp.now(),
-//                    });
-//                    // 선택한 좌석 firebase 변경
-////                        for (var i = 0; i < sub.length; i++) {
-////                          Firestore.instance
-////                              .collection("time_table")
-////                              .document(document_table.documentID)
-////                              .collection('seats')
-////                              .document('1')
-////                              .updateData({
-////                            sub[i]: <String, dynamic>{
-////                              'number': "0",
-////                              'type': sub2[i],
-////                            }
-////                          });
-////                        }
-////                        Firestore.instance
-////                            .collection("time_table")
-////                            .document(document_table.documentID)
-////                            .updateData({
-////                          'select_count' : document_table['select_count']+sub.length
-//
-////                        });
-//                    Navigator.of(ctx).push(
-//                        MaterialPageRoute(builder: (context) => Payment(100)));
-//                  },
-//                  child: Text(
-//                    "결제하기",
-//                    textAlign: TextAlign.center,
-//                    style: TextStyle(
-//                      fontSize: 30,
-//                      color: Colors.white,
-//                    ),
-//                  ),
-//                ),
-//                color: Colors.red,
-//                width: MediaQuery.of(ctx).size.width * 1,
-//                height: 60,
-//                alignment: Alignment(0, 0),
-//                //              height: MediaQuery.of(ctx).size.height * 0.3,
-//              ),
-//            ],
-//            mainAxisAlignment: MainAxisAlignment.end,
-//            crossAxisAlignment: CrossAxisAlignment.end,
-//          ))
-//        ],
-//      ),
       ),
     );
   }
 
-  Widget make_content(String name, int count) {
-    if (count != 0) {
-      return Container(
-          padding: EdgeInsets.only(left: 40, right: 40, top: 30),
-          child: Row(children: <Widget>[
-            Expanded(
-                child: Text(
-              name,
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            )),
-            InkWell(
-                // 내리기
-                onTap: () {
-                  setState(() {
-                    widget.select.update(name, (dynamic val) => val - 1);
-                  });
-                },
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(width: 2, color: Colors.grey[400]),
-                  ),
-                  child: Icon(Icons.expand_less),
-                )),
-            Container(
-                alignment: Alignment.center,
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 2, color: Colors.grey[300]),
-                ),
-                child: Text(
-                  count.toString(),
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                )),
-            InkWell(
-                onTap: () {
-                  setState(() {
-                    widget.select.update(name, (dynamic val) => val + 1);
-                  });
-                },
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(width: 2, color: Colors.grey[400]),
-                  ),
-                  child: Icon(Icons.expand_more),
-                )),
-            InkWell(
-              onTap: () {
-                setState(() {
-                  widget.select.update(name, (dynamic val) => 0);
-                });
-              },
-              child: Container(
-                  margin: EdgeInsets.only(left: 10),
-//            width: 30,
-//          decoration: BoxDecoration(
-//            border: Border.all(width: 2, color: Colors.grey[400]),
-//          ),
-                  child: Icon(Icons.delete, size: 30)),
-            )
-          ]));
-    } else {
-      print("0개 발견");
-      return Container();
-    }
-  }
-
   Widget make_box(String name, int count) {
+    int sub = count * widget.money[name];
+
+    FlutterMoneyFormatter price =
+    FlutterMoneyFormatter(amount: double.parse((sub).toString()));
+
     if (count != 0) {
       return Container(
         margin: EdgeInsets.only(left: 30, right: 30, top: 30),
@@ -286,9 +152,10 @@ class _Food_purchaseState extends State<Food_purchase> {
                 ),
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      widget.select.update(name, (dynamic val) => 0);
-                    });
+                    _showDialog_ok(context, name);
+//                    setState(() {
+//                      widget.select.update(name, (dynamic val) => 0);
+//                    });
                   },
                   child: Container(
                       alignment: Alignment.center,
@@ -319,7 +186,15 @@ class _Food_purchaseState extends State<Food_purchase> {
                       // -
                       onTap: () {
                         setState(() {
-                          widget.select.update(name, (dynamic val) => val - 1);
+                          if(widget.select[name] == 1){
+                            _showDialog_ok(context, name);
+                          }
+                          else{
+                            widget.select.update(name, (dynamic val) => val - 1);
+                            if(widget.select[name] == 0){
+                              widget.select.remove(name);
+                            }
+                          }
                         });
                       },
                       child: Container(
@@ -384,7 +259,7 @@ class _Food_purchaseState extends State<Food_purchase> {
 //                  border: Border.all(width: 2, color: Colors.grey[300]),
 //                ),
                       child: Text(
-                        (count * widget.money[name]).toString() + "원",
+                        price.output.withoutFractionDigits.toString() + "원",
                         style: TextStyle(
                           fontSize: 20,
                         ),
@@ -415,6 +290,7 @@ class _Food_purchaseState extends State<Food_purchase> {
               'total': 10000,
               'list': widget.select,
               'payTime': Timestamp.now(),
+              'used' : false,
             });
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => Payment(this.total)));
@@ -438,5 +314,42 @@ class _Food_purchaseState extends State<Food_purchase> {
 //                alignment: Alignment(0, 0),
         //              height: MediaQuery.of(ctx).size.height * 0.3,
         );
+  }
+
+  void _showDialog_ok(BuildContext context, String name) {
+    print("ok 함수 진입");
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return CupertinoAlertDialog(
+          title: new Text("확인"),
+          content: new Text(name + " 을(를) 삭제하시겠습니까?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("예"),
+              onPressed: () async {
+                 setState(() {
+                  widget.select.update(name, (dynamic val) => 0);
+                    widget.select.remove([name]);
+                });
+                 Navigator.of(context).pop();
+              },
+              textColor: Colors.blue,
+            ),
+            new FlatButton(
+              child: new Text("아니요"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              textColor: Colors.red,
+            ),
+          ],
+        );
+      },
+    );
+
   }
 }
