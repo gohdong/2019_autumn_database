@@ -15,6 +15,7 @@ import 'package:dbapp/src/data/make_seat.dart';
 import 'package:dbapp/src/test_movie_buy.dart';
 import 'package:dbapp/src/success_pay.dart';
 import 'package:dbapp/src/wishList.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,11 +23,11 @@ import '../main.dart';
 import 'data/sign_in.dart';
 
 class MenuBar extends StatelessWidget {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     return Drawer(
       child: Container(
         child: ListView(
@@ -60,8 +61,11 @@ class MenuBar extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
+                _firebaseAuth.signOut();
+                email = null;
+                name = null;
+                imageUrl = null;
                 Navigator.of(context).pop();
-                signOutGoogle();
               },
               child: Container(
                 child: Text(
@@ -91,16 +95,16 @@ class MenuBar extends StatelessWidget {
             Container(
                 child: name == null
                     ? Container(
-                    padding:
-                    EdgeInsets.only(left: 20, right: 20, bottom: 10),
-                    child: Icon(Icons.account_circle, size: 70))
+                        padding:
+                            EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                        child: Icon(Icons.account_circle, size: 70))
                     : Container(
-                    padding:
-                    EdgeInsets.only(left: 20, right: 20, bottom: 10),
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundImage: NetworkImage(imageUrl),
-                    ))),
+                        padding:
+                            EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                        child: CircleAvatar(
+                          radius: 40,
+                          backgroundImage: NetworkImage(imageUrl),
+                        ))),
             Icon(Icons.settings)
           ],
         ),
@@ -108,25 +112,25 @@ class MenuBar extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 30),
           child: email == null
               ? OutlineButton.icon(
-            icon: Icon(Icons.power_settings_new),
-            label: Text("login"),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20)),
-            onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Login()));
-            },
-          )
+                  icon: Icon(Icons.power_settings_new),
+                  label: Text("login"),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => Login()));
+                  },
+                )
               : Column(
-            children: <Widget>[
-              Text(
-                '$name',
-                textScaleFactor: 1.3,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text("$email"),
-            ],
-          ),
+                  children: <Widget>[
+                    Text(
+                      '$name',
+                      textScaleFactor: 1.3,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text("$email"),
+                  ],
+                ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -137,7 +141,7 @@ class MenuBar extends StatelessWidget {
                 email == null
                     ? null
                     : Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => MyList()));
+                        MaterialPageRoute(builder: (context) => MyList()));
               },
               child: Column(
                 children: <Widget>[
@@ -150,9 +154,10 @@ class MenuBar extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                email == null ?
-                null : Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => MyList()));
+                email == null
+                    ? null
+                    : Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => MyList()));
               },
               child: Column(
                 children: <Widget>[
@@ -221,11 +226,11 @@ class MenuBar extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(width: 1.0, color: Colors.black12),
-            top: BorderSide(width: 1.0, color: Colors.black12),
-            left: BorderSide(width: 1.0, color: Colors.black12),
-            right: BorderSide(width: 1.0, color: Colors.black12),
-          )),
+        bottom: BorderSide(width: 1.0, color: Colors.black12),
+        top: BorderSide(width: 1.0, color: Colors.black12),
+        left: BorderSide(width: 1.0, color: Colors.black12),
+        right: BorderSide(width: 1.0, color: Colors.black12),
+      )),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[Icon(icon, size: 40), Text(str)],
@@ -242,10 +247,10 @@ class MenuBar extends StatelessWidget {
     }
     return StreamBuilder(
         stream:
-        Firestore.instance.collection('member').document(email).snapshots(),
+            Firestore.instance.collection('member').document(email).snapshots(),
         builder: (context, snapshot) {
           List<dynamic> ad = snapshot.data['like_movie'];
-          if (!snapshot.hasData) return const Text('Loading…');
+          if (!snapshot.hasData) return Center(child: CircularProgressIndicator(),);
           return Container(
             child: _likeMovie(context, ad),
           );
@@ -274,8 +279,9 @@ class MenuBar extends StatelessWidget {
             .where('email', isEqualTo: email)
             .snapshots(),
         builder: (context, snapshot) {
+          if (!snapshot.hasData) return Center(child: CircularProgressIndicator(),);
+
           int ad = snapshot.data.documents.length;
-          if (!snapshot.hasData) return const Text('Loading…');
           return Container(
             child: _viewMovie(context, ad),
           );
@@ -294,9 +300,9 @@ class MenuBar extends StatelessWidget {
   Widget reviewList() {
     return StreamBuilder(
         stream:
-        Firestore.instance.collection('member').document(email).snapshots(),
+            Firestore.instance.collection('member').document(email).snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return const Text('Loading…');
+          if (!snapshot.hasData) return Center(child: CircularProgressIndicator(),);
           return Container(
             child: _reviewList(context, snapshot.data['review_movieID']),
           );

@@ -13,14 +13,12 @@ firebase.initializeApp(config.api());
 admin.initializeApp();
 var db = admin.firestore();
 exports.aggregateRatings = functions.firestore
-    .document('movie/{movieId}/reviews/{reviewsId}')
+    .document('reviews/{reviewsId}')
     .onWrite((change, context) => {
 
-
         var ratingVal = change.after.data().score;
-
         // Get a reference to the restaurant
-        var restRef = db.collection('movie').doc(context.params.movieId);
+        var restRef = db.collection('movie').doc(change.after.data().movieID);
 
         // Update aggregations in a transaction
         return db.runTransaction(transaction => {
