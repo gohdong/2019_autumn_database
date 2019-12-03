@@ -33,6 +33,7 @@ class Screen_purchase extends StatefulWidget {
 class _Screen_purchaseState extends State<Screen_purchase> {
   final db = Firestore.instance;
 
+  int remain;
   int price;
   int mileage;
 
@@ -145,7 +146,8 @@ class _Screen_purchaseState extends State<Screen_purchase> {
         "결제",
         textAlign: TextAlign.center,
       )),
-      body: Column(
+      body:
+      Column(
         children: <Widget>[
           Container(
             child: // 전체
@@ -272,7 +274,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
 
 
             ),
-          Load_user_data(ctx),
+          //Load_user_data(ctx),
 //          Container(child: Text(this.document_member['email']),),
           Expanded(
               child: Row(
@@ -289,6 +291,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
                             'time_tableID': widget.document_table.documentID,
                             'seats': sort_array,
                             'payTime': Timestamp.now(),
+                            'mileage' : this.remain,
                           });
                     // 선택한 좌석 firebase 변경
                     for (var i = 0; i < sub.length; i++) {
@@ -399,13 +402,22 @@ class _Screen_purchaseState extends State<Screen_purchase> {
       InkWell(
           onTap: () {
             setState(() {
-             if(document['Mileage'] == 0 || this.mileage != 0){// 마일리가 없음
+
+             if(document['mileage'] == 0){// 마일리가 0
                 showDialog2("마일리지 잔액이 없습니다");
              }
              else{
-               widget.money = widget.money - document['Mileage'];
-               this.mileage = document['Mileage'];
-               showDialog2("마일리지가 사용되었습니다");
+               if((widget.money - document['mileage']) < 0 ){ // 결제금액보다 마일리지가 많음
+                 widget.money = widget.money - document['mileage'];
+                 this.remain = document['mileage'] - widget.money;
+                 showDialog2("마일리지가 사용되었습니다");
+               }
+               else{ // 결제금액이 마일리지보다 많음
+
+                 widget.money = 0;
+                 showDialog2("마일리지가 사용되었습니다");
+               }
+
              }
             });
           },
@@ -421,7 +433,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
 //              ),
 //                  child: Icon(Icons.expand_more),
               child: Text(
-                document['Mileage'].toString() + " 포인트",
+                document['mileage'].toString() + " 포인트",
                 style: TextStyle(
                   fontSize: 15,
                 ),
@@ -429,44 +441,6 @@ class _Screen_purchaseState extends State<Screen_purchase> {
           ,)
     ],));
   }
-
-
-
-//  void showDialog_ok(BuildContext context, String str) {
-//    // flutter defined function
-//    showDialog(
-//      context: context,
-//      builder: (BuildContext context) {
-//        // return object of type Dialog
-//        return CupertinoAlertDialog(
-//          title: new Text("확인"),
-//          content: new Text(str),
-//          actions: <Widget>[
-//            // usually buttons at the bottom of the dialog
-//            new FlatButton(
-//              child: new Text("예"),
-//              onPressed: () async {
-//                setState(() {
-//                  widget.select.update(name, (dynamic val) => 0);
-//                  widget.select.remove([name]);
-//                });
-//                Navigator.of(context).pop();
-//              },
-//              textColor: Colors.blue,
-//            ),
-//            new FlatButton(
-//              child: new Text("아니요"),
-//              onPressed: () {
-//                Navigator.of(context).pop();
-//              },
-//              textColor: Colors.red,
-//            ),
-//          ],
-//        );
-//      },
-//    );
-//
-//  }
 
   void showDialog2(str) {
     showDialog(
