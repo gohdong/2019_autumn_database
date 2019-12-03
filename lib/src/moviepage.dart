@@ -158,7 +158,7 @@ class _MoviePageState extends State<MoviePage>
                       ),
 
                       onPressed: () {
-                        if(email==null){
+                        if(email != null){
                           if(!pushLike){
                           try {
                           db.collection('movie').document(movieID)
@@ -349,8 +349,7 @@ class _MoviePageState extends State<MoviePage>
         Flexible(
           child: StreamBuilder(
             stream: Firestore.instance
-                .collection('movie')
-                .document(movieID).collection('reviews').orderBy('date',descending: true)
+                .collection('reviews').where('movieID',isEqualTo: movieID).orderBy('date',descending: true)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData)

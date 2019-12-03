@@ -66,7 +66,6 @@ class _MyListState extends State<MyList>
   }
 
   Widget myInfo() {
-    final counter = Provider.of<Counter>(context);
     return Container(
       color: Colors.black87,
       height: 150,
@@ -104,13 +103,19 @@ class _MyListState extends State<MyList>
   }
 
   Widget wishList() {
+    List<dynamic> ad;
     return StreamBuilder(
-      stream:
+
+        stream:
           db.collection('member').document('email').snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return Center(child: CircularProgressIndicator());
-        List<dynamic> ad = snapshot.data['like_movie'];
+        if (!snapshot.hasData){
+          return Center(child: CircularProgressIndicator());}
+        if(ad == null || ad.length==0){
+          return Text('좋아요를 눌러주세요');
+        }
+        else{
+          ad = snapshot.data['like_movie'];
         return GridView.builder(
           primary: false,
           gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
@@ -122,6 +127,7 @@ class _MyListState extends State<MyList>
             return cardBuild(ad[index]);
           },
         );
+        }
       },
     );
   }
@@ -324,120 +330,38 @@ class _MyListState extends State<MyList>
   }
 
   Widget reviewList() {
+    List<dynamic> ad;
     return StreamBuilder(
+
       stream:
-      db.collection('member').document(email).snapshots(),
+      db.collection('member').document('email').snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return Center(child: CircularProgressIndicator());
-        List<dynamic> ad = snapshot.data['review_movieID'];
-        return GridView.builder(
-          primary: false,
-          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: (0.53),
-          ),
-          itemCount: ad.length,
-          itemBuilder: (context, index) {
-            return cardBuild3(ad[index],index);
-          },
-        );
+        if (!snapshot.hasData){
+          return Center(child: CircularProgressIndicator());}
+        if(ad.length==0){
+          return Text('리뷰를 남겨주세요');
+        }
+        else{
+          ad = snapshot.data['like_movie'];
+          return ListView.builder(
+            primary: false,
+            itemCount: ad.length,
+            itemBuilder: (context, index) {
+              return cardBuild3(ad[index]);
+            },
+          );
+        }
       },
     );
   }
-  Widget cardBuild3(String movieID,int index) {
+  Widget cardBuild3(String movieID) {
     return StreamBuilder(
-      stream: Firestore.instance
-          .collection('movie')
-          .document(movieID).collection('reviews').where('writer',isEqualTo: name)
-          .snapshots(),
+      stream: db.collection('movie').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
-        return ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: snapshot.data.documents.length,
-          itemBuilder: (context, index) {
-            return Column(
-              children: <Widget>[
-                ExpandablePanel(
-                  header: Container(
-                    margin:
-                    EdgeInsets.only(left: 10, right: 10, bottom: 5),
-                    child: Row(
-                      children: <Widget>[
-                       getMovieImg3(movieID),
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  snapshot.data.documents[index]['title'],
-                                  textScaleFactor: 1.5,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  snapshot.data.documents[index]['date']
-                                      .toDate()
-                                      .toString()
-                                      .split('.')[0],
-                                  textScaleFactor: 0.9,
-                                  style: TextStyle(color: Colors.black45),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  expanded: Column(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(left: 70),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          snapshot.data.documents[index]['description'],
-                          softWrap: true,
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        ),
-                      ),
-//                        Container(
-//                            child: Row(
-//                              children: <Widget>[
-//                                Expanded(
-//                                  child: Text(
-//                                    'By ' + document['name'],
-//                                    textScaleFactor: 1.5,
-//                                    style: TextStyle(fontStyle: FontStyle.italic),
-//                                  ),
-//                                ),
-//                                IconButton(
-//                                  icon: Icon(Icons.delete_forever),
-//                                  iconSize: 40,
-//                                  onPressed: () {
-//                                    _showDialog(context, db, document);
-//                                  },
-//                                )
-//                              ],
-//                            ))
-                    ],
-                  ),
-                  tapHeaderToExpand: true,
-                  hasIcon: false,
-                ),
-                Divider(
-                  thickness: 1.5,
-                  endIndent: 10,
-                  indent: 10,
-                )
-              ],
-            );
-          },
+        return Container(
+          child: getMovieImg3(movieID),
         );
       },
     );
@@ -449,29 +373,62 @@ class _MyListState extends State<MyList>
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Center(child: Text("Can't find"));
         return Container(
+          height: 500,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height*0.2,
                 child: Image(
                   image: NetworkImage(snapshot.data['img']),
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
               ),
               Text(
                 snapshot.data['name'],
-                textScaleFactor: 1,
+                textScaleFactor: 1.7,
               ),
               Text(
                 snapshot.data['en_name'],
-                textScaleFactor: 0.5,
+                textScaleFactor: 1.0,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  OutlineButton(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.open_in_new,
+                        ),
+                        Text("공유")
+                      ],
+                    ),
+                    onPressed: () {},
+                  ),
+                  OutlineButton(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.bookmark),
+                        Text("예매"),
+                      ],
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MoviePage(movieID)));
+                    },
+                  ),
+                ],
+              ),
+              Divider(),
             ],
           ),
         );
       },
     );
   }
+
+
 
 }
