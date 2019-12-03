@@ -315,7 +315,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
                           widget.document_table['select_count'] + sub.length
                     });
                     Navigator.of(ctx).push(MaterialPageRoute(
-                        builder: (context) => Payment(price)));
+                        builder: (context) => Payment(widget.money)));
 
 //                    Navigator.of(ctx).push( MaterialPageRoute(builder: (context) => Payment(select_list,document_table, price)));
                   },
