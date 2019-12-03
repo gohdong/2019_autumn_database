@@ -1,5 +1,5 @@
 import 'package:dbapp/src/login.dart';
-import 'package:dbapp/src/wishList.dart';
+import 'package:dbapp/src/myList.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

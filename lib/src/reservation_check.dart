@@ -13,8 +13,8 @@ class Screen_purchase extends StatefulWidget {
   List<String> select_list;
   List<String> select_list_rank;
   DocumentSnapshot document_movie; // movie.docuemnt
-  DocumentSnapshot document_table;//
-  int money;// time_table.document
+  DocumentSnapshot document_table; //
+  int money; // time_table.document
 
   Screen_purchase(List<String> getlist, List<String> getlist_2,
       DocumentSnapshot getmovie, DocumentSnapshot gettable, int getmoney) {
@@ -23,7 +23,6 @@ class Screen_purchase extends StatefulWidget {
     document_movie = getmovie;
     document_table = gettable;
     money = getmoney;
-
   }
 
   @override
@@ -96,8 +95,8 @@ class _Screen_purchaseState extends State<Screen_purchase> {
   Widget Start(BuildContext ctx, List<String> se_li, List<String> se_li_ra) {
     List<String> test = se_li;
     List<String> test2 = se_li_ra;
-    FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
-        amount: double.parse((widget.money).toString()));
+    FlutterMoneyFormatter fmf =
+        FlutterMoneyFormatter(amount: double.parse((widget.money).toString()));
 //    print(fmf);
 
 //    print("여기가ㅏ각 ");
@@ -146,8 +145,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
         "결제",
         textAlign: TextAlign.center,
       )),
-      body:
-      Column(
+      body: Column(
         children: <Widget>[
           Container(
             child: // 전체
@@ -213,7 +211,8 @@ class _Screen_purchaseState extends State<Screen_purchase> {
                                     Container(
                                       margin: EdgeInsets.only(top: 5),
                                       child: Text(
-                                        widget.select_list.length.toString() + "명",
+                                        widget.select_list.length.toString() +
+                                            "명",
                                         style: TextStyle(
                                           fontSize: 14,
                                         ),
@@ -222,7 +221,9 @@ class _Screen_purchaseState extends State<Screen_purchase> {
                                     Container(
                                       margin: EdgeInsets.only(top: 5),
                                       child: Text(
-                                        "본점 " + widget.document_table['theater'] + "관",
+                                        "본점 " +
+                                            widget.document_table['theater'] +
+                                            "관",
                                         style: TextStyle(
                                           fontSize: 14,
                                         ),
@@ -264,16 +265,14 @@ class _Screen_purchaseState extends State<Screen_purchase> {
             padding: EdgeInsets.only(top: 40),
           ),
           Container(
-              margin : EdgeInsets.only(top : 18, bottom : 10),
-              width: MediaQuery.of(context).size.width * 0.9, // 제품사진
-              decoration: BoxDecoration(
+            margin: EdgeInsets.only(top: 18, bottom: 10),
+            width: MediaQuery.of(context).size.width * 0.9, // 제품사진
+            decoration: BoxDecoration(
               border: Border(
-                bottom:
-                BorderSide(width: 1.0, color: Colors.grey[400]),
-              ),),
-
-
+                bottom: BorderSide(width: 1.0, color: Colors.grey[400]),
+              ),
             ),
+          ),
           //Load_user_data(ctx),
 //          Container(child: Text(this.document_member['email']),),
           Expanded(
@@ -282,17 +281,18 @@ class _Screen_purchaseState extends State<Screen_purchase> {
               Container(
                 child: InkWell(
                   onTap: () async {
-                    print("sdffsfdsds : "+'$name');
+                    print("sdffsfdsds : " + '$name');
                     print('$name' == null);
                     await db.collection('payment_movie').add({
-                            'memberID': name,
-                            'email': email,
-                            'movieID': widget.document_movie.documentID,
-                            'time_tableID': widget.document_table.documentID,
-                            'seats': sort_array,
-                            'payTime': Timestamp.now(),
-                            'mileage' : this.remain,
-                          });
+                      'memberID': name,
+                      'email': email,
+                      'movieID': widget.document_movie.documentID,
+                      'time_tableID': widget.document_table.documentID,
+                      'seats': sort_array,
+                      'payTime': Timestamp.now(),
+                      'mileage': this.remain,
+                      'used': false
+                    });
                     // 선택한 좌석 firebase 변경
                     for (var i = 0; i < sub.length; i++) {
                       Firestore.instance
@@ -318,7 +318,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
                         builder: (context) => Payment(price)));
 
 //                    Navigator.of(ctx).push( MaterialPageRoute(builder: (context) => Payment(select_list,document_table, price)));
-                    },
+                  },
                   child: Text(
                     "결제하기",
                     textAlign: TextAlign.center,
@@ -366,80 +366,83 @@ class _Screen_purchaseState extends State<Screen_purchase> {
   @override
   Widget Load_user_data(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
-              .collection('member').where("email" , isEqualTo: "kuran0415@gmail.com")
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) return new Text('Error : ${snapshot.error}');
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return new Text('Loading...');
-              default:
-                return new Wrap(
+        stream: Firestore.instance
+            .collection('member')
+            .where("email", isEqualTo: "kuran0415@gmail.com")
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) return new Text('Error : ${snapshot.error}');
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return new Text('Loading...');
+            default:
+              return new Wrap(
 //                  itemExtent: 80,
-                  children: snapshot.data.documents
-                      .map((document) => Make_mileage_box(context, document))
-                      .toList(),
-                );
-            }
+                children: snapshot.data.documents
+                    .map((document) => Make_mileage_box(context, document))
+                    .toList(),
+              );
           }
-    );
+        });
   }
 
   @override
-  Widget Make_mileage_box(BuildContext context, DocumentSnapshot document){
-    return Container(child: Row(children: <Widget>[
-    Container(
-      margin : EdgeInsets.only(left : 20),
-        child:
-    Text("마일리지", style: TextStyle(
-      fontSize: 15,
-    ),),),
+  Widget Make_mileage_box(BuildContext context, DocumentSnapshot document) {
+    return Container(
+        child: Row(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(left: 20),
+          child: Text(
+            "마일리지",
+            style: TextStyle(
+              fontSize: 15,
+            ),
+          ),
+        ),
 
-    //Text("총액 : " + (widget.money - document['Mileage']).toString()),
-      Expanded(child:
-      InkWell(
-          onTap: () {
-            setState(() {
+        //Text("총액 : " + (widget.money - document['Mileage']).toString()),
+        Expanded(
+          child: InkWell(
+              onTap: () {
+                setState(() {
+                  if (document['mileage'] == 0) {
+                    // 마일리가 0
+                    showDialog2("마일리지 잔액이 없습니다");
+                  } else {
+                    if ((widget.money - document['mileage']) < 0) {
+                      // 결제금액보다 마일리지가 많음
+                      widget.money = widget.money - document['mileage'];
+                      this.remain = document['mileage'] - widget.money;
+                      showDialog2("마일리지가 사용되었습니다");
+                    } else {
+                      // 결제금액이 마일리지보다 많음
 
-             if(document['mileage'] == 0){// 마일리가 0
-                showDialog2("마일리지 잔액이 없습니다");
-             }
-             else{
-               if((widget.money - document['mileage']) < 0 ){ // 결제금액보다 마일리지가 많음
-                 widget.money = widget.money - document['mileage'];
-                 this.remain = document['mileage'] - widget.money;
-                 showDialog2("마일리지가 사용되었습니다");
-               }
-               else{ // 결제금액이 마일리지보다 많음
-
-                 widget.money = 0;
-                 showDialog2("마일리지가 사용되었습니다");
-               }
-
-             }
-            });
-          },
-          child: Container(
-
-            margin: EdgeInsets.only(right : 20),
-              alignment: Alignment.centerRight,
-              width: 200,
-              height: 40,
+                      widget.money = 0;
+                      showDialog2("마일리지가 사용되었습니다");
+                    }
+                  }
+                });
+              },
+              child: Container(
+                  margin: EdgeInsets.only(right: 20),
+                  alignment: Alignment.centerRight,
+                  width: 200,
+                  height: 40,
 //              decoration: BoxDecoration(
 ////                shape: BoxShape.circle,
 //                border: Border.all(width: 2, color: Colors.black),
 //              ),
 //                  child: Icon(Icons.expand_more),
-              child: Text(
-                document['mileage'].toString() + " 포인트",
-                style: TextStyle(
-                  fontSize: 15,
-                ),
-              )))
-          ,)
-    ],));
+                  child: Text(
+                    document['mileage'].toString() + " 포인트",
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ))),
+        )
+      ],
+    ));
   }
 
   void showDialog2(str) {
@@ -461,4 +464,3 @@ class _Screen_purchaseState extends State<Screen_purchase> {
         });
   }
 }
-

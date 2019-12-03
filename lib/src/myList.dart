@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dbapp/src/data/is_login.dart';
 import 'package:dbapp/src/data/sign_in.dart';
+import 'package:dbapp/src/makeMovieTicket.dart';
 import 'package:dbapp/src/moviepage.dart';
 import 'package:expandable/expandable.dart';
 
@@ -13,8 +14,7 @@ class MyList extends StatefulWidget {
   _MyListState createState() => _MyListState();
 }
 
-class _MyListState extends State<MyList>
-    with SingleTickerProviderStateMixin {
+class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
   final db = Firestore.instance;
 
   TabController ctr;
@@ -59,7 +59,7 @@ class _MyListState extends State<MyList>
 //      margin: EdgeInsets.all(10),
               child: TabBarView(
                 controller: ctr,
-                children: <Widget>[wishList(), movieList(),reviewList()],
+                children: <Widget>[wishList(), movieList(), reviewList()],
               ),
             ),
           ],
@@ -76,7 +76,7 @@ class _MyListState extends State<MyList>
             height: 10,
           ),
           Container(
-              child: email==null
+              child: email == null
                   ? Container(
                       padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
                       child: Icon(Icons.account_circle, size: 50))
@@ -87,15 +87,13 @@ class _MyListState extends State<MyList>
                           backgroundImage: NetworkImage('$imageUrl')))),
           Container(
               child: Text(
-                email == null?
-            '로그인을 해주세요':name,
+            email == null ? '로그인을 해주세요' : name,
             textScaleFactor: 1.5,
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           )),
           Container(
               child: Text(
-                email==null?
-            '':email,
+            email == null ? '' : email,
             style: TextStyle(color: Colors.white),
           ))
         ],
@@ -105,28 +103,27 @@ class _MyListState extends State<MyList>
 
   Widget wishList() {
     return StreamBuilder(
-
-        stream:
-          db.collection('member').document(email).snapshots(),
+      stream: db.collection('member').document(email).snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData){
-          return Center(child: CircularProgressIndicator());}
-        else{
-        return GridView.builder(
-          primary: false,
-          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: (0.53),
-          ),
-          itemCount: snapshot.data['like_movie'].length,
-          itemBuilder: (context, index) {
-            return getMovieImg(snapshot.data['like_movie'][index]);
-          },
-        );
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return GridView.builder(
+            primary: false,
+            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: (0.53),
+            ),
+            itemCount: snapshot.data['like_movie'].length,
+            itemBuilder: (context, index) {
+              return getMovieImg(snapshot.data['like_movie'][index]);
+            },
+          );
         }
       },
     );
   }
+
   Widget getMovieImg(String movieID) {
     return StreamBuilder(
       stream:
@@ -197,20 +194,49 @@ class _MyListState extends State<MyList>
           .where('email', isEqualTo: email)
           .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData || snapshot.data.documents== null)
+        if (!snapshot.hasData || snapshot.data.documents == null)
           return Center(child: CircularProgressIndicator());
         return ListView.builder(
           primary: false,
           itemCount: snapshot.data.documents.length,
           itemBuilder: (context, index) {
-            return cardBuild2(snapshot.data.documents[index]['movieID'],
-                snapshot.data.documents[index]['time_tableID'],snapshot.data.documents[index]['seats']);
+            return snapshot.data.documents[index]['used'] == false
+                ? FlatButton(
+                  padding: EdgeInsets.all(0),
+                  child: Container(
+                    child: cardBuild2(
+                        snapshot.data.documents[index]['movieID'],
+                        snapshot.data.documents[index]['time_tableID'],
+                        snapshot.data.documents[index]['seats']),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => MakeMovieTicket(
+                            snapshot.data.documents[index].documentID)));
+                  },
+                )
+                : ColorFiltered(
+                    colorFilter: ColorFilter.mode(Colors.grey, BlendMode.color),
+                    child: FlatButton(
+                      padding: EdgeInsets.all(0),
+                      child: Container(
+                        child: cardBuild2(
+                            snapshot.data.documents[index]['movieID'],
+                            snapshot.data.documents[index]['time_tableID'],
+                            snapshot.data.documents[index]['seats']),
+                      ),
+                      onPressed: (){
+                        null;
+                      },
+                    ),
+                  );
           },
         );
       },
     );
   }
-  Widget cardBuild2(String movieID, String timeTableID,List<dynamic> ad) {
+
+  Widget cardBuild2(String movieID, String timeTableID, List<dynamic> ad) {
     return StreamBuilder(
       stream: db.collection('movie').snapshots(),
       builder: (context, snapshot) {
@@ -223,7 +249,8 @@ class _MyListState extends State<MyList>
       },
     );
   }
-  Widget getMovieImg2(String movieID, String timeTableID,List<dynamic> ad) {
+
+  Widget getMovieImg2(String movieID, String timeTableID, List<dynamic> ad) {
     DocumentSnapshot document;
     return StreamBuilder(
       stream:
@@ -236,9 +263,9 @@ class _MyListState extends State<MyList>
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 10,bottom: 10,right: 10),
+                margin: EdgeInsets.only(top: 10, bottom: 10, right: 10),
                 child: Image(
-                  height:MediaQuery.of(context).size.height * 0.25,
+                  height: MediaQuery.of(context).size.height * 0.25,
                   image: NetworkImage(snapshot.data['img']),
                 ),
               ),
@@ -253,9 +280,9 @@ class _MyListState extends State<MyList>
                     textScaleFactor: 0.9,
                   ),
                   SizedBox(
-                    height:MediaQuery.of(context).size.height *0.05 ,
+                    height: MediaQuery.of(context).size.height * 0.05,
                   ),
-                  getTimeTable(timeTableID,ad),
+                  getTimeTable(timeTableID, ad),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -274,19 +301,6 @@ class _MyListState extends State<MyList>
                               builder: (context) => MoviePage(movieID)));
                         },
                       ),
-                      OutlineButton(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.bookmark),
-                            Text("예매"),
-                          ],
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => MoviePage(movieID)));
-                        },
-                      ),
                     ],
                   ),
                 ],
@@ -297,43 +311,56 @@ class _MyListState extends State<MyList>
       },
     );
   }
-  Widget getTimeTable(String tableID,List<dynamic> seat) {
+
+  Widget getTimeTable(String tableID, List<dynamic> seat) {
     return StreamBuilder(
       stream: db.collection('time_table').document(tableID).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
-        return Column(
-            children: <Widget>[
-              Text(snapshot.data['theater'].toString()+'관 / '+seat.toString()+'석'),
-                  Text(
-                  snapshot.data['startAt'].toDate().toString().split('.')[0]),
-            ]);
+        return Column(children: <Widget>[
+          Text(snapshot.data['theater'].toString() +
+              '관 / ' +
+              seat.toString() +
+              '석'),
+          Text(snapshot.data['startAt'].toDate().toString().split('.')[0]),
+        ]);
       },
     );
   }
 
   Widget reviewList() {
     return StreamBuilder(
-
-      stream:
-      db.collection('reviews').where('memberID',isEqualTo: email).snapshots(),
+      stream: db
+          .collection('reviews')
+          .where('memberID', isEqualTo: email)
+          .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData){
-          return Center(child: CircularProgressIndicator());}
-        else{
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        } else {
           return ListView.builder(
             primary: false,
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index) {
-              return cardBuild3(snapshot.data.documents[index]['movieID'],snapshot.data.documents[index]['title'],snapshot.data.documents[index]['description'],snapshot.data.documents[index]['score'],snapshot.data.documents[index]['date'].toDate().toString().split('.')[0]);
+              return cardBuild3(
+                  snapshot.data.documents[index]['movieID'],
+                  snapshot.data.documents[index]['title'],
+                  snapshot.data.documents[index]['description'],
+                  snapshot.data.documents[index]['score'],
+                  snapshot.data.documents[index]['date']
+                      .toDate()
+                      .toString()
+                      .split('.')[0]);
             },
           );
         }
       },
     );
   }
-  Widget cardBuild3(String movieID,String title,String description,int score,String date) {
+
+  Widget cardBuild3(String movieID, String title, String description, int score,
+      String date) {
     return StreamBuilder(
       stream: db.collection('movie').snapshots(),
       builder: (context, snapshot) {
@@ -344,9 +371,9 @@ class _MyListState extends State<MyList>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                  margin: EdgeInsets.only(left: 10,right: 20,top: 10,bottom: 10),
+                  margin:
+                      EdgeInsets.only(left: 10, right: 20, top: 10, bottom: 10),
                   child: getMovieImg3(movieID)),
-
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -355,29 +382,33 @@ class _MyListState extends State<MyList>
                   SizedBox(
                     height: 10,
                   ),
-                  Text(title,textScaleFactor: 1.2,),
+                  Text(
+                    title,
+                    textScaleFactor: 1.2,
+                  ),
                   Text(description),
                   SizedBox(
                     height: 30,
                   ),
-                  Text(date +' 작성'),
-
+                  Text(date + ' 작성'),
                 ],
-          )
-          ],
+              )
+            ],
           ),
-        );},
+        );
+      },
     );
   }
+
   Widget getMovieImg3(String movieID) {
     return StreamBuilder(
       stream:
-      Firestore.instance.collection('movie').document(movieID).snapshots(),
+          Firestore.instance.collection('movie').document(movieID).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Center(child: Text("Can't find"));
         return Container(
           child: Container(
-            height: MediaQuery.of(context).size.height*0.2,
+            height: MediaQuery.of(context).size.height * 0.2,
             child: Image(
               image: NetworkImage(snapshot.data['img']),
             ),
@@ -387,16 +418,15 @@ class _MyListState extends State<MyList>
     );
   }
 
-  Widget getMovieName(String movieID){
+  Widget getMovieName(String movieID) {
     return StreamBuilder(
       stream:
-      Firestore.instance.collection('movie').document(movieID).snapshots(),
+          Firestore.instance.collection('movie').document(movieID).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Center(child: Text("Can't find"));
         return Padding(
           padding: EdgeInsets.only(bottom: 5),
           child: Column(
-
             children: <Widget>[
               Text(
                 snapshot.data['name'],
@@ -413,7 +443,4 @@ class _MyListState extends State<MyList>
       },
     );
   }
-
-
-
 }
