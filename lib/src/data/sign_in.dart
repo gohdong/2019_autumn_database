@@ -31,7 +31,7 @@ String imageUrl;
 Future<String> signInWithGoogle() async {
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
   final GoogleSignInAuthentication googleSignInAuthentication =
-  await googleSignInAccount.authentication;
+      await googleSignInAccount.authentication;
 
   final AuthCredential credential = GoogleAuthProvider.getCredential(
     accessToken: googleSignInAuthentication.accessToken,
@@ -64,8 +64,9 @@ Future<String> signInWithGoogle() async {
   return 'signInWithGoogle succeeded: $user';
 }
 
-  void signOutGoogle() async {
-    await googleSignIn.signOut();
-
-  print("User Sign Out");
+void signOutGoogle() async {
+  await googleSignIn.signOut();
+  name = null;
+  email = null;
+  imageUrl = null;
 }

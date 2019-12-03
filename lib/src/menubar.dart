@@ -24,7 +24,6 @@ import 'data/sign_in.dart';
 class MenuBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final counter = Provider.of<Counter>(context);
     Size size = MediaQuery.of(context).size;
     return Drawer(
       child: Container(
@@ -78,11 +77,10 @@ class MenuBar extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).pop();
                 signOutGoogle();
-                counter.decrement();
               },
               child: Container(
                 child: Text(
-                  counter.getCounter() == 0 ? '' : 'LogOut',
+                  'LogOut',
                   textScaleFactor: 1.5,
                   textAlign: TextAlign.center,
                 ),
@@ -95,7 +93,6 @@ class MenuBar extends StatelessWidget {
   }
 
   Widget head(context, size) {
-    final counter = Provider.of<Counter>(context);
     return Column(
       children: <Widget>[
         Container(
@@ -107,7 +104,7 @@ class MenuBar extends StatelessWidget {
           children: <Widget>[
             Icon(Icons.add_alert),
             Container(
-                child: counter.getCounter() == 0
+                child: name == null
                     ? Container(
                         padding:
                             EdgeInsets.only(left: 20, right: 20, bottom: 10),
@@ -116,14 +113,15 @@ class MenuBar extends StatelessWidget {
                         padding:
                             EdgeInsets.only(left: 20, right: 20, bottom: 10),
                         child: CircleAvatar(
-                            radius: 40.0,
-                            backgroundImage: NetworkImage('$imageUrl')))),
+                          radius: 40,
+                          backgroundImage: NetworkImage(imageUrl),
+                        ))),
             Icon(Icons.settings)
           ],
         ),
         Container(
           padding: EdgeInsets.only(bottom: 30),
-          child: counter.getCounter() == 0
+          child: email == null
               ? OutlineButton.icon(
                   icon: Icon(Icons.power_settings_new),
                   label: Text("login"),
@@ -151,7 +149,7 @@ class MenuBar extends StatelessWidget {
           children: <Widget>[
             InkWell(
               onTap: () {
-                counter.getCounter() == 0
+                email == null
                     ? null
                     : Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => Purchase()));
@@ -160,9 +158,7 @@ class MenuBar extends StatelessWidget {
                 children: <Widget>[
                   Text("위시영화"),
                   Container(
-                    child: counter.getCounter() == 0
-                        ? Text('-')
-                        : likeMovie(context),
+                    child: email == null ? Text('-') : likeMovie(context),
                   ), //database 연결
                 ],
               ),
@@ -171,7 +167,7 @@ class MenuBar extends StatelessWidget {
               children: <Widget>[
                 Text("내가 본 영화"),
                 Container(
-                  child: counter.getCounter() == 0
+                  child: email == null
                       ? Text('-')
                       : viewMovie(context), //database 연결
                 )
@@ -181,7 +177,7 @@ class MenuBar extends StatelessWidget {
               children: <Widget>[
                 Text("내가 쓴 댓글"),
                 Container(
-                  child: counter.getCounter() == 0 ? Text('-') : reviewList(),
+                  child: email == null ? Text('-') : reviewList(),
                   //database 연결
                 )
               ],
@@ -247,7 +243,7 @@ class MenuBar extends StatelessWidget {
 
   Widget likeMovie(context) {
     final counter = Provider.of<Counter>(context);
-    if (counter.getCounter() == 0) {
+    if (email == null) {
       return Text(
         '0',
         textScaleFactor: 1.5,
@@ -276,7 +272,7 @@ class MenuBar extends StatelessWidget {
 
   Widget viewMovie(context) {
     final counter = Provider.of<Counter>(context);
-    if (counter.getCounter() == 0) {
+    if (email == null) {
       return Text(
         '0',
         textScaleFactor: 1.5,
@@ -310,10 +306,9 @@ class MenuBar extends StatelessWidget {
         stream:
             Firestore.instance.collection('member').document(email).snapshots(),
         builder: (context, snapshot) {
-          List<dynamic> ad = snapshot.data['review_movieID'];
           if (!snapshot.hasData) return const Text('Loading…');
           return Container(
-            child: _reviewList(context, ad),
+            child: _reviewList(context, snapshot.data['review_movieID']),
           );
         });
   }

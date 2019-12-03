@@ -44,7 +44,7 @@ class _MoviePageState extends State<MoviePage>
 
   @override
   Widget build(BuildContext context) {
-    final counter = Provider.of<Counter>(context);
+//    final counter = Provider.of<Counter>(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -59,10 +59,9 @@ class _MoviePageState extends State<MoviePage>
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.chat),
           onPressed: () {
-            if (counter.getCounter() == 0) {
+            if (email == null) {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Login(
-                        counter: counter,
                       )));
             } else {
               Navigator.of(context).push(
@@ -74,7 +73,7 @@ class _MoviePageState extends State<MoviePage>
   }
 
   Widget getMovieTrailer() {
-    final counter = Provider.of<Counter>(context);
+//    final counter = Provider.of<Counter>(context);
 
     return new StreamBuilder(
       stream:
@@ -159,7 +158,7 @@ class _MoviePageState extends State<MoviePage>
                       ),
 
                       onPressed: () {
-                        if(counter.getCounter() == 1){
+                        if(email==null){
                           if(!pushLike){
                           try {
                           db.collection('movie').document(movieID)

@@ -72,7 +72,7 @@ class _PurchaseState extends State<Purchase>
             height: 10,
           ),
           Container(
-              child: counter.getCounter() == 0
+              child: email==null
                   ? Container(
                       padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
                       child: Icon(Icons.account_circle, size: 50))
