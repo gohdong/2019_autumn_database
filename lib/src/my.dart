@@ -92,7 +92,6 @@ Column menuSection(Counter counter,BuildContext context) {
       title: Text('구매내역'),
       trailing: Icon(Icons.arrow_forward_ios),
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Purchase()));
       },
 
     ),

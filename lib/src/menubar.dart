@@ -16,6 +16,7 @@ import 'package:dbapp/src/reservation.dart';
 import 'package:dbapp/src/data/make_seat.dart';
 import 'package:dbapp/src/test_movie_buy.dart';
 import 'package:dbapp/src/success_pay.dart';
+import 'package:dbapp/src/wishList.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -150,13 +151,19 @@ class MenuBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                Text("위시영화"),
-                Container(
-                  child: likeMovie(),
-                  ), //database 연결
-              ],
+            InkWell(
+              onTap: (){
+                counter.getCounter()==0?
+                null:Navigator.of(context).push(MaterialPageRoute(builder: (context) => Purchase()));
+              },
+              child: Column(
+                children: <Widget>[
+                  Text("위시영화"),
+                  Container(
+                    child: likeMovie(context),
+                    ), //database 연결
+                ],
+              ),
             ),
             Column(
               children: <Widget>[
@@ -240,11 +247,15 @@ class MenuBar extends StatelessWidget {
     );
   }
 
-  Widget likeMovie() {
+  Widget likeMovie(context) {
+    final counter = Provider.of<Counter>(context);
+    if(counter.getCounter()==0){
+      return Text('0', textScaleFactor: 1.5,);
+    }
     return StreamBuilder(
         stream: Firestore.instance
             .collection('member')
-            .document('wangjh789@gmail.com')
+            .document(email)
             .snapshots(),
         builder: (context, snapshot) {
           List<dynamic> ad = snapshot.data['like_movie'];
