@@ -32,8 +32,6 @@ class _Food_purchaseState extends State<Food_purchase> {
   @override
   Widget build(BuildContext context) {
 
-    FlutterMoneyFormatter total_won =
-    FlutterMoneyFormatter(amount: double.parse((this.total).toString()));
 
 
     var keys = widget.select.keys.toList();
@@ -43,6 +41,10 @@ class _Food_purchaseState extends State<Food_purchase> {
       print(widget.select[keys[i]]);
       this.total = this.total + widget.money[keys[i]]*widget.select[keys[i]];
     }
+
+    FlutterMoneyFormatter total_won =
+    FlutterMoneyFormatter(amount: double.parse((this.total).toString()));
+
 
     return Scaffold(
       appBar: AppBar(
@@ -287,7 +289,7 @@ class _Food_purchaseState extends State<Food_purchase> {
             await db.collection('payment_store').add({
               'memberID': '$name',
               'email': '$email',
-              'total': 10000,
+              'total': this.total,
               'list': widget.select,
               'payTime': Timestamp.now(),
               'used' : false,
