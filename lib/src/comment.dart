@@ -45,7 +45,7 @@ class CommentState extends State<Comment> {
   }
 
   Widget commentBuild() {
-    final counter = Provider.of<Counter>(context);
+//    final counter = Provider.of<Counter>(context);
     return StreamBuilder(
       stream: Firestore.instance
           .collection('comments')
@@ -75,7 +75,7 @@ class CommentState extends State<Comment> {
             }
 
             if (index == snapshot.data.documents.length + 1) {
-              return Container(margin: EdgeInsets.only(top: 20),child: enterComment(counter));
+              return Container(margin: EdgeInsets.only(top: 20),child: enterComment(email));
 
             }
 
@@ -125,8 +125,8 @@ class CommentState extends State<Comment> {
     );
   }
 
-  Widget enterComment(Counter counter) {
-    if (counter.getCounter() == 0) {
+  Widget enterComment(String email) {
+    if (email == null) {
       return addCommentNotLogin();
     }
 

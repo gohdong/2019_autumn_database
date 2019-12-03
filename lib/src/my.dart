@@ -20,14 +20,14 @@ class _MyState extends State<My> {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              counter.getCounter() == 0
+              email ==null
                   ? Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Login()),
                     )
                   : Text('dd');
             },
-            child: loginSection(counter),
+            child: loginSection(email),
           ),
           Container(
             height: 7,
@@ -41,7 +41,7 @@ class _MyState extends State<My> {
             height: 7,
             color: Colors.black12,
           ),
-          Container(child: menuSection(counter,context))
+          Container(child: menuSection(email,context))
         ],
       ),
     );
@@ -85,14 +85,13 @@ Column _buildButtonColumn(IconData icon, String label) {
   );
 }
 
-Column menuSection(Counter counter,BuildContext context) {
+Column menuSection(String email,BuildContext context) {
   return Column(children: <Widget>[
 //        Divider(),
     ListTile(
       title: Text('구매내역'),
       trailing: Icon(Icons.arrow_forward_ios),
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Purchase()));
       },
 
     ),
@@ -115,7 +114,7 @@ Column menuSection(Counter counter,BuildContext context) {
   ]);
 }
 
-Container loginSection(Counter counter) {
+Container loginSection(String email) {
   return Container(
       padding: const EdgeInsets.all(32),
       child: Row(
@@ -129,7 +128,7 @@ Container loginSection(Counter counter) {
                 Container(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Text(
-                    counter.getCounter()==0?
+                    email==null?
                     '로그인 후 이용해주세요 ':'$name님',textScaleFactor: 2,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -137,7 +136,7 @@ Container loginSection(Counter counter) {
                   ),
                 ),
                 Text(
-                  counter.getCounter()==0?
+                  email==null?
                   '로그인 하기':'안녕하세요',
                   style: TextStyle(
                     color: Colors.grey[500],
@@ -148,7 +147,7 @@ Container loginSection(Counter counter) {
           ),
           /*3*/
           Icon(
-            counter.getCounter()==0?
+            email==null?
             Icons.account_circle:Icons.audiotrack,
             size: 50,
           ),
