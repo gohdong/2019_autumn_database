@@ -111,7 +111,7 @@ class _MyListState extends State<MyList>
       builder: (context, snapshot) {
         if (!snapshot.hasData){
           return Center(child: CircularProgressIndicator());}
-        if(ad.length==0){
+        if(ad == null || ad.length==0){
           return Text('좋아요를 눌러주세요');
         }
         else{
