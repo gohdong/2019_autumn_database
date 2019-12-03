@@ -46,8 +46,8 @@ class _StoreBottomState extends State<StoreBottom> {
 //    print("first : " + _array.length.toString());
 //    print(_array);
 
-    if(widget.title == "food"){
-      return make_stream(widget.title);
+    if(widget.title == "food" || widget.title == "package"){
+      return make_stream("food");
 
     }
     else if(widget.title == "card"){
@@ -69,7 +69,7 @@ class _StoreBottomState extends State<StoreBottom> {
       StreamBuilder<QuerySnapshot>(
         stream: Firestore.instance
             .collection('store')
-            .where('category', isEqualTo: name)
+            .where('category', isEqualTo: 'food')
 //          .orderBy('key', )
             .snapshots(),
         builder:
@@ -79,9 +79,9 @@ class _StoreBottomState extends State<StoreBottom> {
             case ConnectionState.waiting:
               return new Text('Loading...');
             default:
-              return new Wrap(
+              return new ListView(
 //                  shrinkWrap: true,
-                crossAxisAlignment: WrapCrossAlignment.start,
+//                crossAxisAlignment: WrapCrossAlignment.start,
                 children: snapshot.data.documents
                     .map((document) => make_contents(context, document))
                     .toList(),

@@ -6,6 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dbapp/src/reservation_time_table.dart';
 import 'package:intl/intl.dart';
 
+import 'data/sign_in.dart';
+import 'login.dart';
+
 class MovieChart extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => MovieChartState();
@@ -103,9 +106,16 @@ class MovieChartState extends State<MovieChart> {
                 textScaleFactor: 0.7,
               ),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Show_time_table(document.documentID, document)));
+//                print("현재 이름 : " +  name);
+                  if(name==null){
+                    Navigator.of(context).push(MaterialPageRoute
+                        (builder: (context) => Login()));}
+                  else {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            Show_time_table(document.documentID, document)));
 //                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Show_time_table()));
-
+                  }
               },
 
               shape: new RoundedRectangleBorder(
