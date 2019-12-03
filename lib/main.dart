@@ -34,8 +34,7 @@ class _MyAppState extends State<MyApp> {
         // send the user to the home page
 //        counter.increment();
       email = user.email;
-      print(user.displayName);
-
+      print(user);
       }
     });
   }
@@ -50,6 +49,8 @@ class _MyAppState extends State<MyApp> {
       builder: (_)=> Counter(),
       child: MaterialApp(
         title: 'GVA_app',
+        debugShowCheckedModeBanner: false,
+
         theme: ThemeData(
           primaryColor: Colors.white,
 
@@ -91,11 +92,11 @@ class _TabsState extends State<Tabs> {
       length: _kTabs.length,
       child: Scaffold(
         endDrawer: MenuBar(),
-        appBar: AppBar(
-//          title: FlatButton(padding: EdgeInsets.all(0),child: Image.asset('img/gva_logo1.png',height: 30,),onPressed: (){
-//            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>QR("movie")));
-//          },),
-          title: email==null?Text("NNN"):Text(email),
+          appBar: AppBar(
+          title: FlatButton(padding: EdgeInsets.all(0),child: Image.asset('img/gva_logo1.png',height: 30,),onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MakeMovieTicket("movie")));
+          },),
+//          title: email==null?Text("NNN"):Text(email),
           centerTitle: true,
           elevation: 0,
           // If `TabController controller` is not provided, then a

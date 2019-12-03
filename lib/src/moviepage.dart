@@ -888,7 +888,6 @@ class _MoviePageState extends State<MoviePage>
       stream: Firestore.instance
           .collection('roles')
           .where("movieID", isEqualTo: movieID)
-          .orderBy('importance')
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
