@@ -159,7 +159,7 @@ class _AddReviewState extends State<AddReview> {
             new FlatButton(
               child: new Text("Confirm"),
               onPressed: () async {
-                await db.collection('movie').document(movieID).collection('reviews').add({
+                await db.collection('reviews').add({
                   'title' : _title.text,
                   'description': _description.text,
                   'writer': "$name",
