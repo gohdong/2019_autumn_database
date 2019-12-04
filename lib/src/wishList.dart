@@ -133,57 +133,59 @@ class _MyListState extends State<MyList>
           Firestore.instance.collection('movie').document(movieID).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Center(child: Text("Can't find"));
-        return Container(
-          height: 500,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                child: Image(
-                  image: NetworkImage(snapshot.data['img']),
-                  fit: BoxFit.fill,
+        return Card(
+          child: Container(
+            height: 500,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  child: Image(
+                    image: NetworkImage(snapshot.data['img']),
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
-              Text(
-                snapshot.data['name'],
-                textScaleFactor: 1.7,
-              ),
-              Text(
-                snapshot.data['en_name'],
-                textScaleFactor: 1.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  OutlineButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.open_in_new,
-                        ),
-                        Text("공유")
-                      ],
+                Text(
+                  snapshot.data['name'],
+                  textScaleFactor: 1.7,
+                ),
+                Text(
+                  snapshot.data['en_name'],
+                  textScaleFactor: 1.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    OutlineButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.open_in_new,
+                          ),
+                          Text("공유")
+                        ],
+                      ),
+                      onPressed: () {},
                     ),
-                    onPressed: () {},
-                  ),
-                  OutlineButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.bookmark),
-                        Text("예매"),
-                      ],
+                    OutlineButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.bookmark),
+                          Text("예매"),
+                        ],
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => MoviePage(movieID)));
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MoviePage(movieID)));
-                    },
-                  ),
-                ],
-              ),
-              Divider(),
-            ],
+                  ],
+                ),
+                Divider(),
+              ],
+            ),
           ),
         );
       },
