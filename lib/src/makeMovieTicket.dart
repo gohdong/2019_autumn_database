@@ -47,7 +47,7 @@ class _MakeMovieTicketState extends State<MakeMovieTicket> {
     return StreamBuilder(
       stream: Firestore.instance
           .collection('payment_movie')
-          .document('')
+          .document(reservationID)
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {

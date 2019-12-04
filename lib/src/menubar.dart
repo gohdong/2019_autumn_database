@@ -14,7 +14,7 @@ import 'package:dbapp/src/reservation.dart';
 import 'package:dbapp/src/data/make_seat.dart';
 import 'package:dbapp/src/test_movie_buy.dart';
 import 'package:dbapp/src/success_pay.dart';
-import 'package:dbapp/src/wishList.dart';
+import 'package:dbapp/src/myList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
