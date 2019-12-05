@@ -306,13 +306,6 @@ class _Screen_purchaseState extends State<Screen_purchase> {
                         }
                       });
                     };
-                    Firestore.instance
-                        .collection("movie")
-                        .document(widget.document_movie.documentID)
-                        .updateData({
-                      'spectator':
-                      widget.document_movie['spectator'] + sub.length
-                    });
 
                     Firestore.instance
                         .collection("time_table")
