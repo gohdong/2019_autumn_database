@@ -164,27 +164,27 @@ class ParentReserve extends State<sub_Reserve> {
 
     return Center(
         child: InkWell(
-      child: Container(
-        margin: const EdgeInsets.only(top: 30, bottom: 30),
-        width: 300.0,
-        height: 48.0,
-        decoration: BoxDecoration(
-          border: Border.all(width: 1, color: Colors.white),
-          color: Colors.grey[900],
-        ),
-        child: Center(
+          child: Container(
+            margin: const EdgeInsets.only(top: 30, bottom: 30),
+            width: 300.0,
+            height: 48.0,
+            decoration: BoxDecoration(
+              border: Border.all(width: 1, color: Colors.white),
+              color: Colors.grey[900],
+            ),
+            child: Center(
 //              child : Text("a"),
-          child: Text(
-            "Screen",
-            style: TextStyle(
-              fontSize: 25,
-              color: Colors.white70,
+              child: Text(
+                "Screen",
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.white70,
+                ),
+              ),
+//          child: Text(seatlist.length.toString()),
             ),
           ),
-//          child: Text(seatlist.length.toString()),
-        ),
-      ),
-    ));
+        ));
   }
 
   Widget _Purchase_button(document) {
@@ -193,48 +193,48 @@ class ParentReserve extends State<sub_Reserve> {
 
     return Center(
         child: InkWell(
-      onTap: () {
-        if (reState.seatlist.length == 0) {
-          _showDialog();
-        } else {
-          String a = document.documentID;
-          String b = document['movieID'];
+          onTap: () {
+            if (reState.seatlist.length == 0) {
+              _showDialog();
+            } else {
+              String a = document.documentID;
+              String b = document['movieID'];
 
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => Screen_purchase(
-                  reState.seatlist,
-                  reState.seatlist_rank,
-                  widget.document_movie,
-                  widget.document_table,
-                  reState.seatlist.length * 8000)));
-        }
-      },
-      child: Container(
-        margin: const EdgeInsets.only(top: 10, bottom: 30),
-        width: 300.0,
-        height: 48.0,
-        decoration: BoxDecoration(
-            border: Border.all(width: 2, color: Colors.amber[300]),
-            color: Colors.grey[800],
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.0),
-            )),
-        child: Center(
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Screen_purchase(
+                      reState.seatlist,
+                      reState.seatlist_rank,
+                      widget.document_movie,
+                      widget.document_table,
+                      reState.seatlist.length * 8000)));
+            }
+          },
+          child: Container(
+            margin: const EdgeInsets.only(top: 10, bottom: 30),
+            width: 300.0,
+            height: 48.0,
+            decoration: BoxDecoration(
+                border: Border.all(width: 2, color: Colors.amber[300]),
+                color: Colors.grey[800],
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                )),
+            child: Center(
 //              child : Text("a"),
 //              child : Text("Screen"),
-          child: Text(
-            "선택완료",
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-            ),
-          ),
+              child: Text(
+                "선택완료",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
 //          child: Text(reState.seatlist.length.toString(), style: TextStyle(
 //            fontSize: 20,
 //          ),),
-        ),
-      ),
-    ));
+            ),
+          ),
+        ));
   }
 
   void _showDialog() {
@@ -265,21 +265,21 @@ class _Child_Make_box extends State<Make_box> {
   Widget build(BuildContext context) {
     return Center(
         child: InkWell(
-      child: Container(
-        margin: const EdgeInsets.only(top: 30, bottom: 30),
-        width: 300.0,
-        height: 48.0,
-        decoration: BoxDecoration(
-          border: Border.all(width: 1, color: Colors.black),
-          color: Colors.white,
-        ),
-        child: Center(
-          child: Text(reState.seatlist.length.toString()),
+          child: Container(
+            margin: const EdgeInsets.only(top: 30, bottom: 30),
+            width: 300.0,
+            height: 48.0,
+            decoration: BoxDecoration(
+              border: Border.all(width: 1, color: Colors.black),
+              color: Colors.white,
+            ),
+            child: Center(
+              child: Text(reState.seatlist.length.toString()),
 //              child : Text("a"),
 //              child: Text(seatlist.length.toString() + " " + seatlist[0] + " " + seatlist[1] + " " + seatlist[2] + " " + seatlist[3] + " " + seatlist[4]),
-        ),
-      ),
-    ));
+            ),
+          ),
+        ));
   }
 }
 
@@ -353,174 +353,174 @@ class _Child_Make_seat extends State<Make_seat> {
           widget.document[seat]['type'] == 'economy') {
         return Center(
             child: InkWell(
-          child: Container(
-              margin: const EdgeInsets.only(top: 5, left: 1),
+              child: Container(
+                  margin: const EdgeInsets.only(top: 5, left: 1),
 //                  color: Colors.grey,
-              width: 30.0,
-              height: 30.0,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1.5, color: Colors.orangeAccent),
+                  width: 30.0,
+                  height: 30.0,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1.5, color: Colors.orangeAccent),
 //              color: (widget.document[seat] == "1") ? posi : select,
-                color: check ? posi : select,
-              ),
-              child: Center(
-                child: Text(seat),
+                    color: check ? posi : select,
+                  ),
+                  child: Center(
+                    child: Text(seat),
 //                  child: Text(reState.seatlist.length.toString()),
-              )),
-          onTap: () {
-            setState(() {
-              // 0:선택불가 // 1:선택가능 2:현재선택된것
-              if (check == true) {
-                check = !check;
+                  )),
+              onTap: () {
+                setState(() {
+                  // 0:선택불가 // 1:선택가능 2:현재선택된것
+                  if (check == true) {
+                    check = !check;
 //                    global_select_list.add(seat);
 
 //                    print(global_select_list.length.toString());
-                reState.seatlist.add(seat);
-                reState.seatlist_rank.add(widget.document[seat]['type']);
+                    reState.seatlist.add(seat);
+                    reState.seatlist_rank.add(widget.document[seat]['type']);
 //                    print(reState.seatlist.length.toString());
 //              Firestore.instance.collection("time_table").document('test').updateData({seat : "0"});
 
-              } else {
-                check = !check;
-                reState.seatlist.remove(seat);
-                reState.seatlist_rank.remove(widget.document[seat]['type']);
-              }
-            });
-          },
-        ));
+                  } else {
+                    check = !check;
+                    reState.seatlist.remove(seat);
+                    reState.seatlist_rank.remove(widget.document[seat]['type']);
+                  }
+                });
+              },
+            ));
       } else if (widget.document[seat]['type'] == 'standard') {
         return Center(
             child: InkWell(
-          child: Container(
-              margin: const EdgeInsets.only(top: 5, left: 1),
-              width: 30.0,
-              height: 30.0,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1.0, color: Colors.greenAccent),
+              child: Container(
+                  margin: const EdgeInsets.only(top: 5, left: 1),
+                  width: 30.0,
+                  height: 30.0,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1.0, color: Colors.greenAccent),
 //              color: (widget.document[seat] == "1") ? posi : select,
-                color: check ? posi : select,
-              ),
-              child: Center(
-                child: Text(seat),
-              )),
-          onTap: () {
-            setState(() {
-              // 0:선택불가 // 1:선택가능 2:현재선택된것
-              if (check == true) {
-                check = !check;
-                reState.seatlist.add(seat);
-                reState.seatlist_rank.add(widget.document[seat]['type']);
-              } else {
-                check = !check;
-                reState.seatlist.remove(seat);
-                reState.seatlist_rank.remove(widget.document[seat]['type']);
-              }
-            });
-          },
-        ));
+                    color: check ? posi : select,
+                  ),
+                  child: Center(
+                    child: Text(seat),
+                  )),
+              onTap: () {
+                setState(() {
+                  // 0:선택불가 // 1:선택가능 2:현재선택된것
+                  if (check == true) {
+                    check = !check;
+                    reState.seatlist.add(seat);
+                    reState.seatlist_rank.add(widget.document[seat]['type']);
+                  } else {
+                    check = !check;
+                    reState.seatlist.remove(seat);
+                    reState.seatlist_rank.remove(widget.document[seat]['type']);
+                  }
+                });
+              },
+            ));
       } else if (widget.document[seat]['type'] == 'prime') {
         return Center(
             child: InkWell(
-          child: Container(
-              margin: const EdgeInsets.only(top: 5, left: 1),
-              width: 30.0,
-              height: 30.0,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1.3, color: Colors.pinkAccent),
+              child: Container(
+                  margin: const EdgeInsets.only(top: 5, left: 1),
+                  width: 30.0,
+                  height: 30.0,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1.3, color: Colors.pinkAccent),
 //              color: (widget.document[seat] == "1") ? posi : select,
-                color: check ? posi : select,
-              ),
-              child: Center(
-                child: Text(seat),
+                    color: check ? posi : select,
+                  ),
+                  child: Center(
+                    child: Text(seat),
 //                  child: Text(reState.seatlist.length.toString()),
-              )),
-          onTap: () {
-            setState(() {
-              // 0:선택불가 // 1:선택가능 2:현재선택된것
-              if (check == true) {
-                check = !check;
-                reState.seatlist.add(seat);
-                reState.seatlist_rank.add(widget.document[seat]['type']);
+                  )),
+              onTap: () {
+                setState(() {
+                  // 0:선택불가 // 1:선택가능 2:현재선택된것
+                  if (check == true) {
+                    check = !check;
+                    reState.seatlist.add(seat);
+                    reState.seatlist_rank.add(widget.document[seat]['type']);
 //                    global_select_list.add(seat);
 //              Firestore.instance.collection("time_table").document('test').updateData({seat : "0"});
 
-              } else {
-                check = !check;
-                reState.seatlist.remove(seat);
-                reState.seatlist_rank.remove(widget.document[seat]['type']);
+                  } else {
+                    check = !check;
+                    reState.seatlist.remove(seat);
+                    reState.seatlist_rank.remove(widget.document[seat]['type']);
 //                    global_select_list.remove(seat);
 
-              }
-            });
-          },
-        ));
+                  }
+                });
+              },
+            ));
       } else if (widget.document[seat]['type'] == 'disabled') {
         return Center(
             child: InkWell(
-          child: Container(
-              margin: const EdgeInsets.only(top: 5, left: 1),
-              width: 30.0,
-              height: 30.0,
-              decoration: BoxDecoration(
-                border: Border.all(width: 2.5, color: Colors.lightBlue),
+              child: Container(
+                  margin: const EdgeInsets.only(top: 5, left: 1),
+                  width: 30.0,
+                  height: 30.0,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 2.5, color: Colors.lightBlue),
 //              color: (widget.document[seat] == "1") ? posi : select,
-                color: check ? posi : select,
-              ),
-              child: Center(
-                child: Text(seat),
+                    color: check ? posi : select,
+                  ),
+                  child: Center(
+                    child: Text(seat),
 //                  child: Text(reState.seatlist.length.toString()),
-              )),
-          onTap: () {
-            setState(() {
-              // 0:선택불가 // 1:선택가능 2:현재선택된것
-              if (check == true) {
-                check = !check;
-                reState.seatlist.add(seat);
-                reState.seatlist_rank.add(widget.document[seat]['type']);
+                  )),
+              onTap: () {
+                setState(() {
+                  // 0:선택불가 // 1:선택가능 2:현재선택된것
+                  if (check == true) {
+                    check = !check;
+                    reState.seatlist.add(seat);
+                    reState.seatlist_rank.add(widget.document[seat]['type']);
 //                    global_select_list.add(seat);
 //              Firestore.instance.collection("time_table").document('test').updateData({seat : "0"});
 
-              } else {
-                check = !check;
-                reState.seatlist.remove(seat);
-                reState.seatlist_rank.remove(widget.document[seat]['type']);
-                global_select_list.remove(seat);
-              }
-            });
-          },
-        ));
+                  } else {
+                    check = !check;
+                    reState.seatlist.remove(seat);
+                    reState.seatlist_rank.remove(widget.document[seat]['type']);
+                    global_select_list.remove(seat);
+                  }
+                });
+              },
+            ));
       }
 
       return Center(
           child: InkWell(
-        child: Container(
-            margin: const EdgeInsets.only(top: 5, left: 1),
-            width: 30.0,
-            height: 30.0,
-            decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.black),
+            child: Container(
+                margin: const EdgeInsets.only(top: 5, left: 1),
+                width: 30.0,
+                height: 30.0,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1, color: Colors.black),
 //              color: (widget.document[seat] == "1") ? posi : select,
-              color: check ? posi : select,
-            ),
-            child: Center(
-              child: Text(seat),
+                  color: check ? posi : select,
+                ),
+                child: Center(
+                  child: Text(seat),
 //                  child: Text(reState.seatlist.length.toString()),
-            )),
-        onTap: () {
-          setState(() {
-            // 0:선택불가 // 1:선택가능 2:현재선택된것
-            if (check == true) {
-              check = !check;
-              reState.seatlist.add(seat);
-              reState.seatlist_rank.add(widget.document[seat]['type']);
-            } else {
-              check = !check;
-              reState.seatlist.remove(seat);
-              reState.seatlist_rank.remove(widget.document[seat]['type']);
-            }
-          });
-        },
-      ));
+                )),
+            onTap: () {
+              setState(() {
+                // 0:선택불가 // 1:선택가능 2:현재선택된것
+                if (check == true) {
+                  check = !check;
+                  reState.seatlist.add(seat);
+                  reState.seatlist_rank.add(widget.document[seat]['type']);
+                } else {
+                  check = !check;
+                  reState.seatlist.remove(seat);
+                  reState.seatlist_rank.remove(widget.document[seat]['type']);
+                }
+              });
+            },
+          ));
     } else {
       // 3이면 지금 선택한 좌석
       return Center(

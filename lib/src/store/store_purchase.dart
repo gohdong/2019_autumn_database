@@ -75,6 +75,13 @@ class _Food_purchaseState extends State<Food_purchase> {
                 ),),),
               InkWell(
                 onTap: () async {
+                  for (var i = 0; i < keys.length; i++){
+                    if(widget.select[keys[i]] == 0){
+                      widget.select.remove(keys[i]);
+                    }
+                  }
+
+
                   await db.collection('payment_store').add({
                     'memberID': name,
                     'email': email,
@@ -300,7 +307,9 @@ class _Food_purchaseState extends State<Food_purchase> {
               onPressed: () async {
                  setState(() {
                   widget.select.update(name, (dynamic val) => 0);
+                  print(widget.select);
                     widget.select.remove([name]);
+                  print(widget.select);
                 });
                  Navigator.of(context).pop();
               },
