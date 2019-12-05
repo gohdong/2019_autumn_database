@@ -57,30 +57,12 @@ class Success extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(ok);
-    print("success 진입@@@@@@");
-    print('$global_select_list'.length);
-    print(global_select_list.length);
-    for (i = 0; i < '$global_select_list'.length; i++) {
-      print('$global_select_list'[i]);
-    }
-    for (i = 0; i < global_select_list.length; i++) {
-      print(global_select_list[i]);
-    }
-    print("success 진입@@@@@@");
-//    Firestore.instance.collection("time_table").
-//    document('20191126_CINEMA1_0920')
-//        .collection('seats').document('1').updateData({
-//      seat : <String, dynamic>{
-//        'number' : "1",
-//        'type' : 'disabled',
-//      }});
+
 
     String a = '$global_time_table_ID';
 
 //    print("document.table : " + document_table['movieID']);
     return Scaffold(
-        appBar: AppBar(title: Text('')),
         body: Column(children: <Widget>[
           Container(
             height: 280,
@@ -123,17 +105,7 @@ class Success extends StatelessWidget {
                             top: BorderSide(width: 1.0, color: Colors.grey[400]),
                           ),
                           color: Colors.grey[200]),
-                      child: Column(
-                        children: <Widget>[
-// 아래로
-                          Column(
-                            children: <Widget>[],
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                          )
-                        ],
-                        crossAxisAlignment: CrossAxisAlignment.start,
-//                      mainAxisAlignment: MainAxisAlignment.start,
-                      )),
+                      child: Text("예매 정보 및 내역은 'My메뉴 - 내가 본 영화' 탭에서 확인하실수 있습니다.")),
                   Container(
                     height: 70,
                     decoration: BoxDecoration(

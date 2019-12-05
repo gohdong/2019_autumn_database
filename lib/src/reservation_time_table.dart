@@ -60,7 +60,6 @@ class Show_time_table_run extends State<Show_time_table2> {
     sub_check = 0;
     this.check = 0;
     showState.check = 0;
-    print(showState.sublist.length.toString());
     return Scaffold(
         appBar: AppBar(title: Text("시간 선택")),
         body: SingleChildScrollView(
@@ -78,7 +77,6 @@ class Show_time_table_run extends State<Show_time_table2> {
 
   @override
   Widget build_document(BuildContext context, String theater) {
-//    print("right? : "+widget.title);
     return StreamBuilder<QuerySnapshot>(
         stream: Firestore.instance
             .collection('time_table')
@@ -113,7 +111,6 @@ class Show_time_table_run extends State<Show_time_table2> {
     this.sub_check++;
     time = formatDate(document['startAt'].toDate(), [HH, ':', nn]);
 
-    print("tes");
     if (int.parse(document['theater']) > this.check) {
       // 새로운 관 시작
       this.sub_check = 1;
@@ -183,7 +180,7 @@ class Show_time_table_run extends State<Show_time_table2> {
                   ),
                   Center(
                     child: Text(
-                      document['select_count'].toString() + "/100",
+                        (100-document['select_count']).toString() + "/100",
                       style: TextStyle(
                         fontSize: 14,
                       ),
@@ -209,8 +206,8 @@ class Show_time_table_run extends State<Show_time_table2> {
               email == null
                   ? _confirmLogOut(context)
                   : Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      sub_Reserve(widget.document_movie, document)));
+                      builder: (context) =>
+                          sub_Reserve(widget.document_movie, document)));
             },
             child: Container(
               padding: EdgeInsets.all(5),
@@ -245,7 +242,7 @@ class Show_time_table_run extends State<Show_time_table2> {
                   ),
                   Center(
                     child: Text(
-                      document['select_count'].toString() + "/100",
+                        (100-document['select_count']).toString() + "/100",
                       style: TextStyle(
                         fontSize: 14,
                       ),
@@ -273,8 +270,8 @@ class Show_time_table_run extends State<Show_time_table2> {
               email == null
                   ? _confirmLogOut(context)
                   : Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      sub_Reserve(widget.document_movie, document)));
+                      builder: (context) =>
+                          sub_Reserve(widget.document_movie, document)));
             },
             child: Container(
               padding: EdgeInsets.all(5),
@@ -309,7 +306,7 @@ class Show_time_table_run extends State<Show_time_table2> {
                   ),
                   Center(
                     child: Text(
-                      document['select_count'].toString() + "/100",
+                        (100-document['select_count']).toString() + "/100",
                       style: TextStyle(
                         fontSize: 14,
                       ),
@@ -327,8 +324,8 @@ class Show_time_table_run extends State<Show_time_table2> {
         crossAxisAlignment: CrossAxisAlignment.center,
       );
     }
-
   }
+
   void _confirmLogOut(BuildContext context) {
     // flutter defined function
     showDialog(
@@ -342,7 +339,8 @@ class Show_time_table_run extends State<Show_time_table2> {
             new FlatButton(
               child: new Text("확인"),
               onPressed: () async {
-                await Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Login()));
+                await Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Login()));
 //                int count = 0;
                 Navigator.of(context).pop();
               },
@@ -360,6 +358,4 @@ class Show_time_table_run extends State<Show_time_table2> {
       },
     );
   }
-
-
 }

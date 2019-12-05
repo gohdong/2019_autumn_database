@@ -97,23 +97,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
     List<String> test2 = se_li_ra;
     FlutterMoneyFormatter fmf =
         FlutterMoneyFormatter(amount: double.parse((widget.money).toString()));
-//    print(fmf);
 
-//    print("여기가ㅏ각 ");
-//    final timeStamp = document_table['startAt'].millisecondsSinceEpoch;
-//    print("timeStamp:$timeStamp");
-//    String time2 = formatDate(timeStamp, [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn]);
-
-//    print(time2);
-//
-//    Timestamp a = document_table['startAt'];
-//    String formatted = formatTime(document_table['startAt'].toData().subtract(Duration(hours: 2)).millisecondsSinceEpoch);
-//    print(a.seconds);
-//    print(a);
-//
-//    print((document_table['startAt']));
-//    print("adfdkjfkd");
-//    print(formatted);
     String time = formatDate((widget.document_table['startAt']).toDate(),
         [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn]);
 ////    print(formatDate(todayDate, [yyyy, '-', mm, '-', dd, ' ', hh, ':', nn, ':', ss, ' ', am]));
@@ -200,35 +184,51 @@ class _Screen_purchaseState extends State<Screen_purchase> {
                                       ),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(top: 17),
-                                      child: Text(
-                                        time,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
+                                        margin: EdgeInsets.only(top: 17),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.alarm,
+                                            ),
+                                            Text(
+                                              "  " + time,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        )),
                                     Container(
-                                      margin: EdgeInsets.only(top: 5),
-                                      child: Text(
-                                        widget.select_list.length.toString() +
-                                            "명",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ),
+                                        margin: EdgeInsets.only(top: 5),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(Icons.group),
+                                            Text("  "+
+                                              widget.select_list.length
+                                                      .toString() +
+                                                  "명",
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        )),
                                     Container(
-                                      margin: EdgeInsets.only(top: 5),
-                                      child: Text(
-                                        "본점 " +
-                                            widget.document_table['theater'] +
-                                            "관",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ),
+                                        margin: EdgeInsets.only(top: 5),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(Icons.edit_location),
+                                            Text(
+                                              "  본점 " +
+                                                  widget.document_table[
+                                                      'theater'] +
+                                                  "관",
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        )),
                                   ],
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -281,8 +281,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
               Container(
                 child: InkWell(
                   onTap: () async {
-                    print("sdffsfdsds : " + '$name');
-                    print('$name' == null);
+
                     await db.collection('payment_movie').add({
                       'memberID': name,
                       'email': email,
@@ -306,7 +305,15 @@ class _Screen_purchaseState extends State<Screen_purchase> {
                           'type': sub2[i],
                         }
                       });
-                    }
+                    };
+                    Firestore.instance
+                        .collection("movie")
+                        .document(widget.document_movie.documentID)
+                        .updateData({
+                      'spectator':
+                      widget.document_movie['spectator'] + sub.length
+                    });
+
                     Firestore.instance
                         .collection("time_table")
                         .document(widget.document_table.documentID)
@@ -319,12 +326,15 @@ class _Screen_purchaseState extends State<Screen_purchase> {
 
 //                    Navigator.of(ctx).push( MaterialPageRoute(builder: (context) => Payment(select_list,document_table, price)));
                   },
-                  child: Text(
-                    "결제하기",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.white,
+                  child: Container(
+                    width: MediaQuery.of(ctx).size.width * 1,
+                    child: Text(
+                      "결제하기",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),

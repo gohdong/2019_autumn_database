@@ -46,8 +46,12 @@ class _StoreDetailState extends State<StoreDetail> {
           alignment: Alignment.center,
           child: Column(
             children: <Widget>[
-              Image.network(widget.document['img'],
-                  height: MediaQuery.of(context).size.width * 0.9), // 제품사진
+              Container(
+                  alignment: Alignment.center,
+                  child:
+                  Image.network(widget.document['img'],
+                  height: MediaQuery.of(context).size.height * 0.55), // 제품사진
+                  ),
               Container(
                 margin: EdgeInsets.only(bottom: 10),
                 decoration: BoxDecoration(
@@ -57,17 +61,29 @@ class _StoreDetailState extends State<StoreDetail> {
                 ),
               ),// 중간 줄 생성
               Container(
-                  height: MediaQuery.of(context).size.width * 0.4,
+//                decoration: BoxDecoration(
+//                    border: Border.all(width: 1, color: Colors.blue),
+//                ),
+                  height: MediaQuery.of(context).size.height * 0.24,
                   child:
               Row(
-
                 children: <Widget>[
-                  Column(
+                  Container(
+//                    decoration: BoxDecoration(
+//                      border: Border.all(width: 1, color: Colors.blue),
+//                    ),
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child:
+                    Column(
                     children: <Widget>[
                       Container(
+//                        decoration: BoxDecoration(
+//                          border: Border.all(width: 1, color: Colors.red),
+//                        ),
                         margin: EdgeInsets.only(left: 25, top : 27),
                         child: Text(
-                          "상품  : " + widget.document['name'],
+                          widget.document['name'],
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -76,9 +92,12 @@ class _StoreDetailState extends State<StoreDetail> {
                         ),
                       ),
                       Container(
+//                        decoration: BoxDecoration(
+//                          border: Border.all(width: 1, color: Colors.purple),
+//                        ),
                         margin: EdgeInsets.only(top: 10, left: 25),
                         child: Text(
-                          "가격 : " +
+
                               price.output.withoutFractionDigits.toString() +
                               "원",
                           style: TextStyle(
@@ -91,8 +110,16 @@ class _StoreDetailState extends State<StoreDetail> {
                     ],
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
-                  ),// 상품이름 / 상품가격
-                  Expanded(child:
+                  ),// 상
+                  ),// 품이름 / 상품가격
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    margin: EdgeInsets.only(top : 27),
+//                    decoration: BoxDecoration(
+//                      border: Border.all(width: 1, color: Colors.blue),
+//                    ),
+                    child:
                     Column(children: <Widget>[
                       make_button(),
                       InkWell( // 장바구니 추가
@@ -107,8 +134,6 @@ class _StoreDetailState extends State<StoreDetail> {
                                   widget.document['name'], () => widget.count);
                               widget.money.putIfAbsent(
                                   widget.document['name'], ()=> widget.document['price']);
-                              print(widget.array);
-                              print(widget.money);
                               _showDialog2("장바구니 내의 "+widget.document['name']+"의 수량이 "+widget.count.toString()+"개로 변경되었습니다.");
                             }else{ // 개수 0개로 변경 -> 삭제
                               // 이미 추가한적이 있다 -> 최신화다
@@ -126,8 +151,6 @@ class _StoreDetailState extends State<StoreDetail> {
                               widget.money.putIfAbsent(
                                   widget.document['name'], () =>
                               widget.document['price']);
-                              print(widget.array);
-                              print(widget.money);
                               _showDialog();
                             }
                           }
@@ -135,13 +158,13 @@ class _StoreDetailState extends State<StoreDetail> {
                         child: Container(
                           alignment: Alignment.center,
                           height: 40,
-                          width: 150,
+                          width : 150,
                           decoration: BoxDecoration(
                             border: Border.all(width: 1, color: Colors.white),
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.redAccent
                           ),
-                          margin: EdgeInsets.only(top: 20, right :0),
+                          margin: EdgeInsets.only(top: 15),
                           child: Text(
                             "장바구니 담기",
                             style: TextStyle(
@@ -153,6 +176,7 @@ class _StoreDetailState extends State<StoreDetail> {
                         ),
                       ),
                     ],
+                      mainAxisAlignment: MainAxisAlignment.start,
                   )
                     ,)
                 ],
@@ -165,7 +189,6 @@ class _StoreDetailState extends State<StoreDetail> {
                     alignment: Alignment.center,
                     child: InkWell(
                       onTap: () { // 결제하기
-                        print("진행진행");
                         if (widget.array
                             .containsKey(widget.document['name'])) { //맵에 키가 존재
                           if(widget.count > 0){ // 개수 1개 이상으로 변경
@@ -191,8 +214,6 @@ class _StoreDetailState extends State<StoreDetail> {
                             widget.money.putIfAbsent(
                                 widget.document['name'], () =>
                             widget.document['price']);
-                            print(widget.array);
-                            print(widget.money);
 //                            _showDialog();
                           }
 
@@ -206,7 +227,10 @@ class _StoreDetailState extends State<StoreDetail> {
                           _showDialog2("장바구니에 담긴 품목이 없습니다. 상품을 골라주세요.");
                         }
                       },
-                      child: Text(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 1,
+                        child:
+                        Text(
                         "결제하기",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -214,6 +238,7 @@ class _StoreDetailState extends State<StoreDetail> {
                           color: Colors.white,
                         ),
                       ),
+                  ),
                     ),
                     color: Colors.red,
                     width: MediaQuery.of(context).size.width * 1,
@@ -233,12 +258,14 @@ class _StoreDetailState extends State<StoreDetail> {
   Widget make_button() {
     var keys;
     return Container(
-      padding: EdgeInsets.only(right : 65),
+        width: MediaQuery.of(context).size.width * 0.45,
+//      decoration: BoxDecoration(
+//        border: Border.all(width: 1, color: Colors.orange),
+//      ),
 //      decoration: BoxDecoration(
 //        border: Border.all(width: 2, color: Colors.black),
 //      ),
-      alignment: Alignment.centerRight,
-      margin: EdgeInsets.only(left : 27, top : 30),
+      alignment: Alignment.center,
       child: Row(
         children: <Widget>[
           InkWell(
@@ -256,7 +283,7 @@ class _StoreDetailState extends State<StoreDetail> {
                   border: Border.all(width: 2, color: Colors.black),
                 ),
                 child: Icon(Icons.expand_less),
-              )),
+              )),// up버튼
           Container(
               alignment: Alignment.center,
               width: 40,
@@ -269,7 +296,7 @@ class _StoreDetailState extends State<StoreDetail> {
                 style: TextStyle(
                   fontSize: 20,
                 ),
-              )),
+              )), // 카운트
           InkWell(
               onTap: () {
                 if (widget.count > 0) {
@@ -286,8 +313,8 @@ class _StoreDetailState extends State<StoreDetail> {
                   border: Border.all(width: 2, color: Colors.black),
                 ),
                 child: Icon(Icons.expand_more),
-              )),
-        ],mainAxisAlignment: MainAxisAlignment.end,
+              )),// down 버
+        ],mainAxisAlignment: MainAxisAlignment.center,
       ),
     );
   }
