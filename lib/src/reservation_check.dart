@@ -281,6 +281,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
               Container(
                 child: InkWell(
                   onTap: () async {
+
                     await db.collection('payment_movie').add({
                       'memberID': name,
                       'email': email,
@@ -288,7 +289,8 @@ class _Screen_purchaseState extends State<Screen_purchase> {
                       'time_tableID': widget.document_table.documentID,
                       'seats': sort_array,
                       'payTime': Timestamp.now(),
-                      'used': false,
+                      'mileage': this.remain,
+                      'used': false
                     });
                     // 선택한 좌석 firebase 변경
                     for (var i = 0; i < sub.length; i++) {
