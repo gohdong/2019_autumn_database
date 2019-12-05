@@ -18,7 +18,7 @@ class Make_seat extends StatelessWidget {
   var j;
   Firestore firestore = Firestore.instance;
   ///// 여기에 document이름 입력
-  var name = "CINEMA1_8";
+  var name = "CINEMA2_2";
 
   @override
   Widget build(BuildContext context) {

@@ -117,86 +117,86 @@ class Show_time_table_run extends State<Show_time_table2> {
       this.check = int.parse(document['theater']);
       return Container(
           child: Column(
-        // row : 옆으로
-        children: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(top: 10, left: 10, right: 20),
-            padding: const EdgeInsets.only(top: 5),
-            width: 80.0,
-            height: 40.0,
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.keyboard_arrow_down, size: 40),
-                Text(
-                  document['theater'] + "관",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 19,
-                  ),
-                ),
-              ],
+            // row : 옆으로
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.only(top: 10, left: 10, right: 20),
+                padding: const EdgeInsets.only(top: 5),
+                width: 80.0,
+                height: 40.0,
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.keyboard_arrow_down, size: 40),
+                    Text(
+                      document['theater'] + "관",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 19,
+                      ),
+                    ),
+                  ],
 //                mainAxisAlignment: MainAxisAlignment.start,
 //                  crossAxisAlignment: CrossAxisAlignment.start
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              email == null
-                  ? _confirmLogOut(context)
-                  : Navigator.of(context).push(MaterialPageRoute(
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  email == null
+                      ? _confirmLogOut(context)
+                      : Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
                           sub_Reserve(widget.document_movie, document)));
-            },
-            child: Container(
-              padding: EdgeInsets.all(5),
-              margin: const EdgeInsets.only(
-                  top: 20, bottom: 10, left: 20, right: 20),
-              width: 80.0,
-              height: 70.0,
-              decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: Colors.grey),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(0),
-                  )),
-              child: Column(
-                children: <Widget>[
-                  Center(
-                    child: Text(
-                      time,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5, bottom: 5),
-                    width: 60,
-                    decoration: BoxDecoration(
-                        border: Border(
-                          top: BorderSide(width: 1.0, color: Colors.grey[400]),
+                },
+                child: Container(
+                  padding: EdgeInsets.all(5),
+                  margin: const EdgeInsets.only(
+                      top: 20, bottom: 10, left: 20, right: 20),
+                  width: 80.0,
+                  height: 70.0,
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.grey),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(0),
+                      )),
+                  child: Column(
+                    children: <Widget>[
+                      Center(
+                        child: Text(
+                          time,
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
-                        color: Colors.grey[200]),
-                  ),
-                  Center(
-                    child: Text(
-                        (100-document['select_count']).toString() + "/100",
-                      style: TextStyle(
-                        fontSize: 14,
                       ),
-                    ),
+                      Container(
+                        margin: EdgeInsets.only(top: 5, bottom: 5),
+                        width: 60,
+                        decoration: BoxDecoration(
+                            border: Border(
+                              top: BorderSide(width: 1.0, color: Colors.grey[400]),
+                            ),
+                            color: Colors.grey[200]),
+                      ),
+                      Center(
+                        child: Text(
+                          (100-document['select_count']).toString() + "/100",
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                   ),
-                ],
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+                ),
               ),
-            ),
-          ),
 //              Text("남은 좌석 : " + (100 - document['select_count']).toString()),
-        ],
+            ],
 //            mainAxisAlignment: MainAxisAlignment.spaceAround,
 //            crossAxisAlignment: CrossAxisAlignment.stretch,
-      ));
+          ));
     } else if (this.sub_check == 2 || this.sub_check == 3) {
       // 3칸 뒤부터
       return Column(
@@ -206,8 +206,8 @@ class Show_time_table_run extends State<Show_time_table2> {
               email == null
                   ? _confirmLogOut(context)
                   : Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          sub_Reserve(widget.document_movie, document)));
+                  builder: (context) =>
+                      sub_Reserve(widget.document_movie, document)));
             },
             child: Container(
               padding: EdgeInsets.all(5),
@@ -242,7 +242,7 @@ class Show_time_table_run extends State<Show_time_table2> {
                   ),
                   Center(
                     child: Text(
-                        (100-document['select_count']).toString() + "/100",
+                      (100-document['select_count']).toString() + "/100",
                       style: TextStyle(
                         fontSize: 14,
                       ),
@@ -270,8 +270,8 @@ class Show_time_table_run extends State<Show_time_table2> {
               email == null
                   ? _confirmLogOut(context)
                   : Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          sub_Reserve(widget.document_movie, document)));
+                  builder: (context) =>
+                      sub_Reserve(widget.document_movie, document)));
             },
             child: Container(
               padding: EdgeInsets.all(5),
@@ -306,7 +306,7 @@ class Show_time_table_run extends State<Show_time_table2> {
                   ),
                   Center(
                     child: Text(
-                        (100-document['select_count']).toString() + "/100",
+                      (100-document['select_count']).toString() + "/100",
                       style: TextStyle(
                         fontSize: 14,
                       ),
