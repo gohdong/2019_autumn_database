@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dbapp/src/data/sign_in.dart';
 import 'package:dbapp/src/mypage/makeMovieTicket.dart';
+
 import 'package:dbapp/src/movie/moviePage.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +55,7 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
 //      margin: EdgeInsets.all(10),
               child: TabBarView(
                 controller: ctr,
-                children: <Widget>[wishList(), movieList(), reviewList()],
+                children: <Widget>[wishList(), viewedList(), reviewList()],
               ),
             ),
           ],
@@ -111,7 +112,7 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
             ),
             itemCount: snapshot.data['like_movie'].length,
             itemBuilder: (context, index) {
-              return getMovieImg(snapshot.data['like_movie'][index]);
+              return getWishImg(snapshot.data['like_movie'][index]);
             },
           );
         }
@@ -119,70 +120,72 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget getMovieImg(String movieID) {
+  Widget getWishImg(String movieID) {
     return StreamBuilder(
       stream:
           Firestore.instance.collection('movie').document(movieID).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Center(child: Text("Can't find"));
-        return Container(
-          height: 500,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                child: Image(
-                  image: NetworkImage(snapshot.data['img']),
-                  fit: BoxFit.fill,
+        return Card(
+          child: Container(
+            height: 500,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  child: Image(
+                    image: NetworkImage(snapshot.data['img']),
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
-              Text(
-                snapshot.data['name'],
-                textScaleFactor: 1.7,
-              ),
-              Text(
-                snapshot.data['en_name'],
-                textScaleFactor: 1.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  OutlineButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.open_in_new,
-                        ),
-                        Text("공유")
-                      ],
+                Text(
+                  snapshot.data['name'],
+                  textScaleFactor: 1.7,
+                ),
+                Text(
+                  snapshot.data['en_name'],
+                  textScaleFactor: 1.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    OutlineButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.open_in_new,
+                          ),
+                          Text("공유")
+                        ],
+                      ),
+                      onPressed: () {},
                     ),
-                    onPressed: () {},
-                  ),
-                  OutlineButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.bookmark),
-                        Text("예매"),
-                      ],
+                    OutlineButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.bookmark),
+                          Text("예매"),
+                        ],
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => MoviePage(movieID)));
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MoviePage(movieID)));
-                    },
-                  ),
-                ],
-              ),
-              Divider(),
-            ],
+                  ],
+                ),
+                Divider(),
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  Widget movieList() {
+  Widget viewedList() {
     return StreamBuilder(
       stream: db
           .collection('payment_movie')
@@ -199,7 +202,7 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
                 ? FlatButton(
                     padding: EdgeInsets.all(0),
                     child: Container(
-                      child: cardBuild2(
+                      child: viewedBuild(
                           snapshot.data.documents[index]['movieID'],
                           snapshot.data.documents[index]['time_tableID'],
                           snapshot.data.documents[index]['seats']),
@@ -215,7 +218,7 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
                     child: FlatButton(
                       padding: EdgeInsets.all(0),
                       child: Container(
-                        child: cardBuild2(
+                        child: viewedBuild(
                             snapshot.data.documents[index]['movieID'],
                             snapshot.data.documents[index]['time_tableID'],
                             snapshot.data.documents[index]['seats']),
@@ -231,7 +234,7 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget cardBuild2(String movieID, String timeTableID, List<dynamic> ad) {
+  Widget viewedBuild(String movieID, String timeTableID, List<dynamic> ad) {
     return StreamBuilder(
       stream: db.collection('movie').snapshots(),
       builder: (context, snapshot) {
@@ -239,13 +242,13 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
           return Center(child: CircularProgressIndicator());
         return Container(
           color: Colors.grey[50],
-          child: getMovieImg2(movieID, timeTableID, ad),
+          child: getViewedMovieImg(movieID, timeTableID, ad),
         );
       },
     );
   }
 
-  Widget getMovieImg2(String movieID, String timeTableID, List<dynamic> ad) {
+  Widget getViewedMovieImg(String movieID, String timeTableID, List<dynamic> ad) {
     DocumentSnapshot document;
     return StreamBuilder(
       stream:
@@ -277,7 +280,7 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.05,
                   ),
-                  getTimeTable(timeTableID, ad),
+                  getViewedTime(timeTableID, ad),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -307,7 +310,7 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget getTimeTable(String tableID, List<dynamic> seat) {
+  Widget getViewedTime(String tableID, List<dynamic> seat) {
     return StreamBuilder(
       stream: db.collection('time_table').document(tableID).snapshots(),
       builder: (context, snapshot) {
@@ -338,7 +341,7 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
             primary: false,
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index) {
-              return cardBuild3(
+              return reviewBuild(
                   snapshot.data.documents[index]['movieID'],
                   snapshot.data.documents[index]['title'],
                   snapshot.data.documents[index]['description'],
@@ -354,7 +357,7 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget cardBuild3(String movieID, String title, String description, int score,
+  Widget reviewBuild(String movieID, String title, String description, int score,
       String date) {
     return StreamBuilder(
       stream: db.collection('movie').snapshots(),
@@ -368,12 +371,12 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
               Container(
                   margin:
                       EdgeInsets.only(left: 10, right: 20, top: 10, bottom: 10),
-                  child: getMovieImg3(movieID)),
+                  child: getReviewMovieImg(movieID)),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  getMovieName(movieID),
+                  getReviewMovieName(movieID),
                   SizedBox(
                     height: 10,
                   ),
@@ -395,7 +398,7 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget getMovieImg3(String movieID) {
+  Widget getReviewMovieImg(String movieID) {
     return StreamBuilder(
       stream:
           Firestore.instance.collection('movie').document(movieID).snapshots(),
@@ -413,7 +416,7 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget getMovieName(String movieID) {
+  Widget getReviewMovieName(String movieID) {
     return StreamBuilder(
       stream:
           Firestore.instance.collection('movie').document(movieID).snapshots(),

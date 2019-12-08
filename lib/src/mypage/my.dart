@@ -1,4 +1,5 @@
 import 'package:dbapp/src/data/login.dart';
+import 'package:dbapp/src/mypage/myList.dart';
 import 'package:flutter/material.dart';
 import '../data/sign_in.dart';
 
@@ -30,7 +31,7 @@ class _MyState extends State<My> {
           ),
           Container(
             padding: EdgeInsets.only(top: 10, bottom: 10),
-            child: buttonSection,
+            child: buttonSection(context),
           ),
           Container(
             height: 7,
@@ -42,17 +43,29 @@ class _MyState extends State<My> {
     );
   }
 
-  Widget buttonSection = Container(
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        _buildButtonColumn(Icons.credit_card, '관람권/카드'),
-        _buildButtonColumn(Icons.card_giftcard, '기프트카드'),
-        _buildButtonColumn(Icons.local_movies, '내가 본 영화'),
-        _buildButtonColumn(Icons.favorite_border, '볼래요'),
-      ],
-    ),
-  );
+  Widget buttonSection(BuildContext context) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildButtonColumn(Icons.credit_card, '관람권/카드'),
+          _buildButtonColumn(Icons.card_giftcard, '기프트카드'),
+          InkWell(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => MyList()));
+              },
+              child: _buildButtonColumn(Icons.local_movies, '내가 본 영화')),
+          InkWell(
+              onTap: (){
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => MyList()));
+              },
+              child: _buildButtonColumn(Icons.favorite_border, '볼래요')),
+        ],
+      ),
+    );
+  }
 }
 
 Column _buildButtonColumn(IconData icon, String label) {

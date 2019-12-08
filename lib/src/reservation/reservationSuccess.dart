@@ -1,67 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:dbapp/src/reservation/reservation.dart';
-import 'dart:math';
 import 'package:dbapp/main.dart';
-import 'package:dbapp/src/data/is_login.dart';
 import '../../main.dart';
-import 'package:dbapp/src/reservation/test_movie_buy.dart';
-import 'package:dbapp/src/home/home.dart';
-import '../data/sign_in.dart';
 
 class Success extends StatelessWidget {
   String ok;
 
-//  Success(String getdata) {
-//    ok = getdata;
-//  }
+
 
   String seat;
   var i;
   var j;
   Firestore firestore = Firestore.instance;
 
-  ////// 필드 생성
-
-//}else if(widget.i == 1 || widget.i == 0){
-//  Firestore.instance.collection("time_table").
-//  document('20191126_CINEMA1_1120')
-//      .collection('seats').document('1').updateData({
-//    seat : <String, dynamic>{
-//      'number' : "1",
-//      'type' : 'economy',
-//    }});
-//}else if(widget.i == 3 || widget.i == 2){
-//  Firestore.instance.collection("time_table").
-//  document('20191126_CINEMA1_1120')
-//      .collection('seats').document('1').updateData({
-//    seat : <String, dynamic>{
-//      'number' : "1",
-//      'type' : 'standard',
-//    }});
-//}else{
-//  Firestore.instance.collection("time_table").
-//  document('20191126_CINEMA1_1120')
-//      .collection('seats').document('1').updateData({
-//    seat : <String, dynamic>{
-//      'number' : "1",
-//      'type' : 'prime',
-//    }});
-//}
-
   @override
   Widget build(BuildContext context) {
 
-
-    String a = '$global_time_table_ID';
-
-//    print("document.table : " + document_table['movieID']);
     return Scaffold(
         body: Column(children: <Widget>[
           Container(
