@@ -9,18 +9,17 @@ import 'package:dbapp/src/mypage/my.dart';
 
 //import 'data/sign_in.dart';
 
-class Food_purchase extends StatefulWidget {
-  Food_purchase({@required this.select, @required this.money});
+class FoodPurchase extends StatefulWidget {
+  FoodPurchase({@required this.select, @required this.money});
 
-//  final String str;
   final Map<String, int> select;
   final Map<String, int> money;
 
   @override
-  _Food_purchaseState createState() => _Food_purchaseState();
+  _FoodPurchaseState createState() => _FoodPurchaseState();
 }
 
-class _Food_purchaseState extends State<Food_purchase> {
+class _FoodPurchaseState extends State<FoodPurchase> {
   final db = Firestore.instance;
   int total = 0;
   List<String> list = ['Aa', "Bb"];
@@ -31,18 +30,14 @@ class _Food_purchaseState extends State<Food_purchase> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     var keys = widget.select.keys.toList();
     this.total = 0;
-    for (var i = 0; i < keys.length; i++){
-      this.total = this.total + widget.money[keys[i]]*widget.select[keys[i]];
+    for (var i = 0; i < keys.length; i++) {
+      this.total = this.total + widget.money[keys[i]] * widget.select[keys[i]];
     }
 
     FlutterMoneyFormatter total_won =
-    FlutterMoneyFormatter(amount: double.parse((this.total).toString()));
-
+        FlutterMoneyFormatter(amount: double.parse((this.total).toString()));
 
     return Scaffold(
       appBar: AppBar(
@@ -60,27 +55,29 @@ class _Food_purchaseState extends State<Food_purchase> {
           child: Column(
             children: <Widget>[
               Container(
-                padding : EdgeInsets.only(right : 15),
-                color : Colors.white70,
+                padding: EdgeInsets.only(right: 15),
+                color: Colors.white70,
                 alignment: Alignment.centerRight,
                 height: 40,
                 width: MediaQuery.of(context).size.width * 1,
 //                color: Colors.white70,
                 child: Text(
-                  "총 결제금액 : "+
-                      total_won.output.withoutFractionDigits.toString()+
-                  " 원"
-                  , textAlign: TextAlign.center,style: TextStyle(
-                  fontSize: 15,
-                ),),),
+                  "총 결제금액 : " +
+                      total_won.output.withoutFractionDigits.toString() +
+                      " 원",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+              ),
               InkWell(
                 onTap: () async {
-                  for (var i = 0; i < keys.length; i++){
-                    if(widget.select[keys[i]] == 0){
+                  for (var i = 0; i < keys.length; i++) {
+                    if (widget.select[keys[i]] == 0) {
                       widget.select.remove(keys[i]);
                     }
                   }
-
 
                   await db.collection('payment_store').add({
                     'memberID': name,
@@ -89,25 +86,24 @@ class _Food_purchaseState extends State<Food_purchase> {
                     'list': widget.select,
                     'payTime': Timestamp.now(),
                   });
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Payment(this.total)));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Payment(this.total)));
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 1,
-                  height : 50,
+                  height: 50,
 //                  decoration: BoxDecoration(
 //                    border: Border.all(width: 1, color: Colors.blue),
 //                  ),
-                  child:
-                  Text(
-                  "결제하기",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
+                  child: Text(
+                    "결제하기",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
               ),
             ],
             mainAxisAlignment: MainAxisAlignment.start,
@@ -136,7 +132,7 @@ class _Food_purchaseState extends State<Food_purchase> {
     int sub = count * widget.money[name];
 
     FlutterMoneyFormatter price =
-    FlutterMoneyFormatter(amount: double.parse((sub).toString()));
+        FlutterMoneyFormatter(amount: double.parse((sub).toString()));
 
     if (count != 0) {
       return Container(
@@ -166,17 +162,10 @@ class _Food_purchaseState extends State<Food_purchase> {
                 InkWell(
                   onTap: () {
                     _showDialog_ok(context, name);
-//                    setState(() {
-//                      widget.select.update(name, (dynamic val) => 0);
-//                    });
                   },
                   child: Container(
                       alignment: Alignment.center,
                       margin: EdgeInsets.only(right: 20),
-//            width: 30,
-//          decoration: BoxDecoration(
-//            border: Border.all(width: 2, color: Colors.grey[400]),
-//          ),
                       child: Icon(Icons.delete, size: 30)),
                 )
               ],
@@ -199,12 +188,12 @@ class _Food_purchaseState extends State<Food_purchase> {
                       // -
                       onTap: () {
                         setState(() {
-                          if(widget.select[name] == 1){
+                          if (widget.select[name] == 1) {
                             _showDialog_ok(context, name);
-                          }
-                          else{
-                            widget.select.update(name, (dynamic val) => val - 1);
-                            if(widget.select[name] == 0){
+                          } else {
+                            widget.select
+                                .update(name, (dynamic val) => val - 1);
+                            if (widget.select[name] == 0) {
                               widget.select.remove(name);
                             }
                           }
@@ -290,7 +279,6 @@ class _Food_purchaseState extends State<Food_purchase> {
     }
   }
 
-
   void _showDialog_ok(BuildContext context, String name) {
     // flutter defined function
     showDialog(
@@ -305,13 +293,13 @@ class _Food_purchaseState extends State<Food_purchase> {
             new FlatButton(
               child: new Text("예"),
               onPressed: () async {
-                 setState(() {
+                setState(() {
                   widget.select.update(name, (dynamic val) => 0);
                   print(widget.select);
-                    widget.select.remove([name]);
+                  widget.select.remove([name]);
                   print(widget.select);
                 });
-                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
               textColor: Colors.blue,
             ),
@@ -326,6 +314,5 @@ class _Food_purchaseState extends State<Food_purchase> {
         );
       },
     );
-
   }
 }
