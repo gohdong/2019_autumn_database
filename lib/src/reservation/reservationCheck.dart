@@ -3,20 +3,20 @@ import 'package:dbapp/src/data/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dbapp/src/reservation/test_movie_buy.dart';
+import 'package:dbapp/src/reservation/purchase.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:dbapp/src/mypage/my.dart';
 
 import '../data/sign_in.dart';
 
-class Screen_purchase extends StatefulWidget {
+class ScreenPurchase extends StatefulWidget {
   List<String> select_list;
   List<String> select_list_rank;
   DocumentSnapshot document_movie; // movie.docuemnt
   DocumentSnapshot document_table; //
   int money; // time_table.document
 
-  Screen_purchase(List<String> getlist, List<String> getlist_2,
+  ScreenPurchase(List<String> getlist, List<String> getlist_2,
       DocumentSnapshot getmovie, DocumentSnapshot gettable, int getmoney) {
     select_list = getlist;
     select_list_rank = getlist_2;
@@ -26,10 +26,10 @@ class Screen_purchase extends StatefulWidget {
   }
 
   @override
-  _Screen_purchaseState createState() => _Screen_purchaseState();
+  _ScreenPurchaseState createState() => _ScreenPurchaseState();
 }
 
-class _Screen_purchaseState extends State<Screen_purchase> {
+class _ScreenPurchaseState extends State<ScreenPurchase> {
   final db = Firestore.instance;
 
   int remain;
@@ -377,7 +377,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
     );
   }
 
-  Widget make_title(str) {
+  Widget makeTitle(str) {
     return Text(
       str,
       style: TextStyle(
@@ -387,7 +387,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
     );
   }
 
-  Widget make_detail(str) {
+  Widget makeDetail(str) {
     return Text(
       str,
       style: TextStyle(
@@ -398,7 +398,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
   }
 
   @override
-  Widget Load_user_data(BuildContext context) {
+  Widget LoadUserData(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream: Firestore.instance
             .collection('member')
@@ -413,7 +413,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
               return new Wrap(
 //                  itemExtent: 80,
                 children: snapshot.data.documents
-                    .map((document) => Make_mileage_box(context, document))
+                    .map((document) => MakeMileageBox(context, document))
                     .toList(),
               );
           }
@@ -421,7 +421,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
   }
 
   @override
-  Widget Make_mileage_box(BuildContext context, DocumentSnapshot document) {
+  Widget MakeMileageBox(BuildContext context, DocumentSnapshot document) {
     return Container(
         child: Row(
           children: <Widget>[
@@ -442,18 +442,18 @@ class _Screen_purchaseState extends State<Screen_purchase> {
                     setState(() {
                       if (document['mileage'] == 0) {
                         // 마일리가 0
-                        showDialog2("마일리지 잔액이 없습니다");
+                        confirmMileage("마일리지 잔액이 없습니다");
                       } else {
                         if ((widget.money - document['mileage']) < 0) {
                           // 결제금액보다 마일리지가 많음
                           widget.money = widget.money - document['mileage'];
                           this.remain = document['mileage'] - widget.money;
-                          showDialog2("마일리지가 사용되었습니다");
+                          confirmMileage("마일리지가 사용되었습니다");
                         } else {
                           // 결제금액이 마일리지보다 많음
 
                           widget.money = 0;
-                          showDialog2("마일리지가 사용되었습니다");
+                          confirmMileage("마일리지가 사용되었습니다");
                         }
                       }
                     });
@@ -479,7 +479,7 @@ class _Screen_purchaseState extends State<Screen_purchase> {
         ));
   }
 
-  void showDialog2(str) {
+  void confirmMileage(str) {
     showDialog(
         context: context,
         builder: (BuildContext context) {

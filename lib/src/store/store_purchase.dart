@@ -3,7 +3,7 @@ import 'package:dbapp/src/data/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dbapp/src/reservation/test_movie_buy.dart';
+import 'package:dbapp/src/reservation/purchase.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:dbapp/src/mypage/my.dart';
 

@@ -1,9 +1,6 @@
 import 'package:dbapp/src/data/login.dart';
-import 'package:dbapp/src/mypage/myList.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../data/is_login.dart';
 import '../data/sign_in.dart';
 
 class My extends StatefulWidget {
@@ -14,7 +11,6 @@ class My extends StatefulWidget {
 class _MyState extends State<My> {
   @override
   Widget build(BuildContext context) {
-    final counter = Provider.of<Counter>(context);
     return Scaffold(
       body: Column(
         children: <Widget>[

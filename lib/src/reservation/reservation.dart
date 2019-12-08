@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dbapp/src/reservation/reservation_check.dart';
+import 'package:dbapp/src/reservation/reservationCheck.dart';
 
 String global_time_table_ID = null;
 List<String> global_select_list = [];
@@ -9,11 +9,11 @@ String know;
 
 ParentReserve reState = new ParentReserve();
 
-class sub_Reserve extends StatefulWidget {
+class SubReserve extends StatefulWidget {
   DocumentSnapshot document_movie; // movie.docuemnt
   DocumentSnapshot document_table; // time_table.document
 
-  sub_Reserve(DocumentSnapshot getmovie, DocumentSnapshot gettable) {
+  SubReserve(DocumentSnapshot getmovie, DocumentSnapshot gettable) {
     document_movie = getmovie;
     document_table = gettable;
   }
@@ -27,7 +27,7 @@ class sub_Reserve extends StatefulWidget {
   ParentReserve createState() => new ParentReserve();
 }
 
-class ParentReserve extends State<sub_Reserve> {
+class ParentReserve extends State<SubReserve> {
   DocumentSnapshot sub;
   List<String> seatlist = [];
   List<String> seatlist_rank = [];
@@ -83,20 +83,20 @@ class ParentReserve extends State<sub_Reserve> {
         child: Column(
           // 아래
           children: <Widget>[
-            _Make_Screen(document),
+            _MakeScreen(document),
             // ignore: sdk_version_ui_as_code
             for (i = 0; i < 10; i++)
               Row(
                 children: <Widget>[
                   for (j = 0; j < 10; j++)
-                    Make_seat(i: i, j: j, document: document),
+                    MakeSeat(i: i, j: j, document: document),
                 ],
                 mainAxisAlignment: MainAxisAlignment.center,
                 //crossAxisAlignment: CrossAxisAlignment.stretch,
               ),
 //            Make_box(),
-            _Make_detail(),
-            _Purchase_button(document),
+            _MakeDetail(),
+            _PurchaseButton(document),
           ],
           // mainAxisAlignment: MainAxisAlignment.center,
           //crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -105,7 +105,7 @@ class ParentReserve extends State<sub_Reserve> {
     );
   }
 
-  Widget _Make_detail() {
+  Widget _MakeDetail() {
     return Center(
       child: Container(
         width: 310,
@@ -159,7 +159,7 @@ class ParentReserve extends State<sub_Reserve> {
     );
   }
 
-  Widget _Make_Screen(document) {
+  Widget _MakeScreen(document) {
 //    seatlist.clear();
 
     return Center(
@@ -187,7 +187,7 @@ class ParentReserve extends State<sub_Reserve> {
         ));
   }
 
-  Widget _Purchase_button(document) {
+  Widget _PurchaseButton(document) {
     final Color zero = Colors.grey[700];
     final Color more = Colors.orangeAccent;
 
@@ -195,13 +195,13 @@ class ParentReserve extends State<sub_Reserve> {
         child: InkWell(
           onTap: () {
             if (reState.seatlist.length == 0) {
-              _showDialog();
+              _confirmSeat();
             } else {
               String a = document.documentID;
               String b = document['movieID'];
 
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => Screen_purchase(
+                  builder: (context) => ScreenPurchase(
                       reState.seatlist,
                       reState.seatlist_rank,
                       widget.document_movie,
@@ -237,7 +237,7 @@ class ParentReserve extends State<sub_Reserve> {
         ));
   }
 
-  void _showDialog() {
+  void _confirmSeat() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -255,12 +255,12 @@ class ParentReserve extends State<sub_Reserve> {
   }
 }
 
-class Make_box extends StatefulWidget {
+class MakeBox extends StatefulWidget {
   @override
-  _Child_Make_box createState() => new _Child_Make_box();
+  _MakeBox createState() => new _MakeBox();
 }
 
-class _Child_Make_box extends State<Make_box> {
+class _MakeBox extends State<MakeBox> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -283,17 +283,17 @@ class _Child_Make_box extends State<Make_box> {
   }
 }
 
-class Make_seat extends StatefulWidget {
-  Make_seat({Key key, this.i, this.j, this.document}) : super(key: key);
+class MakeSeat extends StatefulWidget {
+  MakeSeat({Key key, this.i, this.j, this.document}) : super(key: key);
   final int i;
   final int j;
   final DocumentSnapshot document;
 
   @override
-  _Child_Make_seat createState() => new _Child_Make_seat();
+  _MakeSeat createState() => new _MakeSeat();
 }
 
-class _Child_Make_seat extends State<Make_seat> {
+class _MakeSeat extends State<MakeSeat> {
   String seat = "";
   final Color posi = Colors.white70;
   final Color imposi = Colors.grey[500];

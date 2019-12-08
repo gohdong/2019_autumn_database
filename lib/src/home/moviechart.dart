@@ -1,9 +1,9 @@
 import 'package:dbapp/src/movie/moviepage.dart';
-import 'package:dbapp/src/reservation/reservation_time_table.dart';
+import 'package:dbapp/src/reservation/reservationTimeTable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dbapp/src/reservation/reservation_time_table.dart';
+import 'package:dbapp/src/reservation/reservationTimeTable.dart';
 import 'package:intl/intl.dart';
 
 import '../data/sign_in.dart';
@@ -113,7 +113,7 @@ class MovieChartState extends State<MovieChart> {
                   else {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
-                            Show_time_table(document.documentID, document)));
+                            ShowTimeTable(document.documentID, document)));
 //                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Show_time_table()));
                   }
               },

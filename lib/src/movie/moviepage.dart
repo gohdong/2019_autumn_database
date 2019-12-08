@@ -4,12 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:polygon_clipper/polygon_clipper.dart';
-import 'package:dbapp/src/reservation/reservation_time_table.dart';
+import 'package:dbapp/src/reservation/reservationTimeTable.dart';
 
 import '../home/newsfeed.dart';
-import 'package:provider/provider.dart';
-import '../data/is_login.dart';
 import '../data/sign_in.dart';
 import 'package:expandable/expandable.dart';
 
@@ -212,7 +209,7 @@ class _MoviePageState extends State<MoviePage>
                         else {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
-                                  Show_time_table(snapshot.data.documentID, snapshot.data)));
+                                  ShowTimeTable(snapshot.data.documentID, snapshot.data)));
 //
                         }
                       },

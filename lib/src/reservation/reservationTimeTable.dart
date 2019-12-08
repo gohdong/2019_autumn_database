@@ -7,14 +7,14 @@ import 'package:date_format/date_format.dart';
 import '../data/sign_in.dart';
 import '../data/login.dart';
 
-Show_time_table_run showState = new Show_time_table_run();
+ShowTimeTableRun showState = new ShowTimeTableRun();
 
 //
-class Show_time_table extends StatelessWidget {
+class ShowTimeTable extends StatelessWidget {
   String input_title2; // FROZEN2019
   DocumentSnapshot document_movie2; // movie.document
 
-  Show_time_table(String getID, DocumentSnapshot getDocument) {
+  ShowTimeTable(String getID, DocumentSnapshot getDocument) {
     input_title2 = getID;
     document_movie2 = getDocument;
   }
@@ -35,10 +35,10 @@ class Show_time_table2 extends StatefulWidget {
   }
 
   @override
-  Show_time_table_run createState() => new Show_time_table_run();
+  ShowTimeTableRun createState() => new ShowTimeTableRun();
 }
 
-class Show_time_table_run extends State<Show_time_table2> {
+class ShowTimeTableRun extends State<Show_time_table2> {
 //  String title2 = widget.title;
   int theater = 0;
   int check = 0;
@@ -67,7 +67,7 @@ class Show_time_table_run extends State<Show_time_table2> {
             // 옆으
             children: <Widget>[
               for (var i = 1; i < 10; i++)
-                build_document(context, i.toString()),
+                buildDocument(context, i.toString()),
             ],
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -76,7 +76,7 @@ class Show_time_table_run extends State<Show_time_table2> {
   }
 
   @override
-  Widget build_document(BuildContext context, String theater) {
+  Widget buildDocument(BuildContext context, String theater) {
     return StreamBuilder<QuerySnapshot>(
         stream: Firestore.instance
             .collection('time_table')
@@ -94,7 +94,7 @@ class Show_time_table_run extends State<Show_time_table2> {
 //                  shrinkWrap: true,
                 crossAxisAlignment: WrapCrossAlignment.start,
                 children: snapshot.data.documents
-                    .map((document) => Add_array(context, document))
+                    .map((document) => addArray(context, document))
                     .toList(),
               );
           }
@@ -102,7 +102,7 @@ class Show_time_table_run extends State<Show_time_table2> {
   }
 
   @override
-  Widget Add_array(BuildContext ctx, DocumentSnapshot document) {
+  Widget addArray(BuildContext ctx, DocumentSnapshot document) {
     Color bor = Colors.red;
     String time;
     time = (document['startAt']).toDate().hour.toString() +
@@ -145,7 +145,7 @@ class Show_time_table_run extends State<Show_time_table2> {
                       ? _confirmLogOut(context)
                       : Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
-                          sub_Reserve(widget.document_movie, document)));
+                          SubReserve(widget.document_movie, document)));
                 },
                 child: Container(
                   padding: EdgeInsets.all(5),
@@ -207,7 +207,7 @@ class Show_time_table_run extends State<Show_time_table2> {
                   ? _confirmLogOut(context)
                   : Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
-                      sub_Reserve(widget.document_movie, document)));
+                      SubReserve(widget.document_movie, document)));
             },
             child: Container(
               padding: EdgeInsets.all(5),
@@ -271,7 +271,7 @@ class Show_time_table_run extends State<Show_time_table2> {
                   ? _confirmLogOut(context)
                   : Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
-                      sub_Reserve(widget.document_movie, document)));
+                      SubReserve(widget.document_movie, document)));
             },
             child: Container(
               padding: EdgeInsets.all(5),

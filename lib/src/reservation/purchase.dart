@@ -5,20 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:iamport_flutter/iamport_payment.dart';
 /* 아임포트 결제 데이터 모델을 불러옵니다. */
 import 'package:iamport_flutter/model/payment_data.dart';
-import 'package:dbapp/src/reservation/success_pay.dart';
+import 'package:dbapp/src/reservation/reservationSuccess.dart';
 
 
 class Payment extends StatelessWidget {
 
-//  List<String> select_list;
-//  DocumentSnapshot document_table; // movie.docuemnt
   int money;
-   // time_table.document
+
 
   Payment(int getmoney) {
 
-//    select_list = getlist;
-//    document_table = gettable;
     money = getmoney;
 
   }
@@ -62,22 +58,10 @@ class Payment extends StatelessWidget {
         'buyerPostcode': '06018',                                      // 구매자 우편번호
         'appScheme': 'example',                                        // 앱 URL scheme
       }),
-      /* [필수입력] 콜백 함수 */
-//      callback: (Map<String, String> result) {
-//        print("callback 함수 진입");
-//        Navigator.pushReplacementNamed(
-//          context,
-//          '/Result',
-////          Result(arguments : result),
-//          arguments: result,
-//        );
-//      },
-// Map<String, String> result
       callback: (Map<String, String> result) {
         print("콜백함수 진입@@@@@@@@");
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => Success()));
 
-//        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Success(this.select_list, this.document_table)));
       },
     );
   }
