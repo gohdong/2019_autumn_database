@@ -1,5 +1,5 @@
 import 'package:dbapp/src/movie/comment.dart';
-import 'package:dbapp/src/movie/moviepage.dart';
+import 'package:dbapp/src/movie/moviePage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
@@ -52,7 +52,6 @@ class NewsFeedState extends State<NewsFeed> {
                     builder: (context) => MoviePage(document['movieID'])));
               },
             ),
-
             Divider(),
             Container(
                 padding: EdgeInsets.only(left: 15, right: 15),
@@ -145,7 +144,8 @@ class NewsFeedState extends State<NewsFeed> {
                         ),
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Comment(document.documentID,document['description'],getMovieImg())));
+                              builder: (context) => Comment(document.documentID,
+                                  document['description'], getMovieImg())));
                         },
                       ),
                     ),
@@ -193,15 +193,6 @@ class NewsFeedState extends State<NewsFeed> {
         if (!snapshot.hasData) {
           return new Text("X");
         }
-
-//        return ClipOval(
-//            child: Image.network(
-//              snapshot.data['img'],
-//              fit: BoxFit.cover,
-//              height: MediaQuery.of(context).size.height * 0.055,
-//              width: MediaQuery.of(context).size.height * 0.055,
-//            )
-//        );
         return CircleAvatar(
           radius: 25.0,
           backgroundImage: NetworkImage(
@@ -279,6 +270,4 @@ class NewsFeedState extends State<NewsFeed> {
           );
         });
   }
-
-  Widget Feed(String movieID) {}
 }

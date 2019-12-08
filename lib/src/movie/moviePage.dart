@@ -1,4 +1,4 @@
-import 'package:dbapp/src/movie/addreview.dart';
+import 'package:dbapp/src/movie/addReview.dart';
 import 'package:dbapp/src/data/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

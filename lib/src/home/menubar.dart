@@ -1,29 +1,21 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dbapp/main.dart';
-import 'package:dbapp/src/data/is_login.dart';
-import 'package:dbapp/src/home/event.dart';
 import 'package:dbapp/src/home/home.dart';
 import 'package:dbapp/src/data/login.dart';
 import 'package:dbapp/src/mypage/my.dart';
-
-import 'package:dbapp/src/data/make_seat.dart' as prefix0;
-import 'package:dbapp/src/data/login.dart';
-import 'package:dbapp/src/reservation/reservation.dart';
-import 'package:dbapp/src/data/make_seat.dart';
-import 'package:dbapp/src/reservation/test_movie_buy.dart';
-import 'package:dbapp/src/reservation/success_pay.dart';
 import 'package:dbapp/src/mypage/myList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../main.dart';
 import '../data/sign_in.dart';
 
-class MenuBar extends StatelessWidget {
+class MenuBar extends StatefulWidget {
+  @override
+  _MenuBarState createState() => _MenuBarState();
+}
+
+class _MenuBarState extends State<MenuBar> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
@@ -213,14 +205,6 @@ class MenuBar extends StatelessWidget {
                     .push(MaterialPageRoute(builder: (context) => MyApp()));
               },
               child: gridComponent(Icons.event, "이벤트")),
-//          InkWell(
-//              onTap: () {
-//                Navigator.of(context)
-//                    .push(MaterialPageRoute(builder: (context) => prefix0.Make_seat()));
-//              },
-//              child: gridComponent(Icons.event, "추가")),
-//
-
           gridComponent(Icons.collections_bookmark, "매거진"),
           gridComponent(Icons.event_seat, "club서비스"),
           gridComponent(Icons.headset_mic, "고객센터")

@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../data/is_login.dart';
 import '../data/sign_in.dart';
 
 // ignore: must_be_immutable
@@ -163,7 +161,7 @@ class CommentState extends State<Comment> {
               shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
               onPressed: () async {
                 if (_formKey.currentState.validate()) {
-                  _showDialog(context, Firestore.instance);
+                  _confirmAddComment(context, Firestore.instance);
                 }
               },
             ),
@@ -212,7 +210,7 @@ class CommentState extends State<Comment> {
     );
   }
 
-  void _showDialog(BuildContext context, Firestore db) {
+  void _confirmAddComment(BuildContext context, Firestore db) {
     // flutter defined function
     showDialog(
       context: context,
