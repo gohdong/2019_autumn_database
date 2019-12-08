@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dbapp/src/movie/moviepage.dart';
 import 'package:flutter/material.dart';
 
 class Event extends StatefulWidget {
@@ -21,6 +20,7 @@ class _EventState extends State<Event> {
     );
   }
 }
+
 Column _buildButtonColumn(IconData icon, String label) {
 //  Color color = Theme.of(context).primaryColor;
   return Column(
@@ -73,17 +73,20 @@ class EventListState extends State<EventList> {
 
   Widget newsFeedBuild() {
     return StreamBuilder(
-      stream: db.collection('event').where('kind', isEqualTo: 'special').snapshots(),
+      stream: db
+          .collection('event')
+          .where('kind', isEqualTo: 'special')
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
         return ListView.builder(
-          itemCount: snapshot.data.documents.length+1,
+          itemCount: snapshot.data.documents.length + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
               return Contents();
             }
-            return cardBuild(snapshot.data.documents[index-1]);
+            return cardBuild(snapshot.data.documents[index - 1]);
           },
         );
       },
@@ -95,7 +98,7 @@ class EventListState extends State<EventList> {
     return Container(
       decoration: BoxDecoration(
 //        color: Colors.blue
-      ),
+          ),
       padding: EdgeInsets.all(0),
       margin: EdgeInsets.all(0),
       child: Column(
@@ -103,37 +106,32 @@ class EventListState extends State<EventList> {
           Container(
             padding: EdgeInsets.only(top: 5),
             width: size.width,
-            height: size.height*0.3,
+            height: size.height * 0.3,
             decoration: BoxDecoration(
-                border: Border(
-
-                ),
+              border: Border(),
             ),
             child: new Image.network(
               document['img'],
               fit: BoxFit.fill,
             ),
           ),
-
           Container(
-            width: size.width,
+              width: size.width,
               height: 50,
               decoration: BoxDecoration(
                   color: Colors.white30,
                   border: Border(
                     left: BorderSide(width: 2.0, color: Colors.black12),
                     right: BorderSide(width: 2.0, color: Colors.black12),
-                  )
-              ),
-              padding: EdgeInsets.only(top: 5,left: 10),
+                  )),
+              padding: EdgeInsets.only(top: 5, left: 10),
               child: Text(
                 document['title'].replaceAll("\\n", "\n"),
                 textScaleFactor: 1.2,
                 softWrap: false,
-              )
-          ),
+              )),
           Container(
-            height: 30,
+              height: 30,
               width: size.width,
               decoration: BoxDecoration(
                   color: Colors.white30,
@@ -141,21 +139,17 @@ class EventListState extends State<EventList> {
                     bottom: BorderSide(width: 2.0, color: Colors.black12),
                     left: BorderSide(width: 2.0, color: Colors.black12),
                     right: BorderSide(width: 2.0, color: Colors.black12),
-                  )
-              ),
-              padding: EdgeInsets.only(left: 10,bottom: 10),
+                  )),
+              padding: EdgeInsets.only(left: 10, bottom: 10),
               child: Text(
                 document['date'],
                 textScaleFactor: 0.9,
                 softWrap: false,
-              )
-          ),
-
+              )),
           Container(
             width: size.width,
             height: 9,
           )
-
         ],
       ),
     );
@@ -186,16 +180,16 @@ class _ContentsState extends State<Contents> {
           color: Colors.black12,
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.1,
+            width: MediaQuery.of(context).size.width,
             child: Image.network(
               'http://img.cgv.co.kr/Event/Event/2019/1120/CGV_1911_072_w.jpg',
               fit: BoxFit.fill,
-            )
-        ),
+            )),
       ],
     );
   }
+
   Widget buttonSection = Container(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -226,27 +220,31 @@ class TopEventState extends State<TopEvent> {
 
   Widget chart(size) {
     return Container(
-      height: size.height*0.25,
+      height: size.height * 0.25,
       child: Column(
-        children: <Widget>[Flexible(
-            child: StreamBuilder(
-              stream: db.collection('event').where('kind', isEqualTo: 'top').snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData)
-                  return Center(child: CircularProgressIndicator());
-                return ListView.builder(
-                  itemCount: snapshot.data.documents.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return cardBuild(snapshot.data.documents[index]);
-                  },
-                );
-              },
-            ))],
+        children: <Widget>[
+          Flexible(
+              child: StreamBuilder(
+            stream: db
+                .collection('event')
+                .where('kind', isEqualTo: 'top')
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return Center(child: CircularProgressIndicator());
+              return ListView.builder(
+                itemCount: snapshot.data.documents.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return cardBuild(snapshot.data.documents[index]);
+                },
+              );
+            },
+          ))
+        ],
       ),
     );
   }
-
 
   Widget cardBuild(DocumentSnapshot document) {
     Size size = MediaQuery.of(context).size;
@@ -255,7 +253,7 @@ class TopEventState extends State<TopEvent> {
         children: <Widget>[
           Container(
             width: size.width,
-            height: size.height*0.25,
+            height: size.height * 0.25,
             child: Image.network(
               document['img'],
               fit: BoxFit.fill,
@@ -266,6 +264,3 @@ class TopEventState extends State<TopEvent> {
     );
   }
 }
-
-
-

@@ -31,10 +31,6 @@ class _MakeMovieTicketState extends State<MakeMovieTicket> {
           ),
           centerTitle: true,
           elevation: 0,
-          // If `TabController controller` is not provided, then a
-          // DefaultTabController ancestor must be provided instead.
-          // Another way is to use a self-defined controller, c.f. "Bottom tab
-          // bar" example.
         ),
         body: getMovieTicket());
   }
@@ -78,18 +74,20 @@ class _MakeMovieTicketState extends State<MakeMovieTicket> {
                 child: FlatButton(
                   padding: EdgeInsets.all(0),
                   child: Container(
-                    padding: EdgeInsets.only(top: 15,bottom: 15),
-                    decoration: BoxDecoration(
-                      color: Colors.redAccent
+                    padding: EdgeInsets.only(top: 15, bottom: 15),
+                    decoration: BoxDecoration(color: Colors.redAccent),
+                    width: MediaQuery.of(context).size.width * 0.65,
+                    child: Center(
+                      child: Text(
+                        "예매 취소",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                        textScaleFactor: 1.5,
+                      ),
                     ),
-                    width: MediaQuery.of(context).size.width*0.65,
-                    child: Center(child: Text("예매 취소",style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold
-                    ),textScaleFactor: 1.5,),),
                   ),
                   onPressed: () {
-                    _showDialog(context);
+                    _confirmCancelTicket(context);
                   },
                 ),
               )
@@ -162,7 +160,7 @@ class _MakeMovieTicketState extends State<MakeMovieTicket> {
     return seats.join(' , ');
   }
 
-  void _showDialog(BuildContext context) {
+  void _confirmCancelTicket(BuildContext context) {
     // flutter defined function
     showDialog(
       context: context,
@@ -176,7 +174,10 @@ class _MakeMovieTicketState extends State<MakeMovieTicket> {
             new FlatButton(
               child: new Text("Confirm"),
               onPressed: () async {
-                await Firestore.instance.collection('payment_movie').document('s2xGOcXdVAdoimnX8m89').delete();
+                await Firestore.instance
+                    .collection('payment_movie')
+                    .document('s2xGOcXdVAdoimnX8m89')
+                    .delete();
                 int count = 0;
                 Navigator.of(context).popUntil((_) => count++ >= 2);
               },
@@ -193,6 +194,5 @@ class _MakeMovieTicketState extends State<MakeMovieTicket> {
         );
       },
     );
-
   }
 }

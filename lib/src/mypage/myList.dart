@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dbapp/src/data/sign_in.dart';
 import 'package:dbapp/src/mypage/makeMovieTicket.dart';
-import 'package:dbapp/src/movie/moviepage.dart';
 
+import 'package:dbapp/src/movie/moviePage.dart';
 import 'package:flutter/material.dart';
-
 
 class MyList extends StatefulWidget {
   @override
@@ -201,19 +200,19 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
           itemBuilder: (context, index) {
             return snapshot.data.documents[index]['used'] == false
                 ? FlatButton(
-                  padding: EdgeInsets.all(0),
-                  child: Container(
-                    child: viewedBuild(
-                        snapshot.data.documents[index]['movieID'],
-                        snapshot.data.documents[index]['time_tableID'],
-                        snapshot.data.documents[index]['seats']),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MakeMovieTicket(
-                            snapshot.data.documents[index].documentID)));
-                  },
-                )
+                    padding: EdgeInsets.all(0),
+                    child: Container(
+                      child: viewedBuild(
+                          snapshot.data.documents[index]['movieID'],
+                          snapshot.data.documents[index]['time_tableID'],
+                          snapshot.data.documents[index]['seats']),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MakeMovieTicket(
+                              snapshot.data.documents[index].documentID)));
+                    },
+                  )
                 : ColorFiltered(
                     colorFilter: ColorFilter.mode(Colors.grey, BlendMode.color),
                     child: FlatButton(
@@ -224,7 +223,7 @@ class _MyListState extends State<MyList> with SingleTickerProviderStateMixin {
                             snapshot.data.documents[index]['time_tableID'],
                             snapshot.data.documents[index]['seats']),
                       ),
-                      onPressed: (){
+                      onPressed: () {
                         null;
                       },
                     ),

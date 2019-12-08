@@ -1,6 +1,5 @@
 import 'package:dbapp/src/data/login.dart';
 import 'package:flutter/material.dart';
-
 import '../data/sign_in.dart';
 
 class My extends StatefulWidget {
@@ -16,7 +15,7 @@ class _MyState extends State<My> {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              email ==null
+              email == null
                   ? Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Login()),
@@ -37,7 +36,7 @@ class _MyState extends State<My> {
             height: 7,
             color: Colors.black12,
           ),
-          Container(child: menuSection(email,context))
+          Container(child: menuSection(email, context))
         ],
       ),
     );
@@ -81,15 +80,13 @@ Column _buildButtonColumn(IconData icon, String label) {
   );
 }
 
-Column menuSection(String email,BuildContext context) {
+Column menuSection(String email, BuildContext context) {
   return Column(children: <Widget>[
 //        Divider(),
     ListTile(
       title: Text('구매내역'),
       trailing: Icon(Icons.arrow_forward_ios),
-      onTap: () {
-      },
-
+      onTap: () {},
     ),
     Divider(),
     ListTile(
@@ -124,16 +121,15 @@ Container loginSection(String email) {
                 Container(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Text(
-                    email==null?
-                    '로그인 후 이용해주세요 ':'$name님',textScaleFactor: 2,
+                    email == null ? '로그인 후 이용해주세요 ' : '$name님',
+                    textScaleFactor: 2,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 Text(
-                  email==null?
-                  '로그인 하기':'안녕하세요',
+                  email == null ? '로그인 하기' : '안녕하세요',
                   style: TextStyle(
                     color: Colors.grey[500],
                   ),
@@ -143,11 +139,9 @@ Container loginSection(String email) {
           ),
           /*3*/
           Icon(
-            email==null?
-            Icons.account_circle:Icons.audiotrack,
+            email == null ? Icons.account_circle : Icons.audiotrack,
             size: 50,
           ),
         ],
-      )
-  );
+      ));
 }

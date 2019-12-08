@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import '../data/sign_in.dart';
 
 class AddReview extends StatefulWidget{
@@ -39,7 +38,7 @@ class _AddReviewState extends State<AddReview> {
         shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
         onPressed: () async {
           if (_formKey.currentState.validate()) {
-            _showDialog(context, Firestore.instance);
+            _confirmAddReview(context, Firestore.instance);
           }
         },
       ),
@@ -141,10 +140,7 @@ class _AddReviewState extends State<AddReview> {
     );
   }
 
-  void _showDialog(BuildContext context, Firestore db) {
-    int _currentCount;
-    int _currentScore;
-
+  void _confirmAddReview(BuildContext context, Firestore db) {
 
     // flutter defined function
     showDialog(
