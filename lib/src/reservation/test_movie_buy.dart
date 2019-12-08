@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:iamport_flutter/iamport_payment.dart';
 /* 아임포트 결제 데이터 모델을 불러옵니다. */
 import 'package:iamport_flutter/model/payment_data.dart';
-import 'package:dbapp/src/success_pay.dart';
+import 'package:dbapp/src/reservation/success_pay.dart';
 
 
 class Payment extends StatelessWidget {

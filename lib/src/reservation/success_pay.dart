@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dbapp/src/reservation.dart';
+import 'package:dbapp/src/reservation/reservation.dart';
 import 'dart:math';
 import 'package:dbapp/main.dart';
 import 'package:dbapp/src/data/is_login.dart';
-import '../main.dart';
-import 'package:dbapp/src/test_movie_buy.dart';
-import 'package:dbapp/src/home.dart';
-import 'data/sign_in.dart';
+import '../../main.dart';
+import 'package:dbapp/src/reservation/test_movie_buy.dart';
+import 'package:dbapp/src/home/home.dart';
+import '../data/sign_in.dart';
 
 class Success extends StatelessWidget {
   String ok;

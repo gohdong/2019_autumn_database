@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dbapp/src/reservation.dart';
+import 'package:dbapp/src/reservation/reservation.dart';
 import 'package:date_format/date_format.dart';
 
-import 'data/sign_in.dart';
-import 'login.dart';
+import '../data/sign_in.dart';
+import '../data/login.dart';
 
 Show_time_table_run showState = new Show_time_table_run();
 

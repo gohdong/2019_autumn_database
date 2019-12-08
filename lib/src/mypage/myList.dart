@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dbapp/src/data/is_login.dart';
 import 'package:dbapp/src/data/sign_in.dart';
-import 'package:dbapp/src/makeMovieTicket.dart';
-import 'package:dbapp/src/moviepage.dart';
+import 'package:dbapp/src/mypage/makeMovieTicket.dart';
+import 'package:dbapp/src/movie/moviepage.dart';
 import 'package:expandable/expandable.dart';
 
 import 'package:flutter/material.dart';

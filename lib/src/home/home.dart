@@ -1,7 +1,7 @@
 import 'package:dbapp/main.dart';
-import 'package:dbapp/src/moviechart.dart';
-import 'package:dbapp/src/newsfeed.dart';
-import 'package:dbapp/src/random_trailer.dart';
+import 'package:dbapp/src/home/moviechart.dart';
+import 'package:dbapp/src/home/newsfeed.dart';
+import 'package:dbapp/src/home/random_trailer.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
