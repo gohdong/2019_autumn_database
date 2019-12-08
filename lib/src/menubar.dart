@@ -213,6 +213,14 @@ class MenuBar extends StatelessWidget {
                     .push(MaterialPageRoute(builder: (context) => MyApp()));
               },
               child: gridComponent(Icons.event, "이벤트")),
+//          InkWell(
+//              onTap: () {
+//                Navigator.of(context)
+//                    .push(MaterialPageRoute(builder: (context) => prefix0.Make_seat()));
+//              },
+//              child: gridComponent(Icons.event, "추가")),
+//
+
           gridComponent(Icons.collections_bookmark, "매거진"),
           gridComponent(Icons.event_seat, "club서비스"),
           gridComponent(Icons.headset_mic, "고객센터")

@@ -37,8 +37,6 @@ class _Food_purchaseState extends State<Food_purchase> {
     var keys = widget.select.keys.toList();
     this.total = 0;
     for (var i = 0; i < keys.length; i++){
-      print(widget.money[keys[i]]);
-      print(widget.select[keys[i]]);
       this.total = this.total + widget.money[keys[i]]*widget.select[keys[i]];
     }
 
@@ -62,17 +60,28 @@ class _Food_purchaseState extends State<Food_purchase> {
           child: Column(
             children: <Widget>[
               Container(
-                alignment: Alignment.center,
+                padding : EdgeInsets.only(right : 15),
+                color : Colors.white70,
+                alignment: Alignment.centerRight,
                 height: 40,
                 width: MediaQuery.of(context).size.width * 1,
-                color: Colors.white70,
+//                color: Colors.white70,
                 child: Text(
                   "총 결제금액 : "+
                       total_won.output.withoutFractionDigits.toString()+
                   " 원"
-                  , textAlign: TextAlign.center,),),
+                  , textAlign: TextAlign.center,style: TextStyle(
+                  fontSize: 15,
+                ),),),
               InkWell(
                 onTap: () async {
+                  for (var i = 0; i < keys.length; i++){
+                    if(widget.select[keys[i]] == 0){
+                      widget.select.remove(keys[i]);
+                    }
+                  }
+
+
                   await db.collection('payment_store').add({
                     'memberID': name,
                     'email': email,
@@ -83,7 +92,14 @@ class _Food_purchaseState extends State<Food_purchase> {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => Payment(this.total)));
                 },
-                child: Text(
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 1,
+                  height : 50,
+//                  decoration: BoxDecoration(
+//                    border: Border.all(width: 1, color: Colors.blue),
+//                  ),
+                  child:
+                  Text(
                   "결제하기",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -91,6 +107,7 @@ class _Food_purchaseState extends State<Food_purchase> {
                     color: Colors.white,
                   ),
                 ),
+              ),
               ),
             ],
             mainAxisAlignment: MainAxisAlignment.start,
@@ -102,13 +119,7 @@ class _Food_purchaseState extends State<Food_purchase> {
   Widget Start(BuildContext ctx, Map<String, int> select) {
     int price = 1;
     var keys = select.keys.toList();
-//    int sub = widget.document['price'];
-//    FlutterMoneyFormatter price =
 
-//    var val = select[keys[idx]];
-
-//    print(select['더블콤보'].toString());
-    print("함수 시작 ");
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -279,47 +290,8 @@ class _Food_purchaseState extends State<Food_purchase> {
     }
   }
 
-  @override
-  Widget make_purchase_button() {
-    Container(
-        child: Column(
-      children: <Widget>[
-        InkWell(
-          onTap: () async {
-            await db.collection('payment_store').add({
-              'memberID': '$name',
-              'email': '$email',
-              'total': this.total,
-              'list': widget.select,
-              'payTime': Timestamp.now(),
-              'used' : false,
-            });
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Payment(this.total)));
-          },
-          child: Text(
-            "결제하기",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 30,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        Text("aa"),
-      ],
-    )
-
-//      color: Colors.red,
-//                width: MediaQuery.of(context).size.width * 1,
-//                height: 60,
-//                alignment: Alignment(0, 0),
-        //              height: MediaQuery.of(ctx).size.height * 0.3,
-        );
-  }
 
   void _showDialog_ok(BuildContext context, String name) {
-    print("ok 함수 진입");
     // flutter defined function
     showDialog(
       context: context,
@@ -335,7 +307,9 @@ class _Food_purchaseState extends State<Food_purchase> {
               onPressed: () async {
                  setState(() {
                   widget.select.update(name, (dynamic val) => 0);
+                  print(widget.select);
                     widget.select.remove([name]);
+                  print(widget.select);
                 });
                  Navigator.of(context).pop();
               },
