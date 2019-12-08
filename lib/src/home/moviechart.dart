@@ -1,13 +1,13 @@
-import 'package:dbapp/src/moviepage.dart';
-import 'package:dbapp/src/reservation_time_table.dart';
+import 'package:dbapp/src/movie/moviepage.dart';
+import 'package:dbapp/src/reservation/reservation_time_table.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dbapp/src/reservation_time_table.dart';
+import 'package:dbapp/src/reservation/reservation_time_table.dart';
 import 'package:intl/intl.dart';
 
-import 'data/sign_in.dart';
-import 'login.dart';
+import '../data/sign_in.dart';
+import '../data/login.dart';
 
 class MovieChart extends StatefulWidget {
   @override

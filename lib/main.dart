@@ -1,10 +1,10 @@
 import 'package:dbapp/src/data/is_login.dart';
 import 'package:dbapp/src/data/sign_in.dart';
-import 'package:dbapp/src/event.dart';
-import 'package:dbapp/src/home.dart';
-import 'package:dbapp/src/makeMovieTicket.dart';
-import 'package:dbapp/src/menubar.dart';
-import 'package:dbapp/src/my.dart';
+import 'package:dbapp/src/home/event.dart';
+import 'package:dbapp/src/home/home.dart';
+import 'package:dbapp/src/mypage/makeMovieTicket.dart';
+import 'package:dbapp/src/home/menubar.dart';
+import 'package:dbapp/src/mypage/my.dart';
 import 'package:dbapp/src/store/snackBox.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

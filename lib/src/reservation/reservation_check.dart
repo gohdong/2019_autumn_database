@@ -1,13 +1,13 @@
 import 'package:date_format/date_format.dart';
-import 'package:dbapp/src/login.dart';
+import 'package:dbapp/src/data/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dbapp/src/test_movie_buy.dart';
+import 'package:dbapp/src/reservation/test_movie_buy.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
-import 'package:dbapp/src/my.dart';
+import 'package:dbapp/src/mypage/my.dart';
 
-import 'data/sign_in.dart';
+import '../data/sign_in.dart';
 
 class Screen_purchase extends StatefulWidget {
   List<String> select_list;

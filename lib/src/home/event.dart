@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dbapp/src/moviepage.dart';
+import 'package:dbapp/src/movie/moviepage.dart';
 import 'package:flutter/material.dart';
 
 class Event extends StatefulWidget {

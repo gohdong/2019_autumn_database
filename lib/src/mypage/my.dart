@@ -1,10 +1,10 @@
-import 'package:dbapp/src/login.dart';
-import 'package:dbapp/src/myList.dart';
+import 'package:dbapp/src/data/login.dart';
+import 'package:dbapp/src/mypage/myList.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'data/is_login.dart';
-import 'data/sign_in.dart';
+import '../data/is_login.dart';
+import '../data/sign_in.dart';
 
 class My extends StatefulWidget {
   @override

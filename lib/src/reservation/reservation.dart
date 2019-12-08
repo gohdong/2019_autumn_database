@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dbapp/src/reservation_check.dart';
+import 'package:dbapp/src/reservation/reservation_check.dart';
 
 String global_time_table_ID = null;
 List<String> global_select_list = [];

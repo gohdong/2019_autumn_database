@@ -1,16 +1,16 @@
-import 'package:dbapp/src/addreview.dart';
-import 'package:dbapp/src/login.dart';
+import 'package:dbapp/src/movie/addreview.dart';
+import 'package:dbapp/src/data/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
-import 'package:dbapp/src/reservation_time_table.dart';
+import 'package:dbapp/src/reservation/reservation_time_table.dart';
 
-import 'newsfeed.dart';
+import '../home/newsfeed.dart';
 import 'package:provider/provider.dart';
-import 'data/is_login.dart';
-import 'data/sign_in.dart';
+import '../data/is_login.dart';
+import '../data/sign_in.dart';
 import 'package:expandable/expandable.dart';
 
 class MoviePage extends StatefulWidget {

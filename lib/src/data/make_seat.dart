@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dbapp/src/reservation_check.dart';
+import 'package:dbapp/src/reservation/reservation_check.dart';
 import 'dart:math';
 
 
 
-class Make_seat extends StatelessWidget {
+class MakeSeat extends StatelessWidget {
 
   String seat;
   var i;

@@ -3,25 +3,25 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dbapp/main.dart';
 import 'package:dbapp/src/data/is_login.dart';
-import 'package:dbapp/src/event.dart';
-import 'package:dbapp/src/home.dart';
-import 'package:dbapp/src/login.dart';
-import 'package:dbapp/src/my.dart';
+import 'package:dbapp/src/home/event.dart';
+import 'package:dbapp/src/home/home.dart';
+import 'package:dbapp/src/data/login.dart';
+import 'package:dbapp/src/mypage/my.dart';
 
 import 'package:dbapp/src/data/make_seat.dart' as prefix0;
-import 'package:dbapp/src/login.dart';
-import 'package:dbapp/src/reservation.dart';
+import 'package:dbapp/src/data/login.dart';
+import 'package:dbapp/src/reservation/reservation.dart';
 import 'package:dbapp/src/data/make_seat.dart';
-import 'package:dbapp/src/test_movie_buy.dart';
-import 'package:dbapp/src/success_pay.dart';
-import 'package:dbapp/src/myList.dart';
+import 'package:dbapp/src/reservation/test_movie_buy.dart';
+import 'package:dbapp/src/reservation/success_pay.dart';
+import 'package:dbapp/src/mypage/myList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../main.dart';
-import 'data/sign_in.dart';
+import '../../main.dart';
+import '../data/sign_in.dart';
 
 class MenuBar extends StatelessWidget {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

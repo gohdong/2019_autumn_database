@@ -46,7 +46,7 @@ dev_dependencies:
 
 
 flutter_icons:
-  image_path: "img/gva_icon.png"
+  image_path: "img/gva_icon2.png"
   android: true
   ios: true
 
