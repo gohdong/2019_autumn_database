@@ -31,7 +31,7 @@ class NewsFeedState extends State<NewsFeed> {
       child: Container(
         padding: EdgeInsets.all(0),
         margin: EdgeInsets.all(10),
-        height: size.height * 0.4,
+//        height: size.height * 0.4,
         decoration: BoxDecoration(
 //          border: Border.all()
             ),
@@ -56,7 +56,7 @@ class NewsFeedState extends State<NewsFeed> {
             Container(
                 padding: EdgeInsets.only(left: 15, right: 15),
                 alignment: Alignment.centerLeft,
-                height: size.height * 0.20,
+//                height: size.height * 0.30,
                 decoration: BoxDecoration(
 //                  color: Colors.blue
                     ),
@@ -64,6 +64,7 @@ class NewsFeedState extends State<NewsFeed> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(document['description'].replaceAll("\\n", "\n")),
+                    Image.network(document['img'].toString(), fit: BoxFit.cover,),
                   ],
                 )),
             Divider(),

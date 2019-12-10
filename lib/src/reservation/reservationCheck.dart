@@ -320,7 +320,7 @@ class _ScreenPurchaseState extends State<ScreenPurchase> {
                           'time_tableID': widget.document_table.documentID,
                           'seats': sort_array,
                           'payTime': Timestamp.now(),
-                          'mileage': this.remain,
+//                          'mileage': this.remain,
                           'used': false
                         });
                         // 선택한 좌석 firebase 변경
