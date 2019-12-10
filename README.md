@@ -14,6 +14,7 @@ Multiplex Cinema Application Program
 |Name|Role|Achievements|Git|
 |----|----|------------|---|
 |고동현|Leader|Newsfeed, Moviepage|[gohdong](https://github.com/gohdong)|
+|김동현|Front-end|Store|[kimDDong](https://github.com/kimDDong)|
 |김두호|Front-end|Store, Reservation|[Source-SC](https://github.com/Source-SC)|
 |왕종휘|Back-end|Login, Mypage|[wangjh789](https://github.com/wangjh789)|
 
